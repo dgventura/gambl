@@ -1,5 +1,18 @@
-Game Music Box
+Game Music Box for Lion
 --------------
+
+I've taken the original Game Music Box source and started porting it to 
+OSX 10.7+ (Lion), not sure how often I'll be able to work on it but 
+hopefully at least getting the non-UI pieces compiling and linking 
+shouldn't take too long.  Most of the files and documentation are still 
+as Shay Green, the original author, first created them.  This is my first 
+open source project as well as my first stab at Cocoa, so don't be surprised
+if I get some things wrong along the way.
+
+- David Ventura, 2013.04.01 (April Fool's!)
+
+--------------
+
 
 Contact me if you have any questions about the code or design.
 
