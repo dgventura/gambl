@@ -1,0 +1,100 @@
+Game Music Box: Possible things to do
+-------------------------------------
+
+Implementation
+--------------
+
+- Plug-ins: It might be nice to make a formal interface for plug-in modules to support new game consoles, since I have already added those that I want. This would be preferable to having others add the support directly to the source tree, probably resulting in it becoming too big and complex to manage.
+
+- Preferences can be stored in two ways: 1) in terms of UI elements, or 2) in terms domain values. The latter allows change of UI element mapping without affecting format of preferences file.
+
+- Add some kind of general file reference type? Would make lower-level modules more portable.
+
+- Add try/catch-wrapped callback type for all the OS callbacks
+
+- Pre-read next file (at least partially), since supporting archives adds a long delay? Would add some complexity.
+
+- Find alternative to TickCount()?
+
+- Possibly use LSCopyDisplayNameForRef in LaunchServices.h to remove filename extension.
+
+- NES nonlinear output doesn't work when sound customization is off (it applies it to all channels). Currently nonlinear output code has been removed.
+
+- Rename throw_if_error to throw_error?
+
+- In case audio skips, keep two audio buffers queued with Sound Manger at all times?
+
+- Make app into normal package? Would this allow prebinding without breaking OS 9 compatibility? Could I do a normal build with CodeWarrior?
+
+- Change default equalizations of emulators to be less harsh?
+
+- Add vital_cleanup module for registering things that must execute before exit (unholding virtual memory and possibly freeing temp memory)?
+
+
+Utility
+-------
+
+- Something similar to Replay Gain? Scan files and store gain information somewhere.
+
+- Expand/recompress RAR and zip archives in utility?
+
+- Always change icon and then only process files set to game music box creator?
+
+- Verify that files can be opened and started without error before changing type?
+
+- Change file type if extension or file type is wrong, i.e. Castlevania.vgm with type 'VGM ' but an NSF file?
+
+- Handle "se-" prefix for older SPC sets? Not a big deal if sound effects lose their numbering.
+
+- Option to re-add filename extension? Would only be relevant under OS 9.
+
+- Add header to SPC shared file and compressed file that allows new data to be added in the future?
+
+- Create folder of aliases to each track from an archive.
+
+
+User Interface
+--------------
+
+- See developer section of website for issues that could use more feedback
+
+- New music scan mode which fades into middle of track for a few seconds, then fades out?
+
+- Playlist builder where you can add the current track to it
+
+- Popup for back button? Implement this and then you want a popup for the playlist, and then a playlist window, then an editor. Ugh.
+
+- Closing window doesn't stop music, just hides UI (as in iTunes)? It's nice though to be able to quickly stop the music and get rid of the window.
+
+- Have more preferences than in the UI stored in prefs file for power-users to edit.
+
+- Use subdirectory name in archives with nested files as game name?
+
+- Lower volume slightly when fast-forwarding?
+
+- Extract track number from archive filenames and prepend to track name?
+
+- Special file types for all archive formats? (ugh) i.e. 'RNSF' for RAR'd NSF, 'ZNSF' for ZIP'd NSF.
+
+- Should manual have screen shots? [probably not]
+
+- Change open menu to add/play depending on whether something is already playing?
+
+- Preference to log all errors during playback to an error window rather than ignore some (alias target not found) and show an alert for others (bad format, etc.)? Could have popup in preferences window to ignore all such errors, log them to a window, or show an alert.
+
+- Add shuffle checkbox to player window? It's not something that needs to be changed often, unlike the volume and track.
+
+- Show current track/total tracks separately in extended window and never in track name field?
+
+- Expand player window horizontally as well?
+
+- Could have a single errors window which accumulates all errors and has a button to clear it. A menu item would make it visible. The utility would automatically show it when errors occurred.
+
+- Show/hide window with menu item instead of just show? Would make it easy to toggle window quickly then hide it with the keyboard shortcut.
+
+- Put information tags into wave file? What's the format?
+
+- Show track length in minimized window (but not elapsed time)?
+
+- Way to keep track of good/bad tracks, perhaps automatically determine this. Bad track = played for more than a couple of seconds but ended within twenty or so seconds, and a good track one allowed to play for its entirety.
+

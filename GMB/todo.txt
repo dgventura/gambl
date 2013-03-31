@@ -1,0 +1,134 @@
+Game Music Box: Things To Do
+----------------------------
+
+OS X
+----
+
+- Use kNavPreserveSaveFileExtension, NavCompleteSave and add .wav suffix on saved files.
+
+- Probably need to sort dropped files when shuffle is off, as some filesystems might not give items in name sorted order.
+
+- Use NewPtr()/DisposePtr() for all allocation when running under OS X
+
+
+Back Burner
+-----------
+
+- Develop compression scheme for GYM files that stores samples once
+
+- Automatically find loop points for GYM files
+
+- Find cleaner way of implementing fast forward button handler. How do I install a button callback that is told when 1) the mouse is pressed, 2) the pressed state changes, and 3) the mouse is released?
+
+- Test on 120 MHz PowerPC 604 Mac. Should use at most around 25% CPU.
+
+- Use m3u file for playlist order in archive (some VGM archives have this).
+
+- See if using control manager drop handling would be simpler than current manual Drag_Handler.
+
+- Research kAEReopenApplication event
+
+- Figure out best way to handle track extension when play length is changed. Currently it keeps track of added minutes and doesn't clear them, since you can always manually go to the next track.
+
+- Send open apple event to self for items dropped, otherwise they don't show up on the recently opened items menu.
+
+- Turn off background clicks for utility window in OS 9
+
+- Make libraries more self-contained
+
+- Disable menubar when progress dialog is up.
+
+
+User-Interface
+--------------
+
+- Filter items in open dialog
+
+- Figure out how to allow selection of multiple folders
+
+- Use keyboard repeat delay for fast-forward button delay, so users with it set for a long delay won't be triggering fast-forward accidentally.
+
+- Change command status on kEventCommandUpdateStatus event rather than as status changes
+
+- See about using appearance theme for main window
+
+- Use normal window for about box (need to figure out appearance manager first)
+
+- Try using ConstrainWindowToScreen() from MacWindows.h to restore window position
+
+- Handle click through to player window when another window is open, or disable controls when inactive
+
+- If a file with many incompatible tracks is added, every track generates an error until they're all removed from the queue. Handle this better.
+
+- Show a list of files when single album is opened, or maybe show list of files in queue (but don't allow rearrangement... that would be a playlist, which needs its own interface).
+
+- When recording individual track, make filename from game and track name rather than raw filename.
+
+- Be sure changes to text occur just before processing events so they don't have to wait until the next process
+
+- Add button to main window to add current track to favorites?
+
+- When recording current track, use current track length, i.e. lengthened? Would be a cheap hack to allow some control over exported track length.
+
+- Record only a single track when alias is dropped on utility, rather than entire file (need to avoid resolving alias when recording)
+
+- When preparing to record a playlist, first track that starts playing might disable EQ controls. At least they can be set when no tracks are playing. (this applies to the "record current playlist" implementation)
+
+- Add preferences for SPC surround killer, ignore playlist of NSFE files
+
+- Toggle between show/hide for sound channels and sound scope menu items
+
+- Treat track n - first music track as sound effects. Skip them when appropriate preference is enabled.
+
+
+Utility
+-------
+
+- Carefully examine utility's handling of aliases, types of files, etc.
+
+- Delete extraneous SPC .dat files when recompressing and new .dat file has a different name than old one.
+
+- Keep memory reserve for displaying error alert
+
+- Add ... to end of renamed files with truncated names (when I delve into Unicode handling)
+
+- Show result of processing somewhere so one can tell that something happened even while away from computer.
+
+- When checking files, read all data so CRC check can be performed
+
+- Always show errors window when first error is added. Have to work out some implementation issues first (restoring location, etc.)
+
+- Warning when trying to close window while processing files
+
+- Add recording options to utility window, rather than using current options. Have customized sound checkbox that uses slider settings from sound channels window.
+
+
+Misc
+----
+
+- Items listed in code with // to do:
+
+- Clean up filename handling, unicode conversion, lack of buffer safety. This is really bad. (see Carbon Tips & Tricks for converting unicode to CFString, which can then be converted to Mac Roman C string and back)
+
+- Differentiate better between binary and text SPC headers (what a mess)
+
+- Improve relative volumes of different emulators (Super NES seems quieter than the others).
+
+- Figure out stable naming for preference file fields. Currently named as the prefs structure, but what if I want to improve the naming of the prefs structure? Could use user-friendly names, which would be more stable, but does this make it harder to reference fields with 'defaults' tool?
+
+- Support archives with mixed music types. It would probably make the architecture cleaner in the process. There isn't much of a reason to disallow this.
+
+- Take loop duration of streamed formats (VGM, GYM) into account for default play length.
+
+- Allow access to other files in current directory from within track loader, and treat archives the same way. Then change SPC unpacker to work with archive of packed SPC files and shared data.
+
+- Don't limit filenames to 31 characters under OS X if volume supports longer names
+
+- Disable caching of album when utility is active, shuffle is on, album only has a single file, etc. Need a mechanism to handle this without as much collaboration of entities.
+
+- Clean up new debug log code
+
+- Handle recording where output directory is same as source
+
+- Skipping through multiple tracks is too slow on large RAR files. Would be faster if there were a way to read tags from file without loading all the data.
+

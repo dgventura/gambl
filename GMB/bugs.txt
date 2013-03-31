@@ -1,0 +1,40 @@
+Game Music Box: Bugs
+--------------------
+
+Cosmetic
+--------
+
+- Menus leave afterimages when nav dialog is up (probably the empty filter function I use).
+
+- Save as sound when play length is endless... nice :).
+
+- Very obscure: when nav dialog is up and track ends, call to change icon fails due to resource file being set differently by nav dialog.
+
+- Start a single short track. Hold a button and move mouse outside it. Let track finish. Move mouse in and out of button. It stays enabled when it should be disabled. Probably standard button handler not prepared for changes to button state while tracking.
+
+- The default button border doesn't disappear in utility window under OS 9 (need to invalidate the window to force update)
+
+- When pausing with sound scope visible, scope will stop for an instant, then show the waveform that will be play after unpausing (annoying when trying to pause to look at a waveform). Cause known.
+
+- Sound scope gets choppy when fast-forwarding and when utility is processing files (I don't use any explicit threads in the program).
+
+- In OS X, sometimes sound scope uses significantly more CPU time. Closing and re-showing it usually corrects the issue. It could simply be the Activity Monitor tool not always reporting the right value, or maybe the use an event loop timer for high-frequency events.
+
+- Reports NSF using unsupported sound chip as having no music as if it were an archive.
+
+
+Functional
+----------
+
+- Error handling might still have subtle issues in odd situations
+
+- Sometimes in OS 9 files dropped on application icon don't open (player window does open if closed, but item doesn't play). Might not be the player (happens in other applications too). It'd be nice to confirm this.
+
+- The utility doesn't remove the .gz extension in OS 9.
+
+- Crashing on multiprocessor machines
+
+- Save current track when GYM is playing is broken. Loads track into new emulator with GYM album dumping current data. Bad.
+
+- Loud noises in Seiken Densetsu 3, changing tracks, sometimes no noise. One track often wraps around. May be surround killer.
+

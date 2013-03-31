@@ -1,0 +1,22 @@
+
+// Header to be precompiled for faster compilation
+
+// Game_Music_Box 0.5.2. Copyright (C) 2005 Shay Green. GNU LGPL license.
+
+#pragma precompile_target "ram:prefix"
+
+// C
+#include <cmath>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include <cstddef>
+#include <cassert>
+
+// C++
+#include <vector>
+#include <algorithm>
+
+// Mac OS
+#include <Carbon.h>
+

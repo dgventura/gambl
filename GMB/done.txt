@@ -1,0 +1,679 @@
+Game Music Box: Things done or rejected
+---------------------------------------
+
+Completed/rejected items from to do list.
+
+- Pause when going past last track (Genesis music sometimes ends with
+notes that stay on indefinitely)
+
+- Bug in restore state code with zooming main window
+
+- Gz_Deflater hangs for read past EOF
+
+- Occasional assertion failure in Blip_Buffer.h line 217 [concurrency
+issue]
+
+- Drop folder to play contained files in random order, keep looping
+
+- Add auto typer option in preferences
+
+- Error handling that doesn't corrupt state
+
+- Extensible prefs [now uses CFPreferences]
+
+- Handle .wave extension in save dialog [eliminated extension entirely]
+
+- Error dialog shows up during drag, hanging app
+
+- Throw shouldn't output to debug for release build
+
+- Display filename in error alerts!
+
+- Aborted drop stops song anyway
+
+- Stutters very badly under classic environment in OS X 10.1 [set to
+disallow running under Classic in OS X]
+
+- Add command to record current track
+
+- Convert when files are dropped on window and shift is held
+
+- Eliminate use of FSSpec in favor of FSRef
+
+- Use CFPreferences (see GrabBag sample code in Carbon 1.6 GM)
+
+- For conversion, if dir already exists, continue? if file already
+exists, skip converting it again? [yes; allows resuming interrupted
+conversion]
+
+- Add Mac OS X app property list, file types, extensions, etc.
+
+- Eliminate use of printf (adds 10K to executable)
+
+- Add fixed-size array class
+
+- Name channels for each music type
+
+- Pausing after track has ended but before poller has seen it results in
+next track playing even though it was supposed to be paused
+
+- Add disclaimer to manual [referred to LGPL license]
+
+- Improve fast-forward [button callback behavior differs under OS X; use
+even loop timer for consistent timing]
+
+- Spacebar to play/pause
+
+- Disable title of slider caption along with slider [added new
+slider-with-caption class]
+
+- Add uncopyable to appropriate classes
+
+- Rewrote Audio_Player to use a thread-safe queue
+
+- Silence detection idea: if sufficient silence is detected, synthesize
+a few seconds and buffer them immediately. if all silence, end track,
+otherwise allow buffer to empty. This would keep latency low in most
+cases. [plays ahead when it finds silence, then if non-silence is
+detected it stops filling until play queue is empty]
+
+- Improved fast-forward using new Audio_Player queueing
+
+- Disable silence detection when channels window is open? extend silence
+interval?. [disabled when open]
+
+- Metroid - crateria has long silence that trips up silence detector.
+[play-ahead allows much longer silence interval without adding pauses at
+ends of tracks]
+
+- Way to turn off end-of-track detection (or lengthen buffer) [keep
+channels window open, which also reduces latency of equalization and
+echo changes]
+
+- Shouldn't look for silence when track has length data
+
+- Eliminate two seconds silence when recording.
+
+- If muting window is open and only one channel is not muted, the output
+might be mostly silence. Silence detection won't work here. Could solve
+this by routing other channels to a Blip_Buffer that isn't played (but
+this won't work for non-Blip_Buffer channels). Probably best to turn off
+silence detection when channels window is open. [rejected]
+
+- Should wave export be be just like playing but to a file? i.e.
+end-of-track detection, etc.? [new silence detection and
+Wave_Writer::trim() solve these issues]
+
+- Capture menu commands in Music_Player rather than in player app.cpp.
+Need to install global event handler.
+
+- Fix occasional pauses while fast-forwarding
+
+- Allow quick skipping to middle of track? [fast-forward seems
+sufficient]
+
+- Treat easy-gz file type as unset, so easy-gz can be used to compress
+files.
+
+- Improved file type determination and fixing
+
+- Have player window appear when app is opened for better feedback?
+Would need some way to show that nothing is playing. And what if I close
+the window, then want it open again to drop things on? What's wrong with
+just dropping on the application icon? And that only needs to be done
+for new files with the wrong file type anyway; others can be opened
+directly from the Finder. [about box shows first time, explaining how to
+open files]
+
+- Fixed keyboard canceling in a progress dialog to press button and
+properly intercept event
+
+- Handle per-track names and durations, NSFE file format.
+
+- Eliminate obfuscated class template in Music_File for loading each
+type.
+
+- Always enable silence detection just before fade, in case duration is
+a little long
+
+- Split Music_Player GUI out into Player_Window.
+
+- 6-second audio queue locked from being swapped out is a lot of memory
+(1MB). If it's only used to look ahead when it's all *silence*, there's
+no need to store it! Just provide buffers of silence repeatedly. Perhaps
+match the beginning and end levels in case there is slight drift.
+[implemented; elegant!]
+
+- Show elapsed time of current track?
+
+- Update fade time of currently playing track when preference is
+changed?
+
+- Fix elapsed time when fast-forwarding (it gets way off)
+
+- Work out better queue model. [use separate queue for dropped items,
+then replace only if it contains anything]
+
+- Non-eligible drop still stops current track.
+
+- Remove file from queue/history if there's error opening it.
+
+- Hold option while dropping files to add them to current queue
+
+- Progress window stops if application is quitting
+
+- Disable buttons when at beginning or end
+
+- Eliminated Music_Queue
+
+- Added Carbon_App::is_quitting() and adjusted how quit is handled to
+always send quit event to app
+
+- Don't try to copy GYM fields if it has no header
+
+- Clarify model of track times. Summary:
+	Program plays game music tracks.
+	Tracks are either continuously looping or eventually end.
+	If a track loops, it must be faded out eventually.
+	Some formats might have preferred time.
+	If track ends on its own, this can be detected by looking for silence.
+
+- Repeat playlist? Why would someone want to listen to the same music
+over and over??
+
+- Immediately play new file if current queue only has one file in it?
+[rejected; new scheme of clearing playlist when file is opened directly
+eliminates need for this]
+
+- Added wave recording of output when DISABLE_ASYNC is set. Really helps
+for debugging fast forward and silence detection.
+
+- Implemented and tested silence ramping for look-ahead silence
+detection
+
+- Don't affect any state until new track to play is verified as a music
+file.
+
+- Unsupported file leaves player in bad state (i.e. NSF requiring
+expansion hardware)
+
+- Holding button when next file plays and generates an error
+
+- Deal with problem of dropping files of which none are playable, due to
+them being non-music or music which gives error when opened.
+
+- Carefully check that all control is disabled when no album is loaded.
+
+- Show filename or have command to reveal current file, otherwise it
+might be hard to tell what file is actually playing if it has a generic
+name like ct-003.spc. [set window proxy to file; done!]
+
+- Did major overhaul of queue. Now each entry references a single track,
+so albums have each track added.
+
+- Play single random track from multi-track formats in a playlist? Add
+each track individually to playlist? [add all tracks]
+
+- Clean up terminology (playlist, play queue?)
+
+- Should some of the prefs be put into menus? Play length, shuffle seem
+good choices.
+
+- Add entries for .nsf, .gbs, etc. to internet preferences. [implemented
+then removed; most game music on the internet is in an archive]
+
+- Check environment at startup for adequate versions of libraries. [OS
+version and CarbonLib]
+
+- Fix is_silence() to examine range of samples rather than range of
+differences
+
+- Use Audio_Player free block as buffer for silent block [won't work
+because silence buffers are still added to queue before silent block is
+added]
+
+- Move queueing from Audio_Player to Music_Player
+
+- Show enclosing folder in title bar when it's a single-track format and
+it has no title information. Handle this in Player_Window, not
+Music_File.
+
+- Unpause when changing tracks.
+
+- Singificantly optimized playlist directory scanning.
+
+- When arrow is auto-repeating, skip through tracks without playing them
+
+- Eliminate click when stopping track, pausing, beginning fast-forward
+
+- Look into window closing events, conversion to 'Clos' in
+Carbon_Window.cpp [Close box sends kEventWindowClose to window.
+Carbon_Window converts that to 'Clos' command and sends it to itself.
+Default kEventWindowClose disposes window!]
+
+- Eliminate convert multiple and instead allow conversion of all tracks
+in current playlist.
+
+- Customize disk full error for wave export to mention that it will pick
+up where it left off if you retry it.
+
+- Notification of end of track for dumped formats (VGM, GYM) a few
+seconds before? [just calculate length ahead of time]
+
+- Fade dumped formats (GYM, VGM) before end. Will need to scan data at
+load to determine length.
+
+- Added support for binary-format SPC track length (ugh)
+
+- Factored out some functionality for Game Music Utility
+
+- Don't use GYM tags with "Unknown " as a prefix. Is an empty string so
+hard to put if you don't know the information?
+	Unknown Song
+	Unknown Game
+	Unknown Publisher
+	Unknown Emulator
+	Unknown Person
+	Header added by YMAMP
+
+- Quickly tested under OS X on 2004.04.21. Gzip failed due to using full
+pathname with old-style FSSpec calls. [wrote simple gzip function to
+replace gzio.c]
+
+- Allocator that checks for overwriting
+
+- Feedback that something happened even when it appears that nothing
+did. [simplified model; now you drop files on app, process them, then
+quit. feedback is clear]
+
+- Write manual for utility
+
+- Put libs in their own package rather than Game_Music_Box.
+
+- Write notes for utility
+
+ Avoid extending length of dumped tracks that don't loop
+
+- Should packed SPC files have a different file type? [Yes, since they
+will open fine in another player but get emulation errors. Could put
+infinite loop and set CPU address in header, but it would still come out
+silent.]
+
+- Drop bad alias on window while stopped. Buttons stay enabled but
+nothing is playing.
+
+- Have to prev/next many times when items from history have been deleted
+[it now removes items which can't be found when a track is changed]
+
+- Keep complete play history, even when stopped (so a track ending won't
+clear history). Have stop state simply be past the end of the history
+buffer. Limit history size so it won't keep expanding.
+
+- Tested briefly under OS X on 2005.04.21. NULL access on startup.
+Button pressing routine doesn't give feeback, most likely due to the
+buffered graphics Quartz uses. Couldn't find routine to force an
+immediate update.
+
+- Test new audio queueing, fast-forward, new quit scheme under OS X
+
+- One-time extension of current track for when you are into the song but
+don't want to change the length of other tracks?
+
+- Command-, to access preferences
+
+- Error alert is all screwed up under OS X. [wasn't nullifying string
+when unknown exception type was converted to string]
+
+- Fix track extension when track has limited length. Currently silence
+detection will be delayed.
+
+- Use utility window for preferences, channels?
+
+- Add windows menu? [unneeded since prefs/channels are floating windows]
+
+- Bring all app windows to front? (not the default in OS X) [unneeded
+now that floating windows are used for settings]
+
+- Re-add next/previous album buttons? [not really relevant anymore]
+
+- Allow keyboard control in any window? [using floating windows solves
+this]
+
+- Stop current song while converting? Otherwise it might use more memory
+than available. [now that I have OS X available, this OS 9-specific
+issue is deprecated]
+
+- Export in mono? NSF without effects, optionally GBS and VGM. [not
+worth the bother]
+
+- Don't quit player when window is closed. Re-open window by clicking on
+app in dock.
+
+- Put "debug.txt" on desktop.
+
+- Disable track extension menu item when track can't be extended.
+
+- Don't replay current track when going backwards and error is
+encountered. [not worth the slight increase in complexity]
+
+- Keep play/pause button enabled all the time. If pressed when nothing
+is playing, use nav dialog to select music to play?
+
+- Allow clicking on track control buttons without bringing app to front
+
+- Control volume with +/- (and = as alternative to +)
+
+- Work out coherent model for archives of files (but don't bother trying
+to handle archives of multiple file types). Keep archive open in case
+next track is from same file, and optimize for case where next file is
+after current one in archive (helps with RAR archives). [all
+implemented. indirection is the key to all problems!]
+
+- Keep archive open, closing only when next track is in a different
+file, or when app is put in background. [and closing ("uncaching") it in
+a number of other cases]
+
+- Use filenames from archive if track has no tags
+
+- Support 'RAR ' file type in addition to 'RARf' type
+
+- Add support for zip archives
+
+- Keep buttons enabled when window becomes inactive (especially main
+player window).
+
+- Enable controls on activate event (default handler enables all
+controls)
+
+- Find why fast-forward crashes in OS X 10.3.9. Doesn't crash in 10.2.4
+or 10.2.8. [didn't crash in 10.3.9 on my machine]
+
+- Set proxy icon type to system type for RAR and ZIP archives, rather
+than the generic "game" icon used in the Finder.
+
+- Allow current track of archive to be dragged to Finder window to
+extract it. Or maybe it should create alias to it just like would be
+nice to do for other album formats. [should be the latter. this isn't a
+general-purpose file extractor!]
+
+- Treat folder of same-typed music as an archive, so that each one gets
+a track number? But then an alias to folder couldn't have usual #nn
+suffix, and if the tracks in the folder were in track order they would
+have track numbers at the beginnings of their filenames. [rejected]
+
+- Use Mac OS X LSCopyDisplayNameForRef() to remove file extension?
+[rejected; always remove extension]
+
+- Drop a single file on application icon to get full error report if it
+has no music in it, etc.
+
+- Freaking unified file access base class for use in Game_Music_Emu,
+Rar_Extractor, File_Archive, Gzip_Reader, etc.
+
+- Restart current track without reloading file
+
+- Fade out doesn't get pushed forward for silence at beginning
+
+- Pack SPCs even when there are directories (but ignore the
+directories). Some SPC sets from Zophar have sub-directories (the ones
+from snesmusic.org are clean, flat).
+
+- Handle SPC sets with multiple discs, named foo-n-nn.spc
+
+- Incorporate new information about SPC naming scheme (8.3, sound
+effects) [didn't bother using the 8.3 limit in rejection of filenames]
+- Fix Example_Game_Music packed SPCs (they have wrong file type)
+
+- Handle ZIP archives of VGZ files
+
+- Error handling got broken with introduction of archives
+
+- Add internet mapping entries? [they seem to be totally ignored on OS
+9, and Internet Config seems unimplemented on OS X]
+
+- Make new icons for game music files. Widen them so system acronym can
+be shown. Perhaps use CD jewel case as template (i.e. album/single).
+
+- Merged utility back into player
+
+- Make a real preferences window for more esoteric things (file types,
+play sound effects, etc.) and a Customize Sound window to control
+volume, treble, bass, echo.
+
+- Added help menu items that open manuals
+
+- Make real preferences window and move audio settings to a separate
+window, perhaps with muting.
+
+- Check for any old references to "Game Music Player"
+
+- Determine if 'RAR ' or 'RARf' should be preferred file type for RAR
+files. Stuffit uses 'RARf'. 'RAR ' seems most logical. [Latest stuffit
+uses RARf, so I'll use that]
+
+- Allow short tracks to be skipped
+
+- Way to skip sound effects, especially when recording a playlist
+(though it's easy to find them by looking at the sizes of the files)
+
+- Adjust slider mapping so left side results in very quiet sound rather
+than no sound
+
+- Removing filename extension might not be right on OS X. [hide
+extension under OS X]
+
+- Outline hammer and screw driver in application icon [utility was
+merged, so irrelevant now]
+
+- Lower sound latency when preferences are being changed? [muting and
+sound cusomization are in same window, so latency is lowered]
+
+- Optimized filesystem access for building playlist
+
+- Get font metrics when laying out windows.
+
+- Use main album for single track recording
+
+- See if forced updating on a new track actually improves response on OS
+X. [doesn't seem to do much]
+
+- Do full file type setting (as is done in utility) when a single file
+is dropped on application icon.
+
+- Increase minimum latency (occasional skipping under OS X with channels
+window open) [it's already at four buffers (1/5 second), which should be
+plenty]
+
+- Change package name from Game_Music_Player to Game_Music_Box
+
+- Optimize filesystem accesses. Currently dropping a file results in
+many redundant filesystem calls.
+
+- Improve rejection of unsupported file types. File handling has become
+a mess on the implementation side.
+
+- Write zip file extractor from scratch, as it seems a very simple
+format. It can't be that hard. Current unzip is a real mess. [wrote a
+first version, but it doesn't handle streamed files where size is after
+each file]
+
+- Hurry up on rewriting zip. Current library makes many small reads,
+which results in quite bad performance under OS X for some zip files.
+
+- Remove multiple instances of name of application.
+
+- Play time should include fade at end, so it doesn't always go over by
+6-8 seconds.
+
+- Enabled truncation of text fields (adds ... to end).
+
+- Filter archive items with '.' at beginning of filename.
+
+- Added parsing of extended SPC info.
+
+- There might be some problems with changing tracks and having info from
+previous track still be present. Need to check this carefully. ("Why"
+you ask? Because the code is complex. Complex code always has problems
+since it can't be grasped like simple code. Does it need to be as
+complex as it is? No!)
+
+- Implemented VGM extended info parsing.
+
+- Improved Music_Player::is_done() to wait until last blocks have
+actually been played.
+
+- Changed to defer creation of some windows until first use
+
+- Changed link order of files in a (probably vain) attempt to reduce
+startup time
+
+- Checked for leaks and overwrites for a few minutes while playing music
+normally, and compressing/decompressing with utility. Found nothing.
+
+- Rename archives based on game name in file tags.
+
+- Title other formats whose files have generic names in the available
+archives
+
+- Fixed 'open' resource to include '****'. Apparently this overrides the
+BNDL resource for what types can be dropped on app (leaving the BNDL
+resource to specify icons only).
+
+- Simplified music utility and file type handling. Now a file must have
+the correct type or filename extension.
+
+- Corrected bug in SPC skipping (was flushing resampler, thus skipping
+more than expected). Added skip function to resampler.
+
+- Added experimental favorites folder.
+
+- Re-assess entire utility operation and integrate it with player better
+(auto-open it etc.)
+
+- Merge utility manual with player manual
+
+- Abstract base class for file types with virtual open_album( FSRef ),
+count_tracks( FSRef ) and OSType file_type() const, single object of
+each derived class (or keep FSRef in object and have an object for each
+file). [Wouldn't help much because file type is differentiated only very
+few times and when fixing file types, conflicting information must be
+managed]
+
+- Added 'fold' to 'open' resource.
+
+- Deferred creation of sound channels window until first use.
+
+- Bring Finder to front when opening favorites folder
+
+- Parse extended SPC information and make use of disc/track info when
+naming recordings
+
+- Adding dock menu: MacApplication.h, call SetApplicationDockTileMenu(
+MenuRef ) to add menu items to dock menu
+
+- Added error list window
+
+- Added list of items to utility window
+
+- Changed utility actions to radio buttons rather than checkboxes.
+Simpler to do only one action at a time.
+
+- Rewrote utility actions to log errors and give proper progress
+display.
+
+- Never remove file extension in OS X (need to fix retitler to preserve
+it).
+
+- Log errors during batch wave recording
+
+- Parse #nn when checking aliases rather than checking entire album
+
+- Wrote pod_vector. Only reduced executable by 8K, so std::vector isn't
+that bloated once the linker throws away the multiple instantiations.
+About 20% faster for building large playlists.
+
+- Changed player window to use condensed text for author and copyright
+fields when they are too long
+
+- Music album removes "(C) " prefix from fields
+
+- Brings all windows to front in OS X (was confusing in some cases
+otherwise)
+
+- Put progress bar in utility window and change Process to Stop when
+processing. Would solve modality problem (no modality). Could do the
+same for recording, and have a window similar to the utility window with
+options and a list of items to record.
+
+- Added sound scope
+
+- Investigate complexity of not starting track internally when skipping
+through multiple tracks until arrow key is released. Would still want to
+load file so info is displayed (otherwise there's no feedback that
+tracks are even being changed), would just avoid starting the track.
+This would eliminate the pause on long tracks with silence at the
+beginning. [still start track in emulator without playing any, but that
+is very quick]
+
+- Remember previous tracks that aren't songs so skipping backwards isn't
+slow in RAR archives when skip short tracks is enabled? [player just
+removes a short track from the history if it's skipped]
+
+- Moved recording to utility
+
+- Lots of issues with this, all regarding its UI [solved by putting in
+utility]
+
+- Keep track of current position in queue when recording and restart
+there, rather than checking for file existence. This allows continuation
+on a different disk (currently that would cause it to start over).
+[added to utility]
+
+- Should playlist recording use the current and future tracks or have a
+separate interface for choosing what to record? Both have been
+implemented but neither has stood out as superior. [now irrelevant]
+
+- Recording current playlist has problems (you can't listen to something
+else, for one). [now irrelevant]
+
+- Problems with recording progress window. Are all menus disabled? This
+prevents controlling what's currently playing in the background. If
+menus are enabled, a second recording task can be started, but it pauses
+the first one. [batch recording was moved to utility. recording single
+track is quick enough that inaccessibility isn't a problem]
+
+- Create windows when needed, rather than keeping them hidden? Will have
+to be sure nothing leaks each time. [Sidestep leak issue by deferring
+creation and then merely hiding when the close box is clicked]
+
+- Find problem with Chuck_Rock.zip (VGM) archive [wasn't putting dummy
+byte needed for the older zlib... really need to upgrade to the latest
+zlib]
+
+- Figure out why RAR is so much slower to decompress than in other unrar
+utilities (Mega Turrican). Could it be lack of buffering? I guess I
+forgot about implementing that. [Not buffering; had forgotten to
+optimize seek for non-solid archives]
+
+- Do a clean install of program and see how well file extension
+associations are set up [work fine now; problem was due to invalid
+property list syntax]
+
+- Optimized scope window a bit by caching previous min/max and
+reordering memory accesses a bit
+
+- Removed erroneous check() on Music_Album.cpp line 51
+
+- Improved sound scope to draw lines rather than points.
+
+- Using 8-bit gworld for sound scope was slightly slower than using
+1-bit gworld, even though drawing code had fewer dependent memory
+accesses
+
+- Updated to latest zlib
+
+- Wrote music file format descriptions
+
+- Fortified Music_Player for multiprocessing. Still needs fine-toothed
+combing.
+
