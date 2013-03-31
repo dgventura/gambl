@@ -7,7 +7,7 @@
 #define LIB_COMMON_H
 
 #include "blargg_common.h"
-#include <Carbon.h>
+//TODO: support UI #include <Cocoa/Cocoa.h>
 //#include <Files.h>
 #include <algorithm>
 #include <cstring>
