@@ -1,6 +1,8 @@
 
 // Game_Music_Box 0.5.2. Copyright (C) 2005 Shay Green. GNU LGPL license.
 
+#ifdef COMPILE_GMB_GUI
+
 #ifndef PLAYER_WINDOW_H
 #define PLAYER_WINDOW_H
 
@@ -137,4 +139,21 @@ inline const Music_Album* Player_Window::album() const {
 	return music_album.get();
 }
 #endif
+
+#else
+#include "Music_Player.h"
+class Player_Window {
+public:
+	Player_Window();
+	~Player_Window();
+	
+	struct setup_t : Music_Player::setup_t {
+		Point player_pos;
+		Point chans_pos;
+		bool songs_only;
+		bool show_info;
+		bool shuffle;
+		bool change_icon;
+	};
+#endif // COMPILE_GMB_GUI
 

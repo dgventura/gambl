@@ -5,6 +5,7 @@
 
 #include "Player_Window.h"
 #include "file_util.h"
+#include "mac_util.h"
 
 /* Copyright (C) 2005 Shay Green. This module is free software; you
 can redistribute it and/or modify it under the terms of the GNU Lesser
@@ -59,20 +60,26 @@ static const FSRef& favorites_dir()
 
 void play_classic_favorites( Player_Window& player )
 {
+//TODO: GUI
+#if 0
 	player.begin_drop();
 	FSRef dir = favorites_dir();
 	player.handle_drop( create_dir( dir, system_names [0] ) );
 	player.handle_drop( create_dir( dir, system_names [1] ) );
 	player.handle_drop( create_dir( dir, system_names [2] ) );
 	player.end_drop();
+#endif
 }
 
 void play_favorites( Player_Window& player, const char* name )
 {
+    //TODO: GUI
+#if 0
 	player.begin_drop();
 	FSRef dir = favorites_dir();
 	player.handle_drop( create_dir( dir, name ) );
 	player.end_drop();
+#endif
 }
 
 void open_favorites()
@@ -80,7 +87,7 @@ void open_favorites()
 	launch_file( favorites_dir() );
 }
 
-void add_favorite( const track_ref_t& track, const Music_Album& album )
+void add_favorite( const track_ref_t& track, Music_Album& album )
 {
 	// to do: currently just a quick hack
 	

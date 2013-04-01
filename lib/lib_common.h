@@ -6,8 +6,8 @@
 #ifndef LIB_COMMON_H
 #define LIB_COMMON_H
 
+#include <Cocoa/Cocoa.h>
 #include "blargg_common.h"
-//TODO: support UI #include <Cocoa/Cocoa.h>
 //#include <Files.h>
 #include <algorithm>
 #include <cstring>

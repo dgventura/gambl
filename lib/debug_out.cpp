@@ -92,8 +92,8 @@ void debug_out_::append( unsigned char const* s )
 
 void debug_out_::append( int n )
 {
-	unsigned char s [32];
-	NumToString( n, s );
+    char s [32];
+    snprintf( &s[0], sizeof(s), "%d" );
 	append( s );
 }
 

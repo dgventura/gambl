@@ -3,13 +3,8 @@
 
 #ifdef __cplusplus
 	
-	// Uncomment to use precompiled header
-	#include "ram:prefix"
-	
 	#define HAVE_CONFIG_H 1
-	
-	#define TARGET_API_MAC_CARBON 1
-	
+
 	#include "config.h"
 	
 #endif

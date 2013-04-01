@@ -192,7 +192,7 @@ struct Nsfe_Album : Music_Album
 						break;
 					
 					default:
-						if ( std::isupper( (tag >> 24) & 0xff ) )
+						if ( isupper( (tag >> 24) & 0xff ) )
 							throw_error( "NSFE requires a newer player version" );
 						in->skip( size );
 						break;

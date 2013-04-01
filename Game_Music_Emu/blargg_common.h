@@ -133,6 +133,9 @@
 	#include <assert.h>
 #endif
 
+//TODO: make assert spew messages, not sure why this compiled before
+#define GMB_ASSERT( x, y ) assert( y )
+
 // blargg_err_t (NULL on success, otherwise error string)
 typedef const char* blargg_err_t;
 const blargg_err_t blargg_success = 0;
@@ -149,7 +152,7 @@ const blargg_err_t blargg_success = 0;
 	#if defined (__powerc) || defined (macintosh)
 		#define BLARGG_BIG_ENDIAN 1
 	
-	#elif defined (_MSC_VER) && defined (_M_IX86)
+	#elif (defined (_MSC_VER) && defined (_M_IX86)) || defined( __MAC_10_7 )
 		#define BLARGG_LITTLE_ENDIAN 1
 	
 	#endif

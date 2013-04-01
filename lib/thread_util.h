@@ -6,6 +6,9 @@
 
 #include "common.h"
 
+//TODO: remove this reference, maybe not supported?
+#include <Carbon/Carbon.h>
+
 class Event_Loop_Timer : noncopyable {
 public:
 	Event_Loop_Timer();

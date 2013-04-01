@@ -1,6 +1,8 @@
 
 // Game_Music_Box 0.5.2. http://www.slack.net/~ant/game-music-box
 
+#ifdef COMPILE_GMB_GUI
+
 #include "Channel_Window.h"
 
 #include "Player_Window.h"
@@ -201,4 +203,6 @@ void Channel_Window::set_names( const char** names, int count )
 		}
 	}
 }
+
+#endif // COMPILE_GMB_GUI
 

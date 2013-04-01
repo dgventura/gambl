@@ -3,6 +3,7 @@
 
 // Game_Music_Box 0.5.2. http://www.slack.net/~ant/game-music-box
 
+#include <ctype.h>
 #include "music_actions.h"
 
 #include "Multi_Buffer.h"
@@ -76,28 +77,28 @@ static bool extract_track_number( const char* in, char* out )
 	const char* p = in;
 	
 	// disc number/letter "[0-9a-z]-" (optional)
-	if ( (std::isdigit( p [0] ) || std::islower( p [0] )) && p [1] == '-' )
+	if ( (isdigit( p [0] ) || islower( p [0] )) && p [1] == '-' )
 		p += 2;
 	
 	// 1-3 letter prefix "[a-z][a-z][a-z]" (optional)
 	for ( int n = 3; n--; )
-		if ( std::islower( *p ) )
+		if ( islower( *p ) )
 			++p;
 	
 	// track number "[0-9][0-9][0-9]?" (optional)
-	if ( !std::isdigit( *p ) )
+	if ( !isdigit( *p ) )
 		return false;
-	if ( std::isdigit( *p ) )
+	if ( isdigit( *p ) )
 		++p;
-	if ( std::isdigit( *p ) )
+	if ( isdigit( *p ) )
 		++p;
 	
 	// suffix "[a-z]" (optional)
-	if ( std::islower( *p ) )
+	if ( islower( *p ) )
 		++p;
 	
 	// track must be followed by nothing, space, or '.'
-	if ( !*p || std::isspace( *p ) || *p == '.' )
+	if ( !*p || isspace( *p ) || *p == '.' )
 	{
 		int len = p - in;
 		std::memcpy( out, in, len );

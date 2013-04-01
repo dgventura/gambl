@@ -7,7 +7,7 @@
 #define MAC_UTIL_H
 
 #include "common.h"
-//#include <CarbonEvents.h>
+//#include <Cocoa/Carbon.h>
 //#include <Navigation.h>
 //#include <InternetConfig.h>
 //#include <Dialogs.h>
@@ -36,6 +36,8 @@ struct rect : Rect {
 		return this;
 	}
 };
+
+#ifdef GMB_COMPILE_GUI
 
 class Event_Handler : noncopyable {
 public:
@@ -67,17 +69,18 @@ public:
 };
 
 class NavDialog_Holder {
-	NavDialogRef ref;
+	DialogRef ref;
 public:
-	NavDialog_Holder( NavDialogRef d ) : ref( d ) { }
+	NavDialog_Holder( DialogRef d ) : ref( d ) { }
 	~NavDialog_Holder() { NavDialogDispose( ref ); }
 };
 
-struct Nav_Options : NavDialogCreationOptions {
+struct Nav_Options : DialogCreationOptions {
 	Nav_Options( const char* client_name );
 };
 
 NavEventUPP default_nav_handler();
+#endif 
 
 // Internet Config session
 class Ic_Session {
@@ -109,7 +112,10 @@ void app_to_front();
 // Report currently active exception and return appropriate error code to represent it.
 long report_exception( bool deferred = false );
 void report_error( const char* str, bool deferred = false );
+
+#ifdef GMB_COMPILE_GUI
 void standard_alert( AlertType, const char* text );
+#endif
 
 void flush_window( WindowRef, RgnHandle = NULL );
 void launch_file( const FSRef& );

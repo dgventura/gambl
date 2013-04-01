@@ -34,10 +34,10 @@ void Nes_Fme7_Apu::reset()
 unsigned char Nes_Fme7_Apu::amp_table [16] =
 {
 	#define ENTRY( n ) (n * amp_range) + 0.5
-	ENTRY(0.0000), ENTRY(0.0078), ENTRY(0.0110), ENTRY(0.0156),
-	ENTRY(0.0221), ENTRY(0.0312), ENTRY(0.0441), ENTRY(0.0624),
-	ENTRY(0.0883), ENTRY(0.1249), ENTRY(0.1766), ENTRY(0.2498),
-	ENTRY(0.3534), ENTRY(0.4998), ENTRY(0.7070), ENTRY(1.0000)
+	static_cast<unsigned char>(ENTRY(0.0000)), static_cast<unsigned char>(ENTRY(0.0078)), static_cast<unsigned char>(ENTRY(0.0110)), static_cast<unsigned char>(ENTRY(0.0156)),
+	static_cast<unsigned char>(ENTRY(0.0221)), static_cast<unsigned char>(ENTRY(0.0312)), static_cast<unsigned char>(ENTRY(0.0441)), static_cast<unsigned char>(ENTRY(0.0624)),
+	static_cast<unsigned char>(ENTRY(0.0883)), static_cast<unsigned char>(ENTRY(0.1249)), static_cast<unsigned char>(ENTRY(0.1766)), static_cast<unsigned char>(ENTRY(0.2498)),
+	static_cast<unsigned char>(ENTRY(0.3534)), static_cast<unsigned char>(ENTRY(0.4998)), static_cast<unsigned char>(ENTRY(0.7070)), static_cast<unsigned char>(ENTRY(1.0000))
 	#undef ENTRY
 };
 

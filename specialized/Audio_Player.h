@@ -9,7 +9,7 @@
 
 #include "common.h"
 #include "thread_util.h"
-#include <Sound.h>
+//#include <Sound.h>
 
 class Audio_Player : noncopyable {
 public:

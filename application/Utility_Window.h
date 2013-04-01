@@ -3,6 +3,8 @@
 
 // Game_Music_Box 0.5.2. Copyright (C) 2005 Shay Green. GNU LGPL license.
 
+#ifdef COMPILE_GMB_GUI
+
 #ifndef UTILITY_WINDOW_H
 #define UTILITY_WINDOW_H
 
@@ -71,3 +73,4 @@ private:
 
 #endif
 
+#endif // COMPILE_GMB_GUI

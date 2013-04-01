@@ -1,6 +1,8 @@
 
 // Game_Music_Box 0.5.2. Copyright (C) 2005 Shay Green. GNU LGPL license.
 
+#ifdef GMB_COMPILE_GUI
+
 #ifndef CARBON_WINDOW_H
 #define CARBON_WINDOW_H
 
@@ -51,3 +53,4 @@ private:
 
 #endif
 
+#endif // #ifdef GMB_COMPILE_GUI

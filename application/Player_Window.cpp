@@ -1,6 +1,8 @@
 
 // Game_Music_Box 0.5.2. http://www.slack.net/~ant/game-music-box
 
+#ifdef COMPILE_GMB_GUI
+
 #include "Player_Window.h"
 
 //#include <ControlDefinitions.h>
@@ -1055,4 +1057,6 @@ void Player_Window::stop( bool clear_history )
 	
 	music_album.reset();
 }
+
+#endif // COMPILE_GMB_GUI
 

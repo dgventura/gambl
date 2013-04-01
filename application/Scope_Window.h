@@ -1,6 +1,8 @@
 
 // Game_Music_Box 0.5.2. Copyright (C) 2005 Shay Green. GNU LGPL license.
 
+#ifdef COMPILE_GMB_GUI
+
 #ifndef SCOPE_WINDOW_H
 #define SCOPE_WINDOW_H
 
@@ -62,3 +64,4 @@ inline void Scope_Window::set_buffer( const short* p ) {
 
 #endif
 
+#endif // COMPILE_GMB_GUI

@@ -89,7 +89,7 @@ inline T debug_if_null( T t )
 {
 	#ifndef NDEBUG
 		if ( !t )
-			dprintf( "NULL" );
+			dprintf( 0, "NULL" );
 	#endif
 	return t;
 }

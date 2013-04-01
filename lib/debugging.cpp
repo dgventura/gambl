@@ -134,7 +134,7 @@ char* __ttyname( long fd ) {
 const long debug_max = 16 * 1024L;
 
 static char debug_buffer [debug_max];
-static long debug_size;
+static SInt32 debug_size;
 
 // thread-safe
 static void debug_write( const char* str )
@@ -193,7 +193,7 @@ static flush_debug_log_ flush_debug_logx;
 
 static void debug_log( const char* file, int line, const char* fmt, std::va_list args )
 {
-	static unsigned long active;
+	static UInt32;
 	static bool collision;
 	
 	// to do: allow fully concurrent operation

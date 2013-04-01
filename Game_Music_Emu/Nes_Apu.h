@@ -134,7 +134,7 @@ private:
 
 inline void Nes_Apu::osc_output( int osc, Blip_Buffer* buf )
 {
-	assert(( "Nes_Apu::osc_output(): Index out of range", 0 <= osc && osc < osc_count ));
+	GMB_ASSERT( "Nes_Apu::osc_output(): Index out of range", 0 <= osc && osc < osc_count );
 	oscs [osc]->output = buf;
 }
 

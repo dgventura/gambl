@@ -23,6 +23,17 @@ public:
 		double treble;
 		double bass;
 		bool custom_sound;
+        
+        volatile setup_t& operator=( const setup_t& rhs ) volatile
+        {
+            duration = rhs.duration;
+            echo_depth = rhs.echo_depth;
+            treble = rhs.treble;
+            bass = rhs.bass;
+            custom_sound = rhs.custom_sound;
+            
+            return *this;
+        }
 	};
 	void change_setup( const setup_t& );
 	

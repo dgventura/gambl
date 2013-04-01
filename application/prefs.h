@@ -39,4 +39,3 @@ struct App_Prefs : Player_Window::setup_t
 extern App_Prefs prefs;
 
 #endif
-

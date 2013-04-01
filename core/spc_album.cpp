@@ -30,7 +30,7 @@ static int spc_duration( const Spc_Emu::header_t& header )
 	std::memcpy( dstr, header.len_secs, 3 );
 	dstr [3] = 0;
 	// SPC binary and text headers are quite difficult to differentiate
-	if ( dstr [1] < 32 && !(dstr [1] == 0 && std::isdigit( dstr [0] )) ) { // binary
+	if ( dstr [1] < 32 && !(dstr [1] == 0 && isdigit( dstr [0] )) ) { // binary
 		return dstr [1] * 0x100 + dstr [0];
 	}
 	else {
@@ -283,7 +283,7 @@ void Spc_Album::parse_info( const Spc_Emu::header_t& header, const byte* pos, lo
 	
 	if ( year ) {
 		char num [32];
-		int len = std::sprintf( num, "%d ", year );
+		int len = snprintf( &num[0], sizeof(num), "%d ", year );
 		std::memmove( copyright + len, copyright, sizeof copyright - len );
 		std::memcpy( copyright, num, len );
 	}

@@ -62,7 +62,7 @@ const char* Gzip_Writer::write( const void* p, long s )
 
 static int FSOpenForkExists( const FSRef& path, int perm, const HFSUniStr255* fork_name )
 {
-	SInt16 ref = 0;
+	FSIORefNum ref = 0;
 	OSErr err = FSOpenFork( &path, fork_name ? fork_name->length : 0,
 			fork_name ? fork_name->unicode : NULL, perm, &ref );
 	if ( err == eofErr )

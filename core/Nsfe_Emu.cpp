@@ -66,11 +66,14 @@ static blargg_err_t read_strs( Emu_Reader& in, long size, std::vector<char>& cha
 {
 	chars.resize( size + 1 );
 	chars [size] = 0; // in case last string doesn't have terminator
-	BLARGG_RETURN_ERR( in.read( chars.begin(), size ) );
+	BLARGG_RETURN_ERR( in.read( &(*chars.begin()), size ) );
 	
 	for ( int i = 0; i < size; i++ )
 	{
-		strs.push_back( chars.begin() + i );
+        //TODO WARNING Not quite sure how this memory is being used, or why we are holding char pointers in a vector
+        // as opposed to making a copy... seems a little dicey and need to come back to it later
+        assert(0);
+		strs.push_back( &(*chars.begin()) + i );
 		while ( i < size && chars [i] )
 			i++;
 	}
@@ -208,7 +211,7 @@ blargg_err_t Nsfe_Emu::load( const header_t& nsfe_tag, Emu_Reader& in )
 			
 			case 'plst':
 				playlist.resize( size );
-				BLARGG_RETURN_ERR( in.read( playlist.begin(), size ) );
+				BLARGG_RETURN_ERR( in.read( &(*playlist.begin()), size ) );
 				break;
 			
 			case 'DATA': {
@@ -227,7 +230,7 @@ blargg_err_t Nsfe_Emu::load( const header_t& nsfe_tag, Emu_Reader& in )
 			
 			default:
 				// tags that can be skipped start with a lowercase character
-				check( std::islower( (tag >> 24) & 0xff ) );
+				check( islower( (tag >> 24) & 0xff ) );
 				BLARGG_RETURN_ERR( in.skip( size ) );
 				break;
 		}

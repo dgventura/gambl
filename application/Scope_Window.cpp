@@ -1,6 +1,8 @@
 
 // Game_Music_Box 0.5.2. http://www.slack.net/~ant/game-music-box
 
+#ifdef COMPILE_GMB_GUI
+
 #include "Scope_Window.h"
 
 #include "prefs.h"
@@ -332,4 +334,6 @@ void Scope_Renderer::render( const short* in, int in_step, short* min_out, short
 		*max_out = (max > old_max ? max : old_max) + 1;
 	old_max = max;
 }
+
+#endif // COMPILE_GMB_GUI
 

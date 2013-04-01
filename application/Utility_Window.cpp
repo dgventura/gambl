@@ -1,6 +1,8 @@
 
 // Game_Music_Box 0.5.2. http://www.slack.net/~ant/game-music-box
 
+#ifdef COMPILE_GMB_GUI
+
 #include "Utility_Window.h"
 
 //#include <ControlDefinitions.h>
@@ -696,4 +698,6 @@ stopped:
 		}
 	}
 }
+
+#endif // COMPILE_GMB_GUI
 
