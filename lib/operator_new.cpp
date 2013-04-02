@@ -45,7 +45,7 @@ void* operator new [] ( std::size_t s, const std::nothrow_t& )
 	{
 		large_block_min = (std::size_t) -1;
 		long response = 0;
-		if ( !Gestalt( gestaltSystemVersion, &response ) && response < 0x01000 )
+		//TODO: version check memory if ( !Gestalt( gestaltSystemVersion, &response ) && response < 0x01000 )
 			large_block_min = 64 * 1024L + 0x100;
 			//large_block_min = 384 * 1024L + 0x100;
 	}

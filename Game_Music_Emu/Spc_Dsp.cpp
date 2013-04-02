@@ -172,7 +172,7 @@ inline int Spc_Dsp::clock_envelope( int v )
 				break;
 			}
 			
-			case state_sustain:
+			case state_sustain: {
 				// Docs: "SR [is multiplied] by the fixed value 1-1/256."
 				// Multiplying ENVX by 255/256 every time SUSTAIN is
 				// updated. 
@@ -183,6 +183,10 @@ inline int Spc_Dsp::clock_envelope( int v )
 					voice.envx = envx;
 				}
 				break;
+            }
+                
+            default: {
+            }
 		}
 	}
 	else

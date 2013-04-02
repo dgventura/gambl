@@ -19,6 +19,8 @@ more details. You should have received a copy of the GNU Lesser General
 Public License along with this module; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA */
 
+#ifdef GMB_COMPILE_APP
+
 bool Carbon_App::is_quitting_;
 Carbon_App* Carbon_App::app_;
 
@@ -300,3 +302,4 @@ void Carbon_App::show_about() {
 void Carbon_App::edit_preferences() {
 }
 
+#endif

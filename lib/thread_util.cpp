@@ -81,10 +81,12 @@ bool Deferred_Task::install()
 	
 	installed = true;
 	sync_memory();
-	if ( debug_if_error( DTInstall( &task ) ) ) {
-		installed = false;
-		return true;
-	}
+    
+    assert(0);
+//DEPRECATED	if ( debug_if_error( DTInstall( &task ) ) ) {
+//DEPRECATED		installed = false;
+//DEPRECATED		return true;
+//DEPRECATED	}
 	
 	return false;
 }
@@ -102,12 +104,12 @@ pascal void Deferred_Task::os_callback( long param )
 void Virtual_Memory_Holder::hold( void* p, std::size_t s ) {
 	begin = p;
 	size = s;
-	debug_if_error( HoldMemory( begin, size ) );
+//DEPRECATED	debug_if_error( HoldMemory( begin, size ) );
 }
 
 Virtual_Memory_Holder::~Virtual_Memory_Holder() {
-	if ( begin )
-		debug_if_error( UnholdMemory( begin, size ) );
+//DEPRECATED	if ( begin )
+//DEPRECATED		debug_if_error( UnholdMemory( begin, size ) );
 }
 
 // sync_memory
@@ -115,8 +117,8 @@ Virtual_Memory_Holder::~Virtual_Memory_Holder() {
 static void sync_memory_()
 {
 	// probably an overkill, but isn't used in a way that's performance-critical
-	__sync();
-	__isync();
+//DEPRECATED	__sync();
+//DEPRECATED	__isync();
 }
 
 // ensure compiler doesn't try to optimize this at all

@@ -216,7 +216,7 @@ Mac_File_Reader::~Mac_File_Reader()
 	close();
 }
 
-long Mac_File_Reader::size() const
+long Mac_File_Reader::size()
 {
 	SInt64 size;
 	throw_error( FSGetForkSize( ref, &size ) );
@@ -228,7 +228,7 @@ void Mac_File::set_size( long s )
 	throw_error( FSSetForkSize( ref, fsFromStart, s ) );
 }
 
-long Mac_File_Reader::tell() const
+long Mac_File_Reader::tell()
 {
 	SInt64 pos;
 	throw_error( FSGetForkPosition( ref, &pos ) );
@@ -283,6 +283,14 @@ Data_Writer::error_t Mac_File::write( const void* p, long s )
 	if ( count != s )
 		throw_error( ioErr );
 	return NULL;
+}
+
+void Mac_File_Reader::set_cached( bool b ) {
+	mode = (b ? 0 : noCacheMask);
+}
+Mac_File::Mac_File( const FSRef& r ) : Mac_File_Reader( r, fsRdWrPerm ) {
+}
+Mac_File::Mac_File( short r ) : Mac_File_Reader( r ) {
 }
 
 // misc

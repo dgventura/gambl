@@ -24,7 +24,7 @@ public:
 	~Gzip_Reader();
 	
 	bool is_deflated() const;
-	long remain() const;
+	long remain();
 	
 	// Reports errors with exceptions
 	long read_avail( void*, long );

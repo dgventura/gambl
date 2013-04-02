@@ -93,7 +93,7 @@ void debug_out_::append( unsigned char const* s )
 void debug_out_::append( int n )
 {
     char s [32];
-    snprintf( &s[0], sizeof(s), "%d" );
+    snprintf( &s[0], sizeof(s), "%d", n );
 	append( s );
 }
 

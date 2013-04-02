@@ -26,8 +26,8 @@ void pstrcpy( unsigned char* out, const unsigned char* in )
 
 void num_to_str( long n, char* out, int leading ) 
 {
-	unsigned char buf [32];
-	NumToString( n, buf );
+    char buf [32];
+	snprintf( &buf[0], sizeof(buf), "%ld", n );
 	char lch = ' ';
 	if ( leading < 0 ) {
 		leading = -leading;
@@ -36,7 +36,7 @@ void num_to_str( long n, char* out, int leading )
 	leading -= buf [0];
 	while ( --leading >= 0 )
 		*out++ = lch;
-	p2cstrcpy( out, buf );
+	strcpy( out, buf );
 }
 
 int random( int range )

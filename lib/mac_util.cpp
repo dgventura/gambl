@@ -1,6 +1,8 @@
 
 // Game_Music_Box 0.5.2. http://www.slack.net/~ant/game-music-box
 
+#ifdef GMB_COMPILE_GUI
+
 #include "mac_util.h"
 
 #include <exception>
@@ -39,9 +41,7 @@ void install_ae_handler( AEEventID id, AEEventHandlerProcPtr proc, void* user_da
 }
 
 bool is_aqua_ui() {
-	long result = 0;
-	return Gestalt( gestaltMenuMgrAttr, &result ) == noErr &&
-			(result & gestaltMenuMgrAquaLayoutMask);
+	return false;
 }
 
 static void post_notification( const void* text, int len )
@@ -505,3 +505,4 @@ NavEventUPP default_nav_handler() {
 	return upp;
 }
 
+#endif

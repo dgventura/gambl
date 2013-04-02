@@ -26,6 +26,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA */
 
 #include "source_begin.h"
 
+#ifdef GMB_COMPILE_APP
+
 class App : public Carbon_App {
 	BOOST::scoped_ptr<Player_Window> player;
 	BOOST::scoped_ptr<Utility_Window> utility;
@@ -209,3 +211,4 @@ int main()
 	return 0;
 }
 
+#endif

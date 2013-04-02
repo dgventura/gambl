@@ -35,12 +35,14 @@ public:
 	
 private:
 	Virtual_Memory_Holder vm_holder;
+#if GMB_COMPILE_AUDIO
 	ExtSoundHeader snd_header;
 	SndChannelPtr chan;
 	callback_t callback;
 	void* callback_data;
 	
 	static pascal void chan_callback( SndChannelPtr, SndCommand* );
+#endif // #if GMB_COMPILE_AUDIO
 };
 
 #endif

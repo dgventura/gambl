@@ -1,6 +1,8 @@
 
 // Game_Music_Box 0.5.2. http://www.slack.net/~ant/game-music-box
 
+#ifdef GMB_COMPILE_GUI
+
 #include "prefs.h"
 
 #include <algorithm>
@@ -164,4 +166,6 @@ void App_Prefs::cleanup()
 	reflect_prefs( true );
 	update_app_prefs();
 }
+
+#endif // #ifdef GMB_COMPILE_GUI
 

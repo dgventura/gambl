@@ -1,6 +1,8 @@
 
 // Game_Music_Box 0.5.2. Copyright (C) 2005 Shay Green. GNU LGPL license.
 
+#ifdef GMB_COMPILE_GUI
+
 #ifndef ERRORS_WINDOW_H
 #define ERRORS_WINDOW_H
 
@@ -48,4 +50,6 @@ inline void Errors_Window::add_file_exception( const FSRef& path ) {
 }
 
 #endif
+
+#endif // #ifdef GMB_COMPILE_GUI
 

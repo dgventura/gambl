@@ -60,7 +60,7 @@ error_t Data_Reader::skip( long count )
 	return NULL;
 }
 
-long File_Reader::remain() const
+long File_Reader::remain()
 {
 	return size() - tell();
 }
@@ -85,7 +85,7 @@ Subset_Reader::Subset_Reader( Data_Reader* in_, long size ) :
 		remain_ = size;
 }
 
-long Subset_Reader::remain() const {
+long Subset_Reader::remain() {
 	return remain_;
 }
 
@@ -106,7 +106,7 @@ Mem_File_Reader::Mem_File_Reader( const void* p, long s ) :
 {
 }
 	
-long Mem_File_Reader::size() const {
+long Mem_File_Reader::size() {
 	return size_;
 }
 
@@ -120,7 +120,7 @@ long Mem_File_Reader::read_avail( void* p, long s )
 	return s;
 }
 
-long Mem_File_Reader::tell() const {
+long Mem_File_Reader::tell() {
 	return pos;
 }
 
@@ -149,7 +149,7 @@ error_t Std_File_Reader::open( const char* path )
 	return NULL;
 }
 
-long Std_File_Reader::size() const
+long Std_File_Reader::size()
 {
 	long pos = tell();
 	fseek( file_, 0, SEEK_END );
@@ -162,7 +162,7 @@ long Std_File_Reader::read_avail( void* p, long s ) {
 	return (long) fread( p, 1, s, file_ );
 }
 
-long Std_File_Reader::tell() const {
+long Std_File_Reader::tell() {
 	return ftell( file_ );
 }
 

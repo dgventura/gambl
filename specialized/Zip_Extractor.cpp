@@ -93,6 +93,9 @@ public:
 	~zip_mem_deleter() { delete [] mem; }
 };
 
+//TODO: look into correct error-handling?
+#define RAISE_ERROR throw
+
 static void throw_zlib_error( int code )
 {
 	if ( code )

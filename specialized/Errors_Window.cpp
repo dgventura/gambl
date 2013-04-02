@@ -3,6 +3,8 @@
 
 #include "Errors_Window.h"
 
+#ifdef GMB_COMPILE_GUI
+
 //#include <ControlDefinitions.h>
 #include "file_util.h"
 
@@ -224,3 +226,4 @@ void Errors_Window::add_file_error_( const FSRef& path, const char* error )
 	add_error( str );
 }
 
+#endif

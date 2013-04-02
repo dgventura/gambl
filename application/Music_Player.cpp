@@ -414,7 +414,7 @@ inline void Music_Player::deferred_callback()
 	deferred_active = true;
 	
 	const volatile int f = false;
-	scoped_restorer<volatile int> restorer( &deferred_active, false );
+	scoped_restorer<volatile int> restorer( &deferred_active, f );
 	
 	if ( !deferred_enabled )
 		return;

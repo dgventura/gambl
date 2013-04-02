@@ -43,6 +43,8 @@ static void cfstr_to_unistr( CFStringRef in, HFSUniStr255* out ) {
 	CFStringGetCharacters( in, range, out->unicode );
 }
 
+#ifdef GMB_COMPILE_GUI
+
 static bool ask_save_file( FSRef* dir, HFSUniStr255* name, CFStringRef initial_name = NULL )
 {
 	// run dialog
@@ -95,6 +97,8 @@ bool choose_folder( FSRef* dir )
 	
 	return true;
 }
+
+#endif // #ifdef GMB_COMPILE_GUI
 
 static void write_wave( File_Emu& emu, const FSRef& dir, const HFSUniStr255& name,
 		long min_length = -1, Progress_Hook* hook = NULL )
@@ -208,6 +212,8 @@ void record_track( const track_ref_t& track, int mute_mask )
 	CFStringHolder holder( str );
 	FSRef dir;
 	HFSUniStr255 filename;
+    
+#ifdef GMB_COMPILE_GUI
 	if ( ask_save_file( &dir, &filename, str ) )
 	{
 		// write wave
@@ -224,6 +230,7 @@ void record_track( const track_ref_t& track, int mute_mask )
 			throw;
 		}
 	}
+#endif
 }
 
 void record_track_( const track_ref_t& track, const FSRef& out_dir,
@@ -294,7 +301,8 @@ bool select_music_items( Music_Queue* queue, const char* title, const char* mess
 		const char* button )
 {
 	// to do: find way to allow selection of multiple folders
-	
+
+#ifdef GMB_COMPILE_GUI
 	// run dialog
 	Nav_Options options( PROGRAM_NAME );
 	options.windowTitle = __CFStringMakeConstantString( title );
@@ -314,7 +322,8 @@ bool select_music_items( Music_Queue* queue, const char* title, const char* mess
 	
 	for ( int i = 0; i < reply.size(); i++ )
 		append_playlist( reply [i], *queue );
-	
+#endif
+    
 	return true;
 }
 

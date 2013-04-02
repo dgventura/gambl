@@ -1,6 +1,8 @@
 
 // Game_Music_Box 0.5.2. http://www.slack.net/~ant/game-music-box
 
+#ifdef GMB_COMPILE_GUI
+
 #include "Drag_Handler.h"
 
 #include "mac_util.h"
@@ -266,3 +268,4 @@ pascal OSErr Drag_Handler::receive_handler( WindowRef window_, void* data,
 	return self->accepted ? noErr : dragNotAcceptedErr;
 }
 
+#endif

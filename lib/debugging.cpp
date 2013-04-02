@@ -193,7 +193,7 @@ static flush_debug_log_ flush_debug_logx;
 
 static void debug_log( const char* file, int line, const char* fmt, std::va_list args )
 {
-	static UInt32;
+	static UInt32 active;
 	static bool collision;
 	
 	// to do: allow fully concurrent operation

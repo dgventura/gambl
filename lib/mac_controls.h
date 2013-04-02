@@ -8,6 +8,8 @@
 //#include <Controls.h>
 #include "mac_util.h"
 
+#ifdef GMB_COMPILE_GUI
+
 extern const ControlFontStyleRec default_text_style;
 
 // Row layout handler
@@ -133,4 +135,6 @@ ControlRef make_titled_slider( Slider_Control&, WindowRef, const Rect&, const ch
 		void* data = NULL );
 
 #endif
+
+#endif // #ifdef GMB_COMPILE_GUI
 

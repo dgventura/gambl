@@ -96,12 +96,12 @@ public:
 	short ref_num() const { return ref; }
 	
 	// If false, access file using uncached mode
-	void set_cached( bool );
+	inline void set_cached( bool b );
 	
-	long size() const;
+	long size();
 	
 	// Reports errors with exceptions; error_t is always NULL.
-	long tell() const;
+	long tell();
 	error_t seek( long );
 	
 	error_t read( void*, long );
@@ -112,7 +112,7 @@ public:
 private:
 	FSRef fsref;
 	bool fsref_valid;
-	short ref;
+	FSIORefNum ref;
 	short mode;
 	bool unclosed;
 	
@@ -204,12 +204,6 @@ FSRef FSMakeFSRefChk( const FSRef& dir, const HFSUniStr255& name );
 
 
 // End of public interface
-inline void Mac_File_Reader::set_cached( bool b ) {
-	mode = (b ? 0 : noCacheMask);
-}
-inline Mac_File::Mac_File( const FSRef& r ) : Mac_File_Reader( r, fsRdWrPerm ) {
-}
-inline Mac_File::Mac_File( short r ) : Mac_File_Reader( r ) {
-}
+
 #endif
 

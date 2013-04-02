@@ -1,6 +1,8 @@
 
 // Game_Music_Box 0.5.2. http://www.slack.net/~ant/game-music-box
 
+#ifdef GMB_COMPILE_GUI
+
 #include "Progress_Window.h"
 
 //#include <ControlDefinitions.h>
@@ -204,3 +206,4 @@ void Progress_Window::idle() {
 	IdleControls( window() );
 }
 
+#endif

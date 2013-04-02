@@ -135,8 +135,10 @@ void write_gzip_file( const void* in, long size, Data_Writer& out )
 	crc = crc32( crc, (Bytef*) in, size );
 	
 	unsigned char trailer [8] = {
-		crc, crc >> 8, crc >> 16, crc >> 24,
-		size, size >> 8, size >> 16, size >> 24
+		static_cast<unsigned char>(crc), static_cast<unsigned char>(crc >> 8),
+        static_cast<unsigned char>(crc >> 16), static_cast<unsigned char>(crc >> 24),
+		static_cast<unsigned char>(size), static_cast<unsigned char>(size >> 8),
+        static_cast<unsigned char>(size >> 16), static_cast<unsigned char>(size >> 24)
 	};
 	out.write( trailer, sizeof trailer );
 }
@@ -297,7 +299,7 @@ Gzip_Reader::~Gzip_Reader()
 		debug_if_error( inflateEnd( &zbuf ) );
 }
 	
-long Gzip_Reader::remain() const
+long Gzip_Reader::remain()
 {
 	return remain_;
 }

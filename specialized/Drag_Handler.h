@@ -3,6 +3,8 @@
 
 // Game_Music_Box 0.5.2. Copyright (C) 2005 Shay Green. GNU LGPL license.
 
+#ifdef GMB_COMPILE_GUI
+
 #ifndef DRAG_HANDLER_H
 #define DRAG_HANDLER_H
 
@@ -55,3 +57,4 @@ void HideDragHiliteChk( DragReference );
 
 #endif
 
+#endif // #ifdef GMB_COMPILE_GUI

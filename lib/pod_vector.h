@@ -9,6 +9,7 @@
 #define POD_VECTOR_H
 
 #include <cstddef>
+#include <algorithm>
 
 class pod_vector_impl {
 public:

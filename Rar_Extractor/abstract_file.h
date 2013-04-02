@@ -27,7 +27,7 @@ public:
 	virtual error_t read( void*, long );
 	
 	// Number of bytes remaining
-	virtual long remain() const = 0;
+	virtual long remain() = 0;
 	
 	// Skip forwards by 'n' bytes.
 	virtual error_t skip( long n );
@@ -44,15 +44,15 @@ private:
 class File_Reader : public Data_Reader {
 public:
 	// Size of file
-	virtual long size() const = 0;
+	virtual long size() = 0;
 	
 	// Current position in file
-	virtual long tell() const = 0;
+	virtual long tell() = 0;
 	
 	// Change position in file
 	virtual error_t seek( long ) = 0;
 	
-	virtual long remain() const;
+	virtual long remain();
 	
 	error_t skip( long n );
 };
@@ -63,7 +63,7 @@ class Subset_Reader : public Data_Reader {
 	long remain_;
 public:
 	Subset_Reader( Data_Reader*, long size );
-	long remain() const;
+	long remain();
 	long read_avail( void*, long );
 };
 
@@ -75,10 +75,10 @@ class Mem_File_Reader : public File_Reader {
 public:
 	Mem_File_Reader( const void*, long size );
 	
-	long size() const;
+	long size();
 	long read_avail( void*, long );
 	
-	long tell() const;
+	long tell();
 	error_t seek( long );
 };
 
@@ -99,10 +99,10 @@ public:
 	// Forward read requests to file. Caller must close file later.
 	//void forward( FILE* );
 	
-	long size() const;
+	long size();
 	long read_avail( void*, long );
 	
-	long tell() const;
+	long tell();
 	error_t seek( long );
 	
 	void close();

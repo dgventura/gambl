@@ -11,6 +11,25 @@ if I get some things wrong along the way.
 
 - David Ventura, 2013.04.01 (April Fool's!)
 
+---------------
+
+Files compile but don't link from unresolved symbols, a couple libraries and
+some parts of the code ifdef'd out.  Looking at the code now it seems that a 
+number of deprecated systems need to be rewritten completely to bring the
+project into the 2010s mainly:
+
+1. application layer with Model-View-Controller via Cocoa (Carbon is deprecated)
+2. file management via NSFileHandle methods (FS file system is deprecated)
+3. threading and process managment (DT deferred tasks are deprecated)
+4. audio playback using CoreAudio (Snd APIs are deprecated)
+
+Which leaves us with the game system hardware emulation, reading of the audio 
+file formats, and some minor utility code, looking at the source I'd say about 
+a 60% rewrite?  I wanted to learn about CoreAudio and OSX programming anyway 
+so it'll be good practice.  Don't expect anything too soon though. :)
+
+- David, 2013.04.02
+
 --------------
 
 

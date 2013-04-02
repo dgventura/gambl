@@ -1,6 +1,8 @@
 
 // Game_Music_Box 0.5.2. http://www.slack.net/~ant/game-music-box
 
+#ifdef GMB_COMPILE_GUI
+
 #include "Carbon_Window.h"
 
 #include "mac_util.h"
@@ -184,3 +186,4 @@ void Carbon_Window::draw_content()
 {
 }
 
+#endif // #ifdef GMB_COMPILE_GUI

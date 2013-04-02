@@ -6,14 +6,6 @@
 
 #include "common.h"
 
-// Base class for classes whose objects can't be copied or assigned to
-class noncopyable {
-private:
-	noncopyable( const noncopyable& );
-	noncopyable& operator = ( const noncopyable& );
-public:
-	noncopyable() { }
-};
 
 template<class T>
 class scoped_restorer {

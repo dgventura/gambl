@@ -1,6 +1,8 @@
 
 // Game_Music_Box 0.5.2. http://www.slack.net/~ant/game-music-box
 
+#ifdef GMB_COMPILE_GUI
+
 #include "mac_controls.h"
 
 //#include <ControlDefinitions.h>
@@ -335,3 +337,4 @@ void set_control_help( ControlRef control, const char* str )
 	HMSetControlHelpContent( control, &hc );
 }
 
+#endif // #ifdef GMB_COMPILE_GUI

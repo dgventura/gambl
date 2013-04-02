@@ -1,10 +1,10 @@
 
 // Game_Music_Box 0.5.2. Copyright (C) 2005 Shay Green. GNU LGPL license.
 
-#ifdef COMPILE_GMB_GUI
-
 #ifndef PLAYER_WINDOW_H
 #define PLAYER_WINDOW_H
+
+#ifdef COMPILE_GMB_GUI
 
 #include "common.h"
 #include "Carbon_Window.h"
@@ -138,7 +138,6 @@ inline const track_ref_t& Player_Window::track() const {
 inline const Music_Album* Player_Window::album() const {
 	return music_album.get();
 }
-#endif
 
 #else
 #include "Music_Player.h"
@@ -155,5 +154,9 @@ public:
 		bool shuffle;
 		bool change_icon;
 	};
+};
+
+#endif
+
 #endif // COMPILE_GMB_GUI
 

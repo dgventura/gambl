@@ -20,6 +20,7 @@ Public License along with this module; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA */
 
 #include "source_begin.h"
+#include <stdlib.h>
 
 class Sound_Debugger {
 public:
@@ -45,7 +46,11 @@ private:
 };
 
 static FSRef make_debug_wave() {
-	static HFSUniStr255 name = { 9, L"debug.wav" };
+    //TODO: yabai
+	HFSUniStr255 name;
+    name.length = 9;
+    assert(0);
+//    wstrcpy( name.unicode, L"debug.wav", 9 );
 	FSRef dir = get_parent( get_bundle_fsref() );
 	FSRef file;
 	if ( FSMakeFSRefExists( dir, name, &file ) )

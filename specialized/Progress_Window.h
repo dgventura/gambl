@@ -5,7 +5,7 @@
 #define PROGRESS_WINDOW_H
 
 #include "common.h"
-#include "Carbon_Window.h"
+//#include "Carbon_Window.h"
 #include "mac_controls.h"
 
 class Progress_Hook {
@@ -26,6 +26,8 @@ private:
 	double scale;
 	int count;
 };
+
+#ifdef GMB_COMPILE_GUI
 
 class Progress_Window : protected Carbon_Window, public Progress_Hook {
 public:
@@ -76,4 +78,6 @@ inline void Progress_Window::set_progress( double d ) {
 	progress = d;
 }
 #endif
+
+#endif //#ifdef GMB_COMPILE_GUI
 
