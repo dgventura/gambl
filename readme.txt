@@ -1,5 +1,5 @@
-Game Music Box for Lion
---------------
+Game Music Box Lion (GaMBL)
+------------------
 
 I've taken the original Game Music Box source and started porting it to 
 OSX 10.7+ (Lion), not sure how often I'll be able to work on it but 
@@ -11,7 +11,7 @@ if I get some things wrong along the way.
 
 - David Ventura, 2013.04.01 (April Fool's!)
 
----------------
+------------------
 
 Files compile but don't link from unresolved symbols, a couple libraries and
 some parts of the code ifdef'd out.  Looking at the code now it seems that a 
@@ -30,28 +30,12 @@ so it'll be good practice.  Don't expect anything too soon though. :)
 
 - David, 2013.04.02
 
---------------
 
-
-Contact me if you have any questions about the code or design.
-
-
-Compiling
----------
-
-Be sure setup/prefix.pch++ and Rar_Extractor/rar_suballoc.inl were
-properly set as text files or the compiler might refuse to open them.
-
-I use an old version of CodeWarrior (Pro 4) for development so some
-changes might be required when compiling with a more recent version.
-
-I use a precompiled header derived from setup/prefix.pch++, saved to a
-RAM disk for faster compilation.
-
-Build configuration is done in setup/config.h.
-
-Optimization in the IDE is set for the release build, then disabled
-during development in config.h, using #pragma.
+------------------
+------------------
+ORIGINAL README MATERIALS FROM GMB AS FOLLOWS...
+------------------
+------------------
 
 
 Core Functionality

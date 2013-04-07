@@ -26,9 +26,9 @@ void Event_Loop_Timer::install( double interval, double delay ) {
 	remove();
 	static EventLoopTimerUPP os_callback_upp = throw_if_null(
 			NewEventLoopTimerUPP( os_callback ) );
-	throw_if_error( InstallEventLoopTimer( GetMainEventLoop(),
-			delay * kEventDurationSecond, interval * kEventDurationSecond,
-			os_callback_upp, this, &timer ) );
+//DEPRECATED	throw_if_error( InstallEventLoopTimer( GetMainEventLoop(),
+//DEPRECATED			delay * kEventDurationSecond, interval * kEventDurationSecond,
+//DEPRECATED			os_callback_upp, this, &timer ) );
 }
 
 void Event_Loop_Timer::one_shot( double delay ) {
