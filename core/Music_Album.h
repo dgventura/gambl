@@ -77,7 +77,7 @@ protected:
 	void set_track_count( int );
 	
 private:
-	BOOST::scoped_ptr<File_Archive> archive_;
+	unique_ptr<File_Archive> archive_;
 	FSRef archive_path;
 	bool use_parent;
 	long music_type_;

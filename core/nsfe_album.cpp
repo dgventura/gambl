@@ -79,7 +79,7 @@ struct Nsfe_Album : Music_Album
 		info_.classic_emu = true;
 		info_.system = "Nintendo (NES)";
 		
-		BOOST::scoped_ptr<Nsf_Emu> emu( new Nsf_Emu );
+		unique_ptr<Nsf_Emu> emu( new Nsf_Emu );
 		throw_if_error( emu->init( buffer ) );
 		return emu.release();
 	}
@@ -88,7 +88,7 @@ struct Nsfe_Album : Music_Album
 	{
 		if ( archive )
 		{
-			BOOST::scoped_ptr<Emu_Reader> in( archive->extract() );
+			unique_ptr<Emu_Reader> in( archive->extract() );
 			
 			track_map.clear();
 			track_names.clear();
@@ -236,7 +236,7 @@ Music_Album* new_nsfe_album() {
 
 int nsfe_track_count( File_Archive& archive )
 {
-	BOOST::scoped_ptr<Emu_Reader> in( archive.extract() );
+	unique_ptr<Emu_Reader> in( archive.extract() );
 	
 	int count = 1;
 	if ( read_tag( *in ) == 'NSFE' )

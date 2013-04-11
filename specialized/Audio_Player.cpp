@@ -48,6 +48,7 @@ Audio_Player::Audio_Player()
 Audio_Player::~Audio_Player()
 {
 	stop();
+        assert(0);
 #if GMB_COMPILE_AUDIO
 	debug_if_error( SndDisposeChannel( chan, false ) );
 #endif
@@ -55,6 +56,7 @@ Audio_Player::~Audio_Player()
 
 void Audio_Player::set_gain( double v )
 {
+    assert(0);
 #if GMB_COMPILE_AUDIO
 	SndDoImmediateChk( chan, volumeCmd, 0, int (v * 0x100) * 0x10001 );
 #endif
@@ -62,8 +64,8 @@ void Audio_Player::set_gain( double v )
 
 double Audio_Player::hw_sample_rate() const
 {
-	unsigned long rate = 0;
-#if GMB_COMPILE_AUDIO
+	unsigned long rate = 44100;
+#if GMB_COMPILE_AUDIO //TODO: get HW rate
     if ( debug_if_error( SndGetInfo( chan, siSampleRate, &rate ) ) )
 		rate = 0;
 #endif
@@ -72,6 +74,7 @@ double Audio_Player::hw_sample_rate() const
 
 void Audio_Player::setup( long sample_rate, bool stereo, callback_t func, void* data )
 {
+    assert(0);
 #if GMB_COMPILE_AUDIO
 	require( !snd_header.samplePtr );
 	callback = func;
@@ -84,6 +87,7 @@ void Audio_Player::setup( long sample_rate, bool stereo, callback_t func, void* 
 
 void Audio_Player::play_buffer( const sample_t* buf, int count )
 {
+        assert(0);
 #if GMB_COMPILE_AUDIO
 	require( !snd_header.samplePtr );
 	snd_header.samplePtr = reinterpret_cast<Ptr> (const_cast<sample_t*> (buf));
@@ -114,6 +118,7 @@ pascal void Audio_Player::chan_callback( SndChannelPtr chan, SndCommand* cmd )
 
 void Audio_Player::stop()
 {
+        assert(0);
 #if GMB_COMPILE_AUDIO
 	SndDoImmediateChk( chan, flushCmd );
 	SndDoImmediateChk( chan, quietCmd );

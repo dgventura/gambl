@@ -26,7 +26,7 @@ struct Gym_Album : Music_Album
 	Music_Emu* make_emu( long sample_rate, Multi_Buffer* )
 	{
 		info_.system = "Sega Genesis";
-		BOOST::scoped_ptr<Gym_Emu> emu( new Gym_Emu );
+		unique_ptr<Gym_Emu> emu( new Gym_Emu );
 		throw_if_error( emu->init( sample_rate ) );
 		return emu.release();
 	}

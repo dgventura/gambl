@@ -196,11 +196,11 @@ void Music_Album::set_track_count( int n ) {
 
 // load_music_album
 
-Music_Album* load_music_album( const FSRef& path )
+Music_Album* load_music_album( const NSFileHandle& path )
 {
-	HFSUniStr255 name;
+//	NSString name;
 	Cat_Info info;
-	info.read( path, kFSCatInfoFinderInfo, &name );
+//	info.read( path, kFSCatInfoFinderInfo, &name );
 	
 	OSType type = identify_music_file( path, info.finfo().fileType );
 	if ( !type )
@@ -209,14 +209,14 @@ Music_Album* load_music_album( const FSRef& path )
 	return load_music_album( path, type, name );
 }
 
-Music_Album* load_music_album( const FSRef& path, OSType type, const HFSUniStr255& name )
+Music_Album* load_music_album( const NSFileHandle& path, OSType type, const NSString& name )
 {
 	bool use_parent = false;
 	
 	int file_count = 0;
 	int first_file = 0;
 	
-	BOOST::scoped_ptr<File_Archive> archive;
+	unique_ptr<File_Archive> archive;
 	if ( type == rar_type || type == zip_type )
 	{
 		archive.reset( type == rar_type ?
@@ -270,7 +270,7 @@ Music_Album* load_music_album( const FSRef& path, OSType type, const HFSUniStr25
 	if ( !album )
 		return NULL;
 	
-	BOOST::scoped_ptr<Music_Album> owner( album );
+	unique_ptr<Music_Album> owner( album );
 	
 	album->file_count = file_count;
 	album->track_count_ = 0;
@@ -326,7 +326,7 @@ int album_track_count( const FSRef& path, OSType type, const HFSUniStr255& name 
 	int file_count = 0;
 	int first_file = 0;
 	
-	BOOST::scoped_ptr<File_Archive> archive;
+	unique_ptr<File_Archive> archive;
 	if ( type == rar_type || type == zip_type )
 	{
 		archive.reset( type == rar_type ?

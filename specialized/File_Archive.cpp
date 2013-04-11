@@ -38,14 +38,14 @@ struct Managed_Mem_Reader : Mem_File_Reader
 
 Data_Reader* File_Archive::extract()
 {
-	BOOST::scoped_ptr<Managed_Mem_Reader> reader( new Managed_Mem_Reader( info_.size ) );
+	unique_ptr<Managed_Mem_Reader> reader( new Managed_Mem_Reader( info_.size ) );
 	extract( reader->begin, info_.size );
 	return reader.release();
 }
 
 void File_Archive::extract( void* p, long s )
 {
-	BOOST::scoped_ptr<Data_Reader> in( extract() );
+	unique_ptr<Data_Reader> in( extract() );
 	in->read( p, s );
 }
 
@@ -57,7 +57,7 @@ void File_Archive::uncache()
 
 struct Single_File_Archive : File_Archive
 {
-	BOOST::scoped_ptr<Gzip_Reader> file;
+	unique_ptr<Gzip_Reader> file;
 	FSRef path;
 	char filename [256 + 8];
 	

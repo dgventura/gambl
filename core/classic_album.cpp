@@ -35,7 +35,7 @@ struct Classic_Album : Music_Album
 	Music_Emu* make_emu( long, Multi_Buffer* buffer )
 	{
 		info_.classic_emu = true;
-		BOOST::scoped_ptr<Emu> emu( new Emu );
+		unique_ptr<Emu> emu( new Emu );
 		throw_if_error( emu->init( buffer ) );
 		default_eq = emu->equalizer();
 		return emu.release();
@@ -49,7 +49,7 @@ struct Classic_Album : Music_Album
 		{
 			// to do: load data into memory for Mega Drive VGMs 
 			Emu& emu = static_cast<Emu&> (music_emu);
-			BOOST::scoped_ptr<Emu_Reader> in( archive->extract() );
+			unique_ptr<Emu_Reader> in( archive->extract() );
 			typename Emu::header_t header;
 			throw_if_error( in->read( &header, sizeof header ) );
 			

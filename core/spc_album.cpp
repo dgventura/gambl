@@ -45,7 +45,7 @@ struct Spc_Album : Music_Album
 	Music_Emu* make_emu( long sample_rate, Multi_Buffer* )
 	{
 		info_.system = "Super Nintendo";
-		BOOST::scoped_ptr<Spc_Emu> emu( new Spc_Emu );
+		unique_ptr<Spc_Emu> emu( new Spc_Emu );
 		throw_if_error( emu->init( sample_rate ) );
 		info_.channel_names = emu->voice_names();
 		return emu.release();
@@ -58,7 +58,7 @@ struct Spc_Album : Music_Album
 	{
 		if ( archive )
 		{
-			BOOST::scoped_ptr<Emu_Reader> in( archive->extract() );
+			unique_ptr<Emu_Reader> in( archive->extract() );
 			Spc_Emu::header_t header;
 			throw_if_error( in->read( &header, sizeof header ) );
 			Spc_Emu& spc_emu = static_cast<Spc_Emu&> (emu);

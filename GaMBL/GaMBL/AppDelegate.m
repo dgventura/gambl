@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#include "AudioPlayer.h"
 
 @implementation AppDelegate
 
@@ -15,32 +14,37 @@
 {
     // Insert code here to initialize your application
     
+    _AudioInterface = new AudioPlayer;
+    
     // try opening an .SPC file
     NSFileHandle *file = [NSFileHandle fileHandleForReadingAtPath: @"/Users/david/dev/code/GMB/GaMBL/test.spc"];
     if (file == nil)
         NSLog(@"Failed to open file");
     else
     {
-        //[file seekToFileOffset: 10];
-    
-        NSData *databuffer = [file readDataToEndOfFile];
+//        NSData *databuffer = [file readDataToEndOfFile];
         
-        if ( databuffer == nil )
-            NSLog(@"Failed to read file");
-        else
+//        if ( databuffer == nil )
+ //           NSLog(@"Failed to read file");
+ //       else
         {
-            AudioPlayer::foo();
-  //          MusicPlayer *MyPlayer = [MusicPlayer new];
-  //          [MyPlayer loadFile:databuffer];
+            _AudioInterface->LoadFile( file );
         }
     }
     
     [file closeFile];
 }
 
+- (void)dealloc
+{
+    delete _AudioInterface;
+}
+
 - (IBAction)playTrack:(id)sender
 {
     //[TrackTimeLabel setStringValue:"Played!"];
+    
+    _AudioInterface->Play();
     
     NSLog(@"Pressed play button!");
 }

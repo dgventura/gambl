@@ -126,7 +126,7 @@ struct Prefs_Window : Carbon_Window
 	}
 };
 
-static BOOST::scoped_ptr<Prefs_Window> prefs_window;
+static unique_ptr<Prefs_Window> prefs_window;
 
 const int window_width = 250;
 

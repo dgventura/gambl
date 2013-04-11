@@ -79,7 +79,7 @@ public:
 	
 // End of public interface
 private:
-	BOOST::scoped_ptr<Music_Emu> music_emu;
+	unique_ptr<Music_Emu> music_emu;
 	Classic_Emu* volatile classic_emu;
 	Music_Album* music_album;
 	

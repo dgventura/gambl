@@ -180,7 +180,7 @@ void record_track( const track_ref_t& track, int mute_mask )
 {
 	// to do: make copy of track if use persists after nav dialog
 	
-	BOOST::scoped_ptr<Music_Album> album(
+	unique_ptr<Music_Album> album(
 			load_music_album( FSResolveAliasFileChk( track ) ) );
 	if ( !album ) {
 		check( false );
@@ -237,7 +237,7 @@ void record_track_( const track_ref_t& track, const FSRef& out_dir,
 		const File_Emu::setup_t& setup, Progress_Hook& pw )
 {
 	// open file and emu
-	BOOST::scoped_ptr<Music_Album> album(
+	unique_ptr<Music_Album> album(
 			load_music_album( FSResolveAliasFileChk( track ) ) );
 	if ( !album )
 		return;

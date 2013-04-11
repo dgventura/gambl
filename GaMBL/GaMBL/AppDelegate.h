@@ -7,14 +7,14 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#include "AudioPlayer.h"
+#import "AudioPlayer.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 - (IBAction)playTrack:(id)sender;
 - (IBAction)nextTrack:(id)sender;
 - (IBAction)previousTrack:(id)sender;
 
-//@private MusicPlayer* _MusicPlayer;
+@property AudioPlayer* AudioInterface;
 
 @property (assign) IBOutlet NSWindow *window;
 

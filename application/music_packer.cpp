@@ -127,7 +127,7 @@ static void restore_file_info( const FSRef& path, const Cat_Info& new_info )
 
 static void pack_spc_set( const FSRef& dir, Action_Hooks* hook = NULL )
 {
-	BOOST::scoped_ptr<Spc_Packer> packer( new Spc_Packer );
+	unique_ptr<Spc_Packer> packer( new Spc_Packer );
 	
 	HFSUniStr255 shared_filename;
 	FSGetCatalogInfoChk( dir, 0, NULL, &shared_filename );

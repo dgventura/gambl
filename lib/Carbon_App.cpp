@@ -211,7 +211,7 @@ void Carbon_App::run_app_( Carbon_App* (*create)() )
 		return;
 	
 	try {
-		BOOST::scoped_ptr<Carbon_App> app( create() );
+		unique_ptr<Carbon_App> app( create() );
 		app->init_menus();
 		app->init_events();
 		app->run_event_loop();

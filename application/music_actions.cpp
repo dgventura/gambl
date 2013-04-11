@@ -135,7 +135,7 @@ static void check_music_file( const FSRef& orig_path, const Cat_Info& info, Acti
 	
 	runtime_array<Music_Emu::sample_t> buf( sample_rate * duration / 1000 * 2 );
 	
-	BOOST::scoped_ptr<Music_Album> album( load_music_album( info.ref() ) );
+	unique_ptr<Music_Album> album( load_music_album( info.ref() ) );
 	if ( !album ) {
 		check( false );
 		return;
@@ -143,7 +143,7 @@ static void check_music_file( const FSRef& orig_path, const Cat_Info& info, Acti
 	
 	Mono_Buffer bbuf;
 	throw_if_error( bbuf.set_sample_rate( sample_rate, duration + 1 ) );
-	BOOST::scoped_ptr<Music_Emu> emu( album->make_emu( sample_rate, &bbuf ) );
+	unique_ptr<Music_Emu> emu( album->make_emu( sample_rate, &bbuf ) );
 	
 	int track_count = album->track_count();
 	HFSUniStr255 name;

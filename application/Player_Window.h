@@ -72,7 +72,7 @@ private:
 	void track_changed();
 	void stopped();
 	
-	BOOST::scoped_ptr<Player_Scope> scope;
+	unique_ptr<Player_Scope> scope;
 	void show_scope();
 	
 	// incoming files
@@ -93,7 +93,7 @@ private:
 	void open_error();
 	
 	// player
-	BOOST::scoped_ptr<Music_Album> music_album;
+	unique_ptr<Music_Album> music_album;
 	Music_Player player;
 	FSRef album_path;
 	int mute_mask;

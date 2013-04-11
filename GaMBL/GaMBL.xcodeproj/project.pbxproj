@@ -8,9 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6314C28D1711B4C100FC7F98 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6314C28C1711B4C100FC7F98 /* libz.1.2.5.dylib */; };
-		633317731710465500077DD3 /* MusicPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 633317721710465500077DD3 /* MusicPlayer.mm */; };
 		63331779171051DA00077DD3 /* Junk.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63331777171051DA00077DD3 /* Junk.cpp */; };
-		6333177F1710529F00077DD3 /* AudioPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6333177D1710529F00077DD3 /* AudioPlayer.cpp */; };
 		63A29B8F170C34D700284B6B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63A29B8E170C34D700284B6B /* Cocoa.framework */; };
 		63A29B99170C34D700284B6B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 63A29B97170C34D700284B6B /* InfoPlist.strings */; };
 		63A29B9B170C34D700284B6B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A29B9A170C34D700284B6B /* main.m */; };
@@ -103,6 +101,14 @@
 		63A29CD5170D5B5B00284B6B /* inftrees.c in Sources */ = {isa = PBXBuildFile; fileRef = 63A29C7A170D5B5B00284B6B /* inftrees.c */; };
 		63A29CD6170D5B5B00284B6B /* trees.c in Sources */ = {isa = PBXBuildFile; fileRef = 63A29C7C170D5B5B00284B6B /* trees.c */; };
 		63A29CD7170D5B5B00284B6B /* zutil.c in Sources */ = {isa = PBXBuildFile; fileRef = 63A29C80170D5B5B00284B6B /* zutil.c */; };
+		63E8F3ED1716CA8900FF269A /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E8F3EC1716CA8900FF269A /* AudioToolbox.framework */; };
+		63E8F3F31716CACC00FF269A /* CAStreamBasicDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63E8F3F11716CACC00FF269A /* CAStreamBasicDescription.cpp */; };
+		63E8F3F41716CACC00FF269A /* CAStreamBasicDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63E8F3F11716CACC00FF269A /* CAStreamBasicDescription.cpp */; };
+		63E8F3FF1716DB7B00FF269A /* AudioPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63E8F3FD1716DB7B00FF269A /* AudioPlayer.cpp */; };
+		63E8F4001716DB7B00FF269A /* AudioPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63E8F3FD1716DB7B00FF269A /* AudioPlayer.cpp */; };
+		63E8F4031716DC9600FF269A /* AudioInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63E8F4011716DC9600FF269A /* AudioInterface.cpp */; };
+		63E8F4041716DC9600FF269A /* AudioInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63E8F4011716DC9600FF269A /* AudioInterface.cpp */; };
+		63E8F4061716E47100FF269A /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E8F4051716E47100FF269A /* AudioUnit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,11 +123,8 @@
 
 /* Begin PBXFileReference section */
 		6314C28C1711B4C100FC7F98 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
-		633317721710465500077DD3 /* MusicPlayer.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = MusicPlayer.mm; sourceTree = "<group>"; };
 		63331777171051DA00077DD3 /* Junk.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Junk.cpp; sourceTree = "<group>"; };
 		63331778171051DA00077DD3 /* Junk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Junk.h; sourceTree = "<group>"; };
-		6333177D1710529F00077DD3 /* AudioPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioPlayer.cpp; sourceTree = "<group>"; };
-		6333177E1710529F00077DD3 /* AudioPlayer.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = AudioPlayer.h; sourceTree = "<group>"; };
 		63A29B8A170C34D700284B6B /* GaMBL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GaMBL.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63A29B8E170C34D700284B6B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		63A29B91170C34D700284B6B /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -319,6 +322,15 @@
 		63A29C7F170D5B5B00284B6B /* zlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zlib.h; sourceTree = "<group>"; };
 		63A29C80170D5B5B00284B6B /* zutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zutil.c; sourceTree = "<group>"; };
 		63A29C81170D5B5B00284B6B /* zutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zutil.h; sourceTree = "<group>"; };
+		63E8F3EC1716CA8900FF269A /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		63E8F3F01716CAB700FF269A /* CADebugMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CADebugMacros.h; path = ../../../../../../Library/Developer/CoreAudio/PublicUtility/CADebugMacros.h; sourceTree = "<group>"; };
+		63E8F3F11716CACC00FF269A /* CAStreamBasicDescription.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CAStreamBasicDescription.cpp; path = ../../../../../../Library/Developer/CoreAudio/PublicUtility/CAStreamBasicDescription.cpp; sourceTree = "<group>"; };
+		63E8F3F21716CACC00FF269A /* CAStreamBasicDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CAStreamBasicDescription.h; path = ../../../../../../Library/Developer/CoreAudio/PublicUtility/CAStreamBasicDescription.h; sourceTree = "<group>"; };
+		63E8F3FD1716DB7B00FF269A /* AudioPlayer.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = AudioPlayer.cpp; path = ../specialized/AudioPlayer.cpp; sourceTree = "<group>"; };
+		63E8F3FE1716DB7B00FF269A /* AudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioPlayer.h; path = ../specialized/AudioPlayer.h; sourceTree = "<group>"; };
+		63E8F4011716DC9600FF269A /* AudioInterface.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = AudioInterface.cpp; sourceTree = "<group>"; };
+		63E8F4021716DC9600FF269A /* AudioInterface.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = AudioInterface.h; sourceTree = "<group>"; };
+		63E8F4051716E47100FF269A /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -326,6 +338,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63E8F4061716E47100FF269A /* AudioUnit.framework in Frameworks */,
+				63E8F3ED1716CA8900FF269A /* AudioToolbox.framework in Frameworks */,
 				6314C28D1711B4C100FC7F98 /* libz.1.2.5.dylib in Frameworks */,
 				63A29B8F170C34D700284B6B /* Cocoa.framework in Frameworks */,
 			);
@@ -346,6 +360,9 @@
 		63A29B7F170C34D700284B6B = {
 			isa = PBXGroup;
 			children = (
+				63E8F4051716E47100FF269A /* AudioUnit.framework */,
+				63E8F3EF1716CA9500FF269A /* PublicUtility */,
+				63E8F3EC1716CA8900FF269A /* AudioToolbox.framework */,
 				6314C28C1711B4C100FC7F98 /* libz.1.2.5.dylib */,
 				63A29BC2170D5B5A00284B6B /* application */,
 				63A29BCF170D5B5A00284B6B /* boost */,
@@ -399,11 +416,8 @@
 				63A29BA1170C34D700284B6B /* AppDelegate.m */,
 				63A29BA3170C34D800284B6B /* MainMenu.xib */,
 				63A29B95170C34D700284B6B /* Supporting Files */,
-				633317721710465500077DD3 /* MusicPlayer.mm */,
 				63331777171051DA00077DD3 /* Junk.cpp */,
 				63331778171051DA00077DD3 /* Junk.h */,
-				6333177D1710529F00077DD3 /* AudioPlayer.cpp */,
-				6333177E1710529F00077DD3 /* AudioPlayer.h */,
 			);
 			path = GaMBL;
 			sourceTree = "<group>";
@@ -442,6 +456,8 @@
 		63A29BC2170D5B5A00284B6B /* application */ = {
 			isa = PBXGroup;
 			children = (
+				63E8F3FD1716DB7B00FF269A /* AudioPlayer.cpp */,
+				63E8F3FE1716DB7B00FF269A /* AudioPlayer.h */,
 				63A29BC3170D5B5A00284B6B /* favorites.cpp */,
 				63A29BC4170D5B5A00284B6B /* favorites.h */,
 				63A29BC5170D5B5A00284B6B /* music_actions.cpp */,
@@ -650,6 +666,8 @@
 				63A29C6B170D5B5B00284B6B /* Wave_Writer.h */,
 				63A29C6C170D5B5B00284B6B /* Zip_Extractor.cpp */,
 				63A29C6D170D5B5B00284B6B /* Zip_Extractor.h */,
+				63E8F4011716DC9600FF269A /* AudioInterface.cpp */,
+				63E8F4021716DC9600FF269A /* AudioInterface.h */,
 			);
 			path = specialized;
 			sourceTree = "<group>";
@@ -678,6 +696,16 @@
 				63A29C81170D5B5B00284B6B /* zutil.h */,
 			);
 			path = zlib;
+			sourceTree = "<group>";
+		};
+		63E8F3EF1716CA9500FF269A /* PublicUtility */ = {
+			isa = PBXGroup;
+			children = (
+				63E8F3F11716CACC00FF269A /* CAStreamBasicDescription.cpp */,
+				63E8F3F21716CACC00FF269A /* CAStreamBasicDescription.h */,
+				63E8F3F01716CAB700FF269A /* CADebugMacros.h */,
+			);
+			name = PublicUtility;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -872,9 +900,10 @@
 				63A29CD5170D5B5B00284B6B /* inftrees.c in Sources */,
 				63A29CD6170D5B5B00284B6B /* trees.c in Sources */,
 				63A29CD7170D5B5B00284B6B /* zutil.c in Sources */,
-				633317731710465500077DD3 /* MusicPlayer.mm in Sources */,
 				63331779171051DA00077DD3 /* Junk.cpp in Sources */,
-				6333177F1710529F00077DD3 /* AudioPlayer.cpp in Sources */,
+				63E8F3F31716CACC00FF269A /* CAStreamBasicDescription.cpp in Sources */,
+				63E8F3FF1716DB7B00FF269A /* AudioPlayer.cpp in Sources */,
+				63E8F4031716DC9600FF269A /* AudioInterface.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -883,6 +912,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				63A29BB9170C34D800284B6B /* GaMBLTests.m in Sources */,
+				63E8F3F41716CACC00FF269A /* CAStreamBasicDescription.cpp in Sources */,
+				63E8F4001716DB7B00FF269A /* AudioPlayer.cpp in Sources */,
+				63E8F4041716DC9600FF269A /* AudioInterface.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

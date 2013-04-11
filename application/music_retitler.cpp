@@ -162,14 +162,14 @@ static bool get_album_name( const FSRef& path, char* name, char* game )
 	// to do: avoid creating emulator and all that?
 	// to do: scan all tracks to be sure game name matches?
 	
-	BOOST::scoped_ptr<Music_Album> album( load_music_album( path ) );
+	unique_ptr<Music_Album> album( load_music_album( path ) );
 	if ( !album )
 		return false;
 	
 	const long sample_rate = 44100;
 	Mono_Buffer buf;
 	throw_if_error( buf.set_sample_rate( sample_rate, 10 ) );
-	BOOST::scoped_ptr<Music_Emu> emu( album->make_emu( sample_rate, &buf ) );
+	unique_ptr<Music_Emu> emu( album->make_emu( sample_rate, &buf ) );
 	album->load_track( *emu, 0 );
 	if ( album->track_count() == 1 )
 	{

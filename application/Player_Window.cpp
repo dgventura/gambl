@@ -979,7 +979,7 @@ bool Player_Window::play_current_()
 			return false;
 		
 		// won't load album if non-music file or archive with no music
-		BOOST::scoped_ptr<Music_Album> album( load_music_album( path, file_type, name ) );
+		unique_ptr<Music_Album> album( load_music_album( path, file_type, name ) );
 		if ( !album )
 			return false;
 		
@@ -987,10 +987,10 @@ bool Player_Window::play_current_()
 			file_type = album->music_type();
 		
 		player.pause( false ); // current album might hold data used by player
-		music_album.reset(); // be sure current album is clear if error occurs
+		m_pMusicAlbum.reset(); // be sure current album is clear if error occurs
 		
 		player.play( album.get() );
-		music_album.reset( album.release() );
+		m_pMusicAlbum.reset( album.release() );
 		album_path = path;
 	}
 	

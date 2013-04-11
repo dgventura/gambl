@@ -29,7 +29,7 @@ struct Nsfe_Album : Music_Album
 		info_.classic_emu = true;
 		info_.system = "Nintendo (NES)";
 		
-		BOOST::scoped_ptr<Nsfe_Emu> emu( new Nsfe_Emu );
+		unique_ptr<Nsfe_Emu> emu( new Nsfe_Emu );
 		throw_if_error( emu->init( buffer ) );
 		return emu.release();
 	}
@@ -40,7 +40,7 @@ struct Nsfe_Album : Music_Album
 		
 		if ( archive )
 		{
-			BOOST::scoped_ptr<Emu_Reader> in( archive->extract() );
+			unique_ptr<Emu_Reader> in( archive->extract() );
 			
 			Nsfe_Emu::header_t header;
 			throw_error( in->read( &header, sizeof header ) );
@@ -79,7 +79,7 @@ Music_Album* new_nsfe_album() {
 
 int nsfe_track_count( File_Archive& archive )
 {
-	BOOST::scoped_ptr<Emu_Reader> in( archive.extract() );
+	unique_ptr<Emu_Reader> in( archive.extract() );
 	
 	Nsfe_Emu emu;
 	throw_error( emu.init( 44100 ) );

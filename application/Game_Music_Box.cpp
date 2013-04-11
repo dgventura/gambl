@@ -29,8 +29,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA */
 #ifdef GMB_COMPILE_APP
 
 class App : public Carbon_App {
-	BOOST::scoped_ptr<Player_Window> player;
-	BOOST::scoped_ptr<Utility_Window> utility;
+	unique_ptr<Player_Window> player;
+	unique_ptr<Utility_Window> utility;
 public:
 	
 	App() {

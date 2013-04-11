@@ -327,7 +327,7 @@ void append_playlist( const FSRef& path, Music_Queue& queue )
 // there are multiple types, or 0 if there are no music files.
 static OSType get_archive_type( const FSRef& path, OSType type )
 {
-	BOOST::scoped_ptr<File_Archive> archive( type == zip_type ?
+	unique_ptr<File_Archive> archive( type == zip_type ?
 			open_zip_archive( path ) : open_rar_archive( path ) );
 	type = 0;
 	for ( int i = 0; archive->seek( i, false ); i++ )
