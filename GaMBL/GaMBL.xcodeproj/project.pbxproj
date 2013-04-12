@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		6314C28D1711B4C100FC7F98 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6314C28C1711B4C100FC7F98 /* libz.1.2.5.dylib */; };
+		631B56AD1717DABB0038982C /* CADebugPrintf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 631B56AA1717DABB0038982C /* CADebugPrintf.cpp */; };
+		631B56AE1717DABB0038982C /* CADebugPrintf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 631B56AA1717DABB0038982C /* CADebugPrintf.cpp */; };
 		63331779171051DA00077DD3 /* Junk.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63331777171051DA00077DD3 /* Junk.cpp */; };
 		63A29B8F170C34D700284B6B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63A29B8E170C34D700284B6B /* Cocoa.framework */; };
 		63A29B99170C34D700284B6B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 63A29B97170C34D700284B6B /* InfoPlist.strings */; };
@@ -123,6 +125,9 @@
 
 /* Begin PBXFileReference section */
 		6314C28C1711B4C100FC7F98 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
+		631B56AA1717DABB0038982C /* CADebugPrintf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CADebugPrintf.cpp; path = ../../../../../../Library/Developer/CoreAudio/PublicUtility/CADebugPrintf.cpp; sourceTree = "<group>"; };
+		631B56AB1717DABB0038982C /* CADebugPrintf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CADebugPrintf.h; path = ../../../../../../Library/Developer/CoreAudio/PublicUtility/CADebugPrintf.h; sourceTree = "<group>"; };
+		631B56AC1717DABB0038982C /* CAException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CAException.h; path = ../../../../../../Library/Developer/CoreAudio/PublicUtility/CAException.h; sourceTree = "<group>"; };
 		63331777171051DA00077DD3 /* Junk.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Junk.cpp; sourceTree = "<group>"; };
 		63331778171051DA00077DD3 /* Junk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Junk.h; sourceTree = "<group>"; };
 		63A29B8A170C34D700284B6B /* GaMBL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GaMBL.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -703,6 +708,9 @@
 			children = (
 				63E8F3F11716CACC00FF269A /* CAStreamBasicDescription.cpp */,
 				63E8F3F21716CACC00FF269A /* CAStreamBasicDescription.h */,
+				631B56AA1717DABB0038982C /* CADebugPrintf.cpp */,
+				631B56AB1717DABB0038982C /* CADebugPrintf.h */,
+				631B56AC1717DABB0038982C /* CAException.h */,
 				63E8F3F01716CAB700FF269A /* CADebugMacros.h */,
 			);
 			name = PublicUtility;
@@ -904,6 +912,7 @@
 				63E8F3F31716CACC00FF269A /* CAStreamBasicDescription.cpp in Sources */,
 				63E8F3FF1716DB7B00FF269A /* AudioPlayer.cpp in Sources */,
 				63E8F4031716DC9600FF269A /* AudioInterface.cpp in Sources */,
+				631B56AD1717DABB0038982C /* CADebugPrintf.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -915,6 +924,7 @@
 				63E8F3F41716CACC00FF269A /* CAStreamBasicDescription.cpp in Sources */,
 				63E8F4001716DB7B00FF269A /* AudioPlayer.cpp in Sources */,
 				63E8F4041716DC9600FF269A /* AudioInterface.cpp in Sources */,
+				631B56AE1717DABB0038982C /* CADebugPrintf.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

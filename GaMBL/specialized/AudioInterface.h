@@ -15,8 +15,11 @@
 #ifndef AUDIO_INTERFACE_H
 #define AUDIO_INTERFACE_H
 
+#include <memory>
 #include <AudioToolbox/AudioToolbox.h>
 #include "CAStreamBasicDescription.h"
+
+class Music_Player;
 
 class AudioInterface
 {
@@ -26,7 +29,7 @@ public:
 
     // legacy functions for GMB
     void set_gain( double dGain ) {} // TODO: gain
-    double hw_sample_rate() const { return 1.0 / 0x10000 * 441000; } // TODO: hw query
+    double hw_sample_rate() const { return 44100; } // TODO: hw query
     typedef void (*callback_t)( void* );
     void setup( double nSampleRate, bool bStereo, callback_t func, void* pData = NULL );
     typedef short sample_t;
@@ -45,6 +48,9 @@ private:
     // Audio Graph Members
     AUGraph   mGraph;
     AudioUnit mMixer;
+    
+    callback_t m_MusicPlayerCallback;
+    Music_Player* m_pMusicPlayer;
 
     // Audio Stream Descriptions
     CAStreamBasicDescription outputCASBD;

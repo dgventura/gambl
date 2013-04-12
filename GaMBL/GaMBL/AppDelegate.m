@@ -44,7 +44,7 @@
 {
     //[TrackTimeLabel setStringValue:"Played!"];
     
-    _AudioInterface->Play();
+    _AudioInterface->play_current();
     
     NSLog(@"Pressed play button!");
 }

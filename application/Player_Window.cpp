@@ -805,6 +805,7 @@ void Player_Window::uncache()
 
 void Player_Window::choose_music()
 {
+#error here
 	app_to_front();
 	begin_drop();
 	if ( select_music_items( &new_queue_, "Play Music",
@@ -981,7 +982,7 @@ bool Player_Window::play_current_()
 		// won't load album if non-music file or archive with no music
 		unique_ptr<Music_Album> album( load_music_album( path, file_type, name ) );
 		if ( !album )
-			return false;
+			return false;df
 		
 		if ( file_type == gzip_type )
 			file_type = album->music_type();

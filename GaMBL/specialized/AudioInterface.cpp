@@ -30,7 +30,7 @@ static OSStatus renderInput(void *inRefCon, AudioUnitRenderActionFlags *ioAction
     
 	// Calculations to produce a 600 Hz sinewave
 	// A constant frequency value, you can pass in a reference vary this.
-	float freq = 600;
+	float freq = 440;
 	// The amount the phase changes in  single sample
 	double phaseIncrement = M_PI * freq / 44100.0;
 	// Pass in a reference to the phase value, you have to keep track of this
@@ -46,7 +46,8 @@ static OSStatus renderInput(void *inRefCon, AudioUnitRenderActionFlags *ioAction
         // Put the sample into the buffer
         // Scale the -1 to 1 values float to
         // -32767 to 32767 and then cast to an integer
-        outA[i] = (SInt16)(sinSignal * 32767.0f);
+        //outA[i] = (SInt16)(sinSignal * 32767.0f);
+        outA[i] = sinSignal;
         // calculate the phase for the next sample
         phase = phase + phaseIncrement;
     }
@@ -72,11 +73,16 @@ AudioInterface::~AudioInterface()
 
 void AudioInterface::play_buffer(const sample_t *pSampleBuffer, int nCount)
 {
-    //TODO: use samples!!!
+    //TODORO: use samples!!!
+
+    startAUGraph();
 }
 
 void AudioInterface::setup( double nSampleRate, bool bStereo, callback_t func, void* pData )
 {
+    m_pMusicPlayer = (Music_Player*)pData;
+    m_MusicPlayerCallback = func;
+    
     initializeAUGraph( nSampleRate, bStereo );
 }
 
@@ -90,8 +96,15 @@ void AudioInterface::startAUGraph()
 {
 	// Start the AUGraph
 	OSStatus result = AUGraphStart(mGraph);
-	// Print the result
-	if (result) { printf("AUGraphStart result %d %08X %4.4s\n", (int)result, (int)result, (char*)&result); return; }
+    printf("AUGraphStart result %d %08X %4.4s\n", (int)result, (int)result, (char*)&result);
+    while ( result != noErr )
+    {
+        printf("AUGraphStart result %d %08X %4.4s\n", (int)result, (int)result, (char*)&result);
+        
+        usleep(500);
+        
+        result = AUGraphStart(mGraph);
+    }
 }
 
 // stops render
@@ -101,6 +114,7 @@ void AudioInterface::stopAUGraph()
     
     // Check to see if the graph is running.
     OSStatus result = AUGraphIsRunning(mGraph, &isRunning);
+    printf("AUGraphStop was running %d\n", (int)isRunning);
     // If the graph is running, stop it.
     if (isRunning) {
         result = AUGraphStop(mGraph);
@@ -118,11 +132,12 @@ void AudioInterface::initializeAUGraph( double nSampleRate, bool bStereo )
     
 	// create a new AUGraph
 	result = NewAUGraph(&mGraph);
+    assert( result == noErr );
     
     // AUNodes represent AudioUnits on the AUGraph and provide an
 	// easy means for connecting audioUnits together.
     AUNode outputNode;
-	AUNode mixerNode;
+    AUNode mixerNode;
     
     // Create AudioComponentDescriptions for the AUs we want in the graph
     // mixer component
@@ -136,7 +151,7 @@ void AudioInterface::initializeAUGraph( double nSampleRate, bool bStereo )
 	//  output component
 	AudioComponentDescription output_desc;
 	output_desc.componentType = kAudioUnitType_Output;
-//	output_desc.componentSubType = kAudioUnitSubType_RemoteIO;
+	output_desc.componentSubType = kAudioUnitSubType_HALOutput;//kAudioUnitSubType_DefaultOutput;
 	output_desc.componentFlags = 0;
 	output_desc.componentFlagsMask = 0;
 	output_desc.componentManufacturer = kAudioUnitManufacturer_Apple;
@@ -145,17 +160,22 @@ void AudioInterface::initializeAUGraph( double nSampleRate, bool bStereo )
 	// You pass in a reference to the  AudioComponentDescription
 	// and get back an  AudioUnit
 	result = AUGraphAddNode(mGraph, &output_desc, &outputNode);
-	result = AUGraphAddNode(mGraph, &mixer_desc, &mixerNode );
+    assert( result == noErr );
+    	result = AUGraphAddNode(mGraph, &mixer_desc, &mixerNode );
+    assert( result == noErr );
     
 	// Now we can manage connections using nodes in the graph.
     // Connect the mixer node's output to the output node's input
 	result = AUGraphConnectNodeInput(mGraph, mixerNode, 0, outputNode, 0);
+    assert( result == noErr );
     
     // open the graph AudioUnits are open but not initialized (no resource allocation occurs here)
 	result = AUGraphOpen(mGraph);
+    assert( result == noErr );
     
 	// Get a link to the mixer AU so we can talk to it later
 	result = AUGraphNodeInfo(mGraph, mixerNode, NULL, &mMixer);
+    assert( result == noErr );
     
 	//************************************************************
 	//*** Make connections to the mixer unit's inputs ***
@@ -165,7 +185,7 @@ void AudioInterface::initializeAUGraph( double nSampleRate, bool bStereo )
 	UInt32 numbuses = 1;
 	UInt32 size = sizeof(numbuses);
     result = AudioUnitSetProperty(mMixer, kAudioUnitProperty_ElementCount, kAudioUnitScope_Input, 0, &numbuses, size);
-    
+
 	CAStreamBasicDescription desc;
     
 	// Loop through and setup a callback for each source you want to send to the mixer.
@@ -181,59 +201,62 @@ void AudioInterface::initializeAUGraph( double nSampleRate, bool bStereo )
         
         // Set a callback for the specified node's specified input
         result = AUGraphSetNodeInputCallback(mGraph, mixerNode, i, &renderCallbackStruct);
+        assert( result == noErr );
         
 		// Get a CAStreamBasicDescription from the mixer bus.
         size = sizeof(desc);
-		result = AudioUnitGetProperty(  mMixer,
+        result = AudioUnitGetProperty(  mMixer,
                                       kAudioUnitProperty_StreamFormat,
                                       kAudioUnitScope_Input,
                                       i,
                                       &desc,
                                       &size);
-		// Initializes the structure to 0 to ensure there are no spurious values.
-		memset (&desc, 0, sizeof (desc));
+        printf("Old Mixer file format: "); desc.Print();
+		
+        // Initializes the structure to 0 to ensure there are no spurious values.
+        memset (&desc, 0, sizeof (desc));
         
 		// Make modifications to the CAStreamBasicDescription
 		// We're going to use 16 bit Signed Ints because they're easier to deal with
 		// The Mixer unit will accept either 16 bit signed integers or
 		// 32 bit 8.24 fixed point integers.
-		desc.mSampleRate = kGraphSampleRate; // set sample rate
-		desc.mFormatID = kAudioFormatLinearPCM;
-		desc.mFormatFlags      = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;
-		desc.mBitsPerChannel = sizeof(AudioSampleType) * 8; // AudioSampleType == 16 bit signed ints
-		desc.mChannelsPerFrame = bStereo ? 2 : 1;
-		desc.mFramesPerPacket = 1;
-		desc.mBytesPerFrame = ( desc.mBitsPerChannel / 8 ) * desc.mChannelsPerFrame;
-		desc.mBytesPerPacket = desc.mBytesPerFrame * desc.mFramesPerPacket;
+		desc.mSampleRate        = (Float64)kGraphSampleRate; // set sample rate
+		desc.mFormatID          = kAudioFormatLinearPCM;
+		desc.mFormatFlags       = kLinearPCMFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked | kAudioFormatFlagIsNonInterleaved;
+		desc.mBitsPerChannel    = 8 * 2; // bytes per sample = 2
+		desc.mChannelsPerFrame  = /*bStereo ? 2 :8*/ 1;
+		desc.mFramesPerPacket   = 1;
+		desc.mBytesPerFrame     = ( desc.mBitsPerChannel / 8 ) * desc.mChannelsPerFrame;
+		desc.mBytesPerPacket    = desc.mBytesPerFrame * desc.mFramesPerPacket;
         
-		printf("Mixer file format: "); desc.Print();
+        CAStreamBasicDescription junk( (double)44100, 2, CAStreamBasicDescription::kPCMFormatFloat32, false );
+        desc = junk;
+        
+		printf("New Mixer file format: ");
+        desc.Print();
 		// Apply the modified CAStreamBasicDescription to the mixer input bus
-		result = AudioUnitSetProperty(  mMixer,
-                                      kAudioUnitProperty_StreamFormat,
-                                      kAudioUnitScope_Input,
-                                      i,
-                                      &desc,
-                                      sizeof(desc));
+		result = AudioUnitSetProperty( mMixer, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, i, &desc, sizeof(desc) );
+        assert( result == noErr );
+         /**/
 	}
+    
 	// Apply the CAStreamBasicDescription to the mixer output bus
-	result = AudioUnitSetProperty(	 mMixer,
-                                  kAudioUnitProperty_StreamFormat,
-                                  kAudioUnitScope_Output,
-                                  0,
-                                  &desc,
-                                  sizeof(desc));
+	result = AudioUnitSetProperty( mMixer, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 0, &desc, sizeof(desc) );
+    assert( result == noErr );
     
 	//************************************************************
 	//*** Setup the audio output stream ***
 	//************************************************************
     
 	// Get a CAStreamBasicDescription from the output Audio Unit
-    result = AudioUnitGetProperty(  mMixer,
+    /*
+     result = AudioUnitGetProperty(  mMixer,
                                   kAudioUnitProperty_StreamFormat,
                                   kAudioUnitScope_Output,
                                   0,
                                   &desc,
                                   &size);
+    assert( result == noErr );
     
 	// Initializes the structure to 0 to ensure there are no spurious values.
 	memset (&desc, 0, sizeof (desc));
@@ -251,7 +274,13 @@ void AudioInterface::initializeAUGraph( double nSampleRate, bool bStereo )
                                   0,
                                   &desc,
                                   sizeof(desc));
+    assert( result == noErr );
+    */
+    
+  //  result = AudioUnitInitialize( mMixer );
+  //  assert( result == noErr );
     
     // Once everything is set up call initialize to validate connections
 	result = AUGraphInitialize(mGraph);
+    assert( result == noErr );
 }
