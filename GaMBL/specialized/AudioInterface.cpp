@@ -5,14 +5,57 @@
 //  Created by David Ventura on 4/11/13.
 //  Copyright (c) 2013 David Ventura. All rights reserved.
 //
-//  Note: this class is largely-based on Tim Bolstad's iOS CoreAudio tutorial.
-//  Since it was originally written to provide an example of writing samples to
-//  output buffer, it came pretty close to what I needed for GaMBL.  Thanks Tim!
+//  Note: Thanks to Tim Bolstad and James McCartney for their CoreAudio tutorials that
+//  helped get this lightweight device wrapper running.
 //
-//  http://timbolstad.com/2010/03/14/core-audio-getting-started/
+//  Tim: http://timbolstad.com/2010/03/14/core-audio-getting-started/
+//  James: http://www.audiosynth.com
 //
 
 #include "AudioInterface.h"
+
+#define USE_AUGRAPH 0
+
+#if !USE_AUGRAPH
+typedef struct {
+    double freq, pan, amp;
+    double phase;
+	Boolean		soundPlaying;
+	AudioDeviceID	device;			// the default device
+	UInt32		deviceBufferSize;	// bufferSize returned by kAudioDevicePropertyBufferSize
+    AudioStreamBasicDescription	deviceFormat;	// info about the default device
+} appGlobals, *appGlobalsPtr, **appGlobalsHandle;
+
+appGlobals gAppGlobals;
+OSStatus  SetupHAL (appGlobalsPtr  globals);
+OSStatus  StartPlayingThruHAL(appGlobalsPtr globals);
+OSStatus  StopPlayingThruHAL(appGlobalsPtr globals);
+
+OSStatus appIOProc (AudioDeviceID  inDevice, const AudioTimeStamp*  inNow, const AudioBufferList*   inInputData,
+                    const AudioTimeStamp*  inInputTime, AudioBufferList*  outOutputData, const AudioTimeStamp* inOutputTime,
+                    void* appGlobals)
+{
+    appGlobalsPtr	globals = (appGlobalsPtr)appGlobals;
+    int i;
+    double phase = gAppGlobals.phase;
+    double amp = gAppGlobals.amp;
+    double pan = gAppGlobals.pan;
+    double freq = gAppGlobals.freq * 2. * 3.14159265359 / globals->deviceFormat.mSampleRate;
+    
+    int numSamples = globals->deviceBufferSize / globals->deviceFormat.mBytesPerFrame;
+    // assume floats for now....
+    float *out = (float*)outOutputData->mBuffers[0].mData;
+    for (i=0; i<numSamples; ++i) {
+        float wave = sin(phase) * amp;
+        phase = phase + freq;
+        *out++ = wave * (1.0-pan);
+        *out++ = wave * pan;
+    }
+    gAppGlobals.phase = phase;
+    return (kAudioHardwareNoError);
+}
+
+#else 
 
 // Native iphone sample rate of 44.1kHz, same as a CD.
 const float kGraphSampleRate = 44100.0f;
@@ -60,6 +103,7 @@ static OSStatus renderInput(void *inRefCon, AudioUnitRenderActionFlags *ioAction
     
 	return noErr;
 }
+#endif
 
 AudioInterface::AudioInterface()
 {
@@ -75,20 +119,36 @@ void AudioInterface::play_buffer(const sample_t *pSampleBuffer, int nCount)
 {
     //TODORO: use samples!!!
 
+#if USE_AUGRAPH
     startAUGraph();
+#else
+    gAppGlobals.amp = 0.5f;
+    gAppGlobals.pan = 0.5f;
+    gAppGlobals.phase = 0;
+    gAppGlobals.freq = 440.0f;
+    StartPlayingThruHAL( &gAppGlobals );
+#endif
 }
 
 void AudioInterface::setup( double nSampleRate, bool bStereo, callback_t func, void* pData )
 {
     m_pMusicPlayer = (Music_Player*)pData;
     m_MusicPlayerCallback = func;
-    
+
+#if USE_AUGRAPH
     initializeAUGraph( nSampleRate, bStereo );
+#else
+    SetupHAL( &gAppGlobals );
+#endif
 }
 
 void AudioInterface::stop()
 {
+#if USE_AUGRAPH
     stopAUGraph();
+#else
+    StopPlayingThruHAL( &gAppGlobals );
+#endif
 }
 
 // starts render
@@ -121,6 +181,7 @@ void AudioInterface::stopAUGraph()
     }
 }
 
+#if USE_AUGRAPH
 //TODO: use sample rate?
 void AudioInterface::initializeAUGraph( double nSampleRate, bool bStereo )
 {
@@ -284,3 +345,87 @@ void AudioInterface::initializeAUGraph( double nSampleRate, bool bStereo )
 	result = AUGraphInitialize(mGraph);
     assert( result == noErr );
 }
+
+#else
+
+OSStatus	SetupHAL (appGlobalsPtr	globals)
+{
+    OSStatus				err = noErr;
+    UInt32				count,
+    bufferSize;
+    AudioDeviceID			device = kAudioDeviceUnknown;
+    AudioStreamBasicDescription		format;
+    
+    // get the default output device for the HAL
+    count = sizeof(globals->device);					// it is required to pass the size of the data to be returned
+    err = AudioHardwareGetProperty(kAudioHardwarePropertyDefaultOutputDevice,  &count, (void *) &device);
+    fprintf(stderr, "kAudioHardwarePropertyDefaultOutputDevice %d\n", err);
+    if (err != noErr) goto Bail;
+    
+    // get the buffersize that the default device uses for IO
+    count = sizeof(globals->deviceBufferSize);				// it is required to pass the size of the data to be returned
+    err = AudioDeviceGetProperty(device, 0, false, kAudioDevicePropertyBufferSize, &count, &bufferSize);
+    fprintf(stderr, "kAudioDevicePropertyBufferSize %d %d\n", err, bufferSize);
+    if (err != noErr) goto Bail;
+    
+    // get a description of the data format used by the default device
+    count = sizeof(globals->deviceFormat);				// it is required to pass the size of the data to be returned
+    err = AudioDeviceGetProperty(device, 0, false, kAudioDevicePropertyStreamFormat, &count, &format);
+    fprintf(stderr, "kAudioDevicePropertyStreamFormat %d\n", err);
+    fprintf(stderr, "sampleRate %g\n", format.mSampleRate);
+    fprintf(stderr, "mFormatFlags %08X\n", format.mFormatFlags);
+    fprintf(stderr, "mBytesPerPacket %d\n", format.mBytesPerPacket);
+    fprintf(stderr, "mFramesPerPacket %d\n", format.mFramesPerPacket);
+    fprintf(stderr, "mChannelsPerFrame %d\n", format.mChannelsPerFrame);
+    fprintf(stderr, "mBytesPerFrame %d\n", format.mBytesPerFrame);
+    fprintf(stderr, "mBitsPerChannel %d\n", format.mBitsPerChannel);
+    if (err != kAudioHardwareNoError) goto Bail;
+    assert(format.mFormatID == kAudioFormatLinearPCM);	// bail if the format is not linear pcm
+    
+    // everything is ok so fill in these globals
+    globals->device = device;
+    globals->deviceBufferSize = bufferSize;
+    globals->deviceFormat = format;
+    
+Bail:
+    return (err);
+}
+
+OSStatus  StartPlayingThruHAL(appGlobalsPtr	globals)
+{
+    OSStatus		err = kAudioHardwareNoError;
+    
+    if (globals->soundPlaying) return 0;
+    globals->phase = 0.0;
+    
+    err = AudioDeviceAddIOProc(globals->device, appIOProc, (void *) globals);	// setup our device with an IO proc
+    if (err != kAudioHardwareNoError) goto Bail;
+    
+    err = AudioDeviceStart(globals->device, appIOProc);				// start playing sound through the device
+    if (err != kAudioHardwareNoError) goto Bail;
+    
+    globals->soundPlaying = true;						// set the playing status global to true
+    
+Bail:
+    return (err);
+}
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+OSStatus  StopPlayingThruHAL(appGlobalsPtr	globals)
+{
+    OSStatus 	err = kAudioHardwareNoError;
+    
+    if (!globals->soundPlaying) return 0;
+    err = AudioDeviceStop(globals->device, appIOProc);				// stop playing sound through the device
+    if (err != kAudioHardwareNoError) goto Bail;
+    
+    err = AudioDeviceRemoveIOProc(globals->device, appIOProc);			// remove the IO proc from the device
+    if (err != kAudioHardwareNoError) goto Bail;
+    
+    globals->soundPlaying = false;						// set the playing status global to false
+    
+Bail:
+    return (err);
+}
+
+#endif
