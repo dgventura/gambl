@@ -39,6 +39,11 @@ public:
     // Sine Wave Phase marker
     double sinPhase;
     
+    //TODO: don't save these KARIKARI
+    Music_Player* m_pMusicPlayer;
+    const sample_t* m_pSampleHead;
+    int m_nSampleCount;
+    
 private:
     // audio unit graph control
     void initializeAUGraph( double nSampleRate, bool bStereo );
@@ -49,11 +54,14 @@ private:
     AUGraph   mGraph;
     AudioUnit mMixer;
     
+    bool m_bPlaying;
+    
     callback_t m_MusicPlayerCallback;
-    Music_Player* m_pMusicPlayer;
 
     // Audio Stream Descriptions
     CAStreamBasicDescription outputCASBD;
+    
+  
 };
 
 #endif /* defined(AUDIO_INTERFACE_H) */

@@ -1,3 +1,4 @@
+
 //
 //  AudioInterface.cpp
 //  GaMBL
@@ -13,8 +14,14 @@
 //
 
 #include "AudioInterface.h"
+#include "Music_Player.h"
 
-#define USE_AUGRAPH 0
+using namespace std;
+
+#define USE_AUGRAPH     0
+#define PLAY_SINE       0
+#define DUMP_SAMPLES    0
+#define DUMP_STATUS     0
 
 #if !USE_AUGRAPH
 typedef struct {
@@ -24,6 +31,7 @@ typedef struct {
 	AudioDeviceID	device;			// the default device
 	UInt32		deviceBufferSize;	// bufferSize returned by kAudioDevicePropertyBufferSize
     AudioStreamBasicDescription	deviceFormat;	// info about the default device
+    shared_ptr< AudioInterface > m_pAudioItfc;
 } appGlobals, *appGlobalsPtr, **appGlobalsHandle;
 
 appGlobals gAppGlobals;
@@ -36,6 +44,9 @@ OSStatus appIOProc (AudioDeviceID  inDevice, const AudioTimeStamp*  inNow, const
                     void* appGlobals)
 {
     appGlobalsPtr	globals = (appGlobalsPtr)appGlobals;
+    
+    gAppGlobals.m_pAudioItfc->m_pMusicPlayer->sound_callback();
+    
     int i;
     double phase = gAppGlobals.phase;
     double amp = gAppGlobals.amp;
@@ -45,13 +56,30 @@ OSStatus appIOProc (AudioDeviceID  inDevice, const AudioTimeStamp*  inNow, const
     int numSamples = globals->deviceBufferSize / globals->deviceFormat.mBytesPerFrame;
     // assume floats for now....
     float *out = (float*)outOutputData->mBuffers[0].mData;
+    const AudioInterface::sample_t* pReadBuffer = gAppGlobals.m_pAudioItfc->m_pSampleHead;
     for (i=0; i<numSamples; ++i) {
+        
+#if PLAY_SINE
         float wave = sin(phase) * amp;
         phase = phase + freq;
         *out++ = wave * (1.0-pan);
         *out++ = wave * pan;
+#else
+        if ( i < gAppGlobals.m_pAudioItfc->m_nSampleCount )
+        {
+            *out++ = (*pReadBuffer / 32768.0f) * (1.0-pan);
+            *out++ = (*pReadBuffer++ / 32768.0f) * pan;
+        }
+#endif
     }
     gAppGlobals.phase = phase;
+
+#if DUMP_STATUS
+    printf( "AUD ITFC: smpl: %d, i:%.02f o:%.02f n:%.02f\n", numSamples, inInputTime->mSampleTime, inOutputTime->mSampleTime, inNow );
+#endif
+    
+    gAppGlobals.m_pAudioItfc->m_pMusicPlayer->is_done();
+    
     return (kAudioHardwareNoError);
 }
 
@@ -119,15 +147,44 @@ void AudioInterface::play_buffer(const sample_t *pSampleBuffer, int nCount)
 {
     //TODORO: use samples!!!
 
-#if USE_AUGRAPH
-    startAUGraph();
-#else
-    gAppGlobals.amp = 0.5f;
-    gAppGlobals.pan = 0.5f;
-    gAppGlobals.phase = 0;
-    gAppGlobals.freq = 440.0f;
-    StartPlayingThruHAL( &gAppGlobals );
+    if ( !m_bPlaying )
+    {
+    #if USE_AUGRAPH
+        startAUGraph();
+    #else
+        gAppGlobals.amp = 0.5f;
+        gAppGlobals.pan = 0.5f;
+        gAppGlobals.phase = 0;
+        gAppGlobals.freq = 440.0f;
+        gAppGlobals.m_pAudioItfc.reset( this );
+        StartPlayingThruHAL( &gAppGlobals );
+    #endif
+    }
+    else
+    {
+        // debug dump samples to stdout
+#if DUMP_SAMPLES
+        const int nStride = 128;
+        printf( "S: ");
+        char szLilBuf[24];
+        char szBigBuf[nCount * sizeof(szLilBuf)];
+        strcpy( szBigBuf, "" );
+        
+        const sample_t* pSmpl = pSampleBuffer;
+        for ( int n = 0; n < nCount; n += nStride, pSmpl += nStride )
+        {
+            strcpy( szLilBuf, "" );
+            sprintf( szLilBuf, "%4d ", *pSmpl );
+            strcat( szBigBuf, szLilBuf );
+        }
+        printf( "%s\n", szBigBuf );
 #endif
+        
+        m_pSampleHead = pSampleBuffer;
+        m_nSampleCount = nCount;
+    }
+    
+    m_bPlaying = true;
 }
 
 void AudioInterface::setup( double nSampleRate, bool bStereo, callback_t func, void* pData )
@@ -149,6 +206,8 @@ void AudioInterface::stop()
 #else
     StopPlayingThruHAL( &gAppGlobals );
 #endif
+    
+    m_bPlaying = false;
 }
 
 // starts render

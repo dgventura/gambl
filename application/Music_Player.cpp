@@ -508,6 +508,8 @@ inline void Music_Player::sound_callback()
 		// faded-out block has been played
 		stop_output = 0;
 	}
+    
+    printf( "MUSIC PLAYER %s: %d filled, read: %d write: %d played: %d", playing ? "PLAYING" : "STOPPED", filled, read_pos, write_pos, blocks_played );
 }
 
 void Music_Player::sound_callback_( void* self )
