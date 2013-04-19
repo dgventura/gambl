@@ -18,10 +18,18 @@
 
 using namespace std;
 
-#define USE_AUGRAPH     0
-#define PLAY_SINE       0
-#define DUMP_SAMPLES    0
-#define DUMP_STATUS     0
+#define USE_AUGRAPH         0
+#define PLAY_SINE           0
+#define DUMP_SAMPLES        0
+#define DUMP_STATUS         0
+#define PLAY_FROM_FILE      0
+
+#define WAVE_HEADER_SIZE    48
+#define g_szFile1 "/Users/david/Library/Developer/Xcode/DerivedData/GMB-fsczhtbrbaqjvzelnjsbvhvcboqt/Build/Products/Debug/SD2575.wav"
+#define g_szFile2 "/Users/david/Library/Developer/Xcode/DerivedData/GMB-fsczhtbrbaqjvzelnjsbvhvcboqt/Build/Products/Debug/LC75.wav"
+#define g_szFile3 "/Users/david/Library/Developer/Xcode/DerivedData/GMB-fsczhtbrbaqjvzelnjsbvhvcboqt/Build/Products/Debug/debug.wav"
+#define g_szFile4 "/Users/david/Library/Developer/Xcode/DerivedData/GMB-fsczhtbrbaqjvzelnjsbvhvcboqt/Build/Products/Debug/kung1.wav"
+
 
 #if !USE_AUGRAPH
 typedef struct {
@@ -31,7 +39,8 @@ typedef struct {
 	AudioDeviceID	device;			// the default device
 	UInt32		deviceBufferSize;	// bufferSize returned by kAudioDevicePropertyBufferSize
     AudioStreamBasicDescription	deviceFormat;	// info about the default device
-    shared_ptr< AudioInterface > m_pAudioItfc;
+    AudioInterface* m_pAudioItfc;
+    AudioDeviceIOProcID theIOProcID;
 } appGlobals, *appGlobalsPtr, **appGlobalsHandle;
 
 appGlobals gAppGlobals;
@@ -39,14 +48,40 @@ OSStatus  SetupHAL (appGlobalsPtr  globals);
 OSStatus  StartPlayingThruHAL(appGlobalsPtr globals);
 OSStatus  StopPlayingThruHAL(appGlobalsPtr globals);
 
+float clamp( const float f1, const float f2, const float f3 )
+{
+    if ( f3 < f1 )
+        return f1;
+    else if ( f3 > f2 )
+        return f2;
+    return f3;
+}
+
+#include <iostream>
+#include <fstream>
+
+ifstream MyFile;
+
+void LoadAndSeekToData()
+{
+    MyFile.close();
+    MyFile.open(  g_szFile4, ios::binary | ios::in );
+    MyFile.seekg( WAVE_HEADER_SIZE );
+    printf( "Seeked to top!\n");
+}
+
 OSStatus appIOProc (AudioDeviceID  inDevice, const AudioTimeStamp*  inNow, const AudioBufferList*   inInputData,
                     const AudioTimeStamp*  inInputTime, AudioBufferList*  outOutputData, const AudioTimeStamp* inOutputTime,
                     void* appGlobals)
 {
     appGlobalsPtr	globals = (appGlobalsPtr)appGlobals;
     
-    gAppGlobals.m_pAudioItfc->m_pMusicPlayer->sound_callback();
+    static int n = 0;
     
+    if ( n % 4 == 0 ) //TODO: HACK Why??? Original sample data is 11Khz?
+        gAppGlobals.m_pAudioItfc->m_pMusicPlayer->sound_callback();
+    ++n;
+
     int i;
     double phase = gAppGlobals.phase;
     double amp = gAppGlobals.amp;
@@ -54,11 +89,11 @@ OSStatus appIOProc (AudioDeviceID  inDevice, const AudioTimeStamp*  inNow, const
     double freq = gAppGlobals.freq * 2. * 3.14159265359 / globals->deviceFormat.mSampleRate;
     
     int numSamples = globals->deviceBufferSize / globals->deviceFormat.mBytesPerFrame;
-    // assume floats for now....
+
     float *out = (float*)outOutputData->mBuffers[0].mData;
     const AudioInterface::sample_t* pReadBuffer = gAppGlobals.m_pAudioItfc->m_pSampleHead;
-    for (i=0; i<numSamples; ++i) {
-        
+    for ( i = 0; i < numSamples; ++i )
+    {
 #if PLAY_SINE
         float wave = sin(phase) * amp;
         phase = phase + freq;
@@ -66,9 +101,31 @@ OSStatus appIOProc (AudioDeviceID  inDevice, const AudioTimeStamp*  inNow, const
         *out++ = wave * pan;
 #else
         if ( i < gAppGlobals.m_pAudioItfc->m_nSampleCount )
-        {
-            *out++ = (*pReadBuffer / 32768.0f) * (1.0-pan);
-            *out++ = (*pReadBuffer++ / 32768.0f) * pan;
+        {            
+            if ( MyFile.is_open() )
+            {
+                short nVal, nVal2;
+                MyFile.read( (char*)&nVal, 2 );
+                MyFile.read( (char*)&nVal2, 2 );
+
+                assert( MyFile.is_open() && !MyFile.bad() );
+                if ( MyFile.eof() )
+                {
+                    LoadAndSeekToData();
+                }
+                *out++ = clamp( -1.0f, 1.0f, (nVal / (float)SHRT_MAX) * (1.0f-pan) * amp );
+                *out++ = clamp( -1.0f, 1.0f, (nVal2 / (float)SHRT_MAX) * pan * amp );
+            }
+            else
+            {
+                *out++ = clamp( -1.0f, 1.0f, (*pReadBuffer / (float)SHRT_MAX) * (1.0-pan) * amp );
+                *out++ = clamp( -1.0f, 1.0f, (*pReadBuffer / (float)SHRT_MAX) * pan * amp );
+            }
+            
+//            fwrite( (const void*)pReadBuffer, sizeof(SInt16), 1, pFile );
+//            fwrite( (const void*)pReadBuffer, sizeof(SInt16), 1, pFile );
+            
+            ++pReadBuffer;
         }
 #endif
     }
@@ -77,7 +134,7 @@ OSStatus appIOProc (AudioDeviceID  inDevice, const AudioTimeStamp*  inNow, const
 #if DUMP_STATUS
     printf( "AUD ITFC: smpl: %d, i:%.02f o:%.02f n:%.02f\n", numSamples, inInputTime->mSampleTime, inOutputTime->mSampleTime, inNow );
 #endif
-    
+
     gAppGlobals.m_pAudioItfc->m_pMusicPlayer->is_done();
     
     return (kAudioHardwareNoError);
@@ -135,12 +192,17 @@ static OSStatus renderInput(void *inRefCon, AudioUnitRenderActionFlags *ioAction
 
 AudioInterface::AudioInterface()
 {
+#if PLAY_FROM_FILE
+    LoadAndSeekToData();
+#endif
 }
 
 // Clean up memory
 AudioInterface::~AudioInterface()
 {
     DisposeAUGraph(mGraph);
+    
+    MyFile.close();
 }
 
 void AudioInterface::play_buffer(const sample_t *pSampleBuffer, int nCount)
@@ -156,7 +218,7 @@ void AudioInterface::play_buffer(const sample_t *pSampleBuffer, int nCount)
         gAppGlobals.pan = 0.5f;
         gAppGlobals.phase = 0;
         gAppGlobals.freq = 440.0f;
-        gAppGlobals.m_pAudioItfc.reset( this );
+        gAppGlobals.m_pAudioItfc = this;
         StartPlayingThruHAL( &gAppGlobals );
     #endif
     }
@@ -441,6 +503,8 @@ OSStatus	SetupHAL (appGlobalsPtr	globals)
     if (err != kAudioHardwareNoError) goto Bail;
     assert(format.mFormatID == kAudioFormatLinearPCM);	// bail if the format is not linear pcm
     
+//    err = AudioDeviceSetProperty(device, 0, 0, true, AudioDevicePropertyID inPropertyID, <#UInt32 inPropertyDataSize#>, <#const void *inPropertyData#>)
+    
     // everything is ok so fill in these globals
     globals->device = device;
     globals->deviceBufferSize = bufferSize;
@@ -457,10 +521,10 @@ OSStatus  StartPlayingThruHAL(appGlobalsPtr	globals)
     if (globals->soundPlaying) return 0;
     globals->phase = 0.0;
     
-    err = AudioDeviceAddIOProc(globals->device, appIOProc, (void *) globals);	// setup our device with an IO proc
+    err = AudioDeviceCreateIOProcID(globals->device, appIOProc, (void *) globals, &globals->theIOProcID);	// setup our device with an IO proc
     if (err != kAudioHardwareNoError) goto Bail;
     
-    err = AudioDeviceStart(globals->device, appIOProc);				// start playing sound through the device
+    err = AudioDeviceStart(globals->device, globals->theIOProcID);				// start playing sound through the device
     if (err != kAudioHardwareNoError) goto Bail;
     
     globals->soundPlaying = true;						// set the playing status global to true
@@ -475,10 +539,10 @@ OSStatus  StopPlayingThruHAL(appGlobalsPtr	globals)
     OSStatus 	err = kAudioHardwareNoError;
     
     if (!globals->soundPlaying) return 0;
-    err = AudioDeviceStop(globals->device, appIOProc);				// stop playing sound through the device
+    err = AudioDeviceStop(globals->device, globals->theIOProcID);				// stop playing sound through the device
     if (err != kAudioHardwareNoError) goto Bail;
     
-    err = AudioDeviceRemoveIOProc(globals->device, appIOProc);			// remove the IO proc from the device
+    err = AudioDeviceDestroyIOProcID(globals->device, globals->theIOProcID);			// remove the IO proc from the device
     if (err != kAudioHardwareNoError) goto Bail;
     
     globals->soundPlaying = false;						// set the playing status global to false

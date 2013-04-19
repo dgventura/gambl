@@ -29,6 +29,11 @@
  //       else
         {
             _AudioInterface->LoadFile( file );
+            
+            // start a timer to keep track of the playback status
+            const float framerate = 1;
+            const float frequency = 1.0f/framerate;
+            _PlaybackTimer = [NSTimer scheduledTimerWithTimeInterval:frequency target:self selector:@selector(updatePlaybackUI) userInfo:nil repeats:YES];
         }
     }
     
@@ -46,15 +51,23 @@
     
     _AudioInterface->play_current();
     
+
+    
     NSLog(@"Pressed play button!");
 }
 
 - (IBAction)nextTrack:(id)sender
 {
+    _AudioInterface->update_time();
 }
 
 - (IBAction)previousTrack:(id)sender
 {
+}
+
+- (void)updatePlaybackUI
+{
+    _AudioInterface->update_time();
 }
 
 @end
