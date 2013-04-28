@@ -1,0 +1,65 @@
+//
+//  AudioPlayer.h
+//  GaMBL
+//
+//  Created by David Ventura on 4/6/13.
+//  Copyright (c) 2013 David Ventura. All rights reserved.
+//
+
+#ifndef     AUDIOPLAYER_H
+#define     AUDIOPLAYER_H
+
+#import <Foundation/Foundation.h>
+#include <stdio.h>
+#include <memory>
+#include "Music_Player.h"
+#include "Music_Album.h"
+#include "music_util.h"
+
+using namespace std;
+
+class AudioPlayer
+{
+public:
+    AudioPlayer();
+    virtual ~AudioPlayer();
+
+    bool LoadFile( NSFileHandle* const pDataBuffer );
+    
+    bool play_current();
+    
+private:    
+    // incoming files
+    Music_Queue new_queue_;
+	void queue_files( const FSRef&, const Cat_Info&, HFSUniStr255&,
+                     Music_Queue&, int depth );
+    bool end_drop( bool immediate = false );
+    
+    // queue
+    Music_Queue queue;
+	Music_Queue history;
+	int history_pos;
+	track_ref_t& current();
+    bool has_future();
+    
+    // player
+    shared_ptr< Music_Album > m_pMusicAlbum;
+    Music_Player player;
+	FSRef album_path;
+	int mute_mask;
+	bool playing;
+	bool play_current_();
+	bool start_track();
+public:	bool prev_track();
+	bool next_track();
+	void toggle_pause();
+     void update_time();
+	void stop( bool clear_history = false );
+    void stopped();
+    
+    bool auto_unpause;
+    
+    
+};
+
+#endif //   AUDIOPLAYER_H

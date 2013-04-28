@@ -17,7 +17,7 @@
     _AudioInterface = new AudioPlayer;
     
     // try opening an .SPC file
-    NSFileHandle *file = [NSFileHandle fileHandleForReadingAtPath: @"/Users/david/dev/code/GMB/GaMBL/test.spc"];
+    NSFileHandle *file = [NSFileHandle fileHandleForReadingAtPath: @"/Users/david/dev/code/GMB/GaMBL/test.nsf"];
     if (file == nil)
         NSLog(@"Failed to open file");
     else
