@@ -76,12 +76,9 @@ OSStatus appIOProc (AudioDeviceID  inDevice, const AudioTimeStamp*  inNow, const
 {
     appGlobalsPtr	globals = (appGlobalsPtr)appGlobals;
     
-    static int n = 0;
-    
-    if ( n % 4 == 0 ) //TODO: HACK Why??? Original sample data is 11Khz?
-        gAppGlobals.m_pAudioItfc->m_pMusicPlayer->sound_callback();
-    ++n;
-
+    // read more samples from the internal emulator, move the read pointer along
+    gAppGlobals.m_pAudioItfc->m_pMusicPlayer->sound_callback();
+ 
     int i;
     double phase = gAppGlobals.phase;
     double amp = gAppGlobals.amp;
@@ -119,13 +116,13 @@ OSStatus appIOProc (AudioDeviceID  inDevice, const AudioTimeStamp*  inNow, const
             else
             {
                 *out++ = clamp( -1.0f, 1.0f, (*pReadBuffer / (float)SHRT_MAX) * (1.0-pan) * amp );
+                ++pReadBuffer;
                 *out++ = clamp( -1.0f, 1.0f, (*pReadBuffer / (float)SHRT_MAX) * pan * amp );
+                ++pReadBuffer; //TODO: confirm why we need to increment read twice... I guess internally the samples are already stereo?
             }
             
 //            fwrite( (const void*)pReadBuffer, sizeof(SInt16), 1, pFile );
-//            fwrite( (const void*)pReadBuffer, sizeof(SInt16), 1, pFile );
-            
-            ++pReadBuffer;
+//            fwrite( (const void*)pReadBuffer, sizeof(SInt16), 1, pFile );            
         }
 #endif
     }
@@ -135,6 +132,7 @@ OSStatus appIOProc (AudioDeviceID  inDevice, const AudioTimeStamp*  inNow, const
     printf( "AUD ITFC: smpl: %d, i:%.02f o:%.02f n:%.02f\n", numSamples, inInputTime->mSampleTime, inOutputTime->mSampleTime, inNow );
 #endif
 
+    //TODO: figure out why not calling this makes the music stop
     gAppGlobals.m_pAudioItfc->m_pMusicPlayer->is_done();
     
     return (kAudioHardwareNoError);

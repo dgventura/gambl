@@ -58,11 +58,14 @@
 
 - (IBAction)nextTrack:(id)sender
 {
-    _AudioInterface->update_time();
+    _AudioInterface->next_track();
+    [self updatePlaybackUI];
 }
 
 - (IBAction)previousTrack:(id)sender
 {
+    _AudioInterface->prev_track();
+    [self updatePlaybackUI];
 }
 
 - (void)updatePlaybackUI
