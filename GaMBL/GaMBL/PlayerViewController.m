@@ -38,7 +38,8 @@
     [_playbackTimeLabel setStringValue:pStrTemp];
     
     // TODO: move to dirty update
-    [self updateTrackInfo];
+    if ( pAI->has_future() )
+        [self updateTrackInfo];
 }
 
 - (void)updateTrackInfo

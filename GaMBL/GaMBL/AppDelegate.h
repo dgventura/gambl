@@ -12,6 +12,7 @@
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
 @property AudioPlayer* AudioInterface;
+- (IBAction)open:(id)sender;
 
 
 @end
