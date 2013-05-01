@@ -13,30 +13,19 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    // Insert code here to initialize your application
-    
     _AudioInterface = new AudioPlayer;
     
     // try opening an .SPC file
-    NSFileHandle *file = [NSFileHandle fileHandleForReadingAtPath: @"/Users/david/dev/code/GMB/GaMBL/test.nsf"];
+    NSFileHandle *file = [NSFileHandle fileHandleForReadingAtPath: @"/Users/david/dev/code/GMB/GaMBL/test.spc"];
     if (file == nil)
         NSLog(@"Failed to open file");
     else
     {
-//        NSData *databuffer = [file readDataToEndOfFile];
-        
-//        if ( databuffer == nil )
- //           NSLog(@"Failed to read file");
- //       else
-        {
-            _AudioInterface->LoadFile( file );
-        }
+        _AudioInterface->LoadFile( file );
     }
     
     [file closeFile];
 }
-
-
 
 - (void)dealloc
 {

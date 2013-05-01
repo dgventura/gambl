@@ -48,6 +48,12 @@ bool AudioPlayer::LoadFile( NSFileHandle* const pFile )
     return true;
 }
 
+
+shared_ptr< Music_Album > AudioPlayer::GetMusicAlbum() const
+{
+    return m_pMusicAlbum;
+}
+
 bool AudioPlayer::end_drop( bool immediate )
 {
 	if ( new_queue_.empty() )

@@ -25,7 +25,7 @@ public:
     virtual ~AudioPlayer();
 
     bool LoadFile( NSFileHandle* const pDataBuffer );
-    
+    shared_ptr< Music_Album > GetMusicAlbum() const;
     bool play_current();
     
 private:    
@@ -39,7 +39,7 @@ private:
     Music_Queue queue;
 	Music_Queue history;
 	int history_pos;
-	track_ref_t& current();
+public:	track_ref_t& current();
     bool has_future();
     
     // player
