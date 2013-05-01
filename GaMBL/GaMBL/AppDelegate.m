@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import <Foundation/NSString.h>
 
 @implementation AppDelegate
 
@@ -29,48 +30,17 @@
  //       else
         {
             _AudioInterface->LoadFile( file );
-            
-            // start a timer to keep track of the playback status
-            const float framerate = 1;
-            const float frequency = 1.0f/framerate;
-            _PlaybackTimer = [NSTimer scheduledTimerWithTimeInterval:frequency target:self selector:@selector(updatePlaybackUI) userInfo:nil repeats:YES];
         }
     }
     
     [file closeFile];
 }
 
+
+
 - (void)dealloc
 {
     delete _AudioInterface;
-}
-
-- (IBAction)playTrack:(id)sender
-{
-    //[TrackTimeLabel setStringValue:"Played!"];
-    
-    _AudioInterface->play_current();
-    
-
-    
-    NSLog(@"Pressed play button!");
-}
-
-- (IBAction)nextTrack:(id)sender
-{
-    _AudioInterface->next_track();
-    [self updatePlaybackUI];
-}
-
-- (IBAction)previousTrack:(id)sender
-{
-    _AudioInterface->prev_track();
-    [self updatePlaybackUI];
-}
-
-- (void)updatePlaybackUI
-{
-    _AudioInterface->update_time();
 }
 
 @end

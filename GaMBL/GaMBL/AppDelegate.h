@@ -10,14 +10,8 @@
 #import "AudioPlayer.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
-- (IBAction)playTrack:(id)sender;
-- (IBAction)nextTrack:(id)sender;
-- (IBAction)previousTrack:(id)sender;
-- (void)updatePlaybackUI;
 
 @property AudioPlayer* AudioInterface;
-@property NSTimer* PlaybackTimer;
 
-@property (assign) IBOutlet NSWindow *window;
 
 @end

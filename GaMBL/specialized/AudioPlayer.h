@@ -53,8 +53,8 @@ private:
 public:	bool prev_track();
 	bool next_track();
 	void toggle_pause();
-     void update_time();
-	void stop( bool clear_history = false );
+    void update_time( string& strTemp );
+    void stop( bool clear_history = false );
     void stopped();
     
     bool auto_unpause;

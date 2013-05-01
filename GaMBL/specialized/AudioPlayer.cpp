@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 David Ventura. All rights reserved.
 //
 
+#include <string>
 #include "AudioPlayer.h"
 #include "file_util.h"
 #include "music_util.h"
@@ -188,7 +189,7 @@ bool AudioPlayer::start_track()
 		playing = true;
 		//TODO playback ui playing_changed();
 	}
-	update_time();
+	//update_time();
 	return true;
 }
 
@@ -284,33 +285,26 @@ track_ref_t& AudioPlayer::current() {
 	return history [history_pos];
 }
 
-static void append_time( char* str, int seconds )
+static void append_time( string& strTemp, int seconds )
 {
 	char num [32];
-	num_to_str( seconds / 60, num );
-	std::strcat( str, num );
-	std::strcat( str, ":" );
-	num_to_str( seconds % 60, num, -2 );
-	std::strcat( str, num );
+    sprintf( num, "%d:%02d", seconds / 60, seconds % 60 );
+    strTemp += num;
 }
 
-void AudioPlayer::update_time()
+void AudioPlayer::update_time( string& strTemp )
 {
 	if ( !prefs.show_info || !m_pMusicAlbum )
 		return;
 	
-	char str [64];
-	
-	str [0] = 0;
-	append_time( str, player.elapsed() );
+	strTemp = "";
+	append_time( strTemp, player.elapsed() );
 	
 	int duration = player.track_length();
 	if ( duration < 60 * 60 ) {
-		std::strcat( str, " / " );
-		append_time( str, duration );
+		strTemp += " / ";
+		append_time( strTemp, duration );
 	}
-	
-	//TODO ui set time time_text.set_text( str );
-//#error here
-    printf( "AUDIO PLAYER time: %s\n", str );
+    
+    printf( "AUDIO PLAYER time: %s\n", strTemp.c_str() );
 }

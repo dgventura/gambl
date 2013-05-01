@@ -103,6 +103,8 @@
 		63A29CD5170D5B5B00284B6B /* inftrees.c in Sources */ = {isa = PBXBuildFile; fileRef = 63A29C7A170D5B5B00284B6B /* inftrees.c */; };
 		63A29CD6170D5B5B00284B6B /* trees.c in Sources */ = {isa = PBXBuildFile; fileRef = 63A29C7C170D5B5B00284B6B /* trees.c */; };
 		63A29CD7170D5B5B00284B6B /* zutil.c in Sources */ = {isa = PBXBuildFile; fileRef = 63A29C80170D5B5B00284B6B /* zutil.c */; };
+		63CFF9CE172D0AFE00AFFE60 /* PlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CFF9CD172D0AFE00AFFE60 /* PlayerViewController.m */; };
+		63CFF9D1172D0B4F00AFFE60 /* PlayerWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CFF9D0172D0B4F00AFFE60 /* PlayerWindow.m */; };
 		63E58EF1171944A900C31D10 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E58EF0171944A900C31D10 /* CoreAudio.framework */; };
 		63E8F3ED1716CA8900FF269A /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E8F3EC1716CA8900FF269A /* AudioToolbox.framework */; };
 		63E8F3F31716CACC00FF269A /* CAStreamBasicDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63E8F3F11716CACC00FF269A /* CAStreamBasicDescription.cpp */; };
@@ -112,6 +114,7 @@
 		63E8F4031716DC9600FF269A /* AudioInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63E8F4011716DC9600FF269A /* AudioInterface.cpp */; };
 		63E8F4041716DC9600FF269A /* AudioInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63E8F4011716DC9600FF269A /* AudioInterface.cpp */; };
 		63E8F4061716E47100FF269A /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E8F4051716E47100FF269A /* AudioUnit.framework */; };
+		63F6E63C172E4D57006A6BC5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63A29B93170C34D700284B6B /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -327,6 +330,10 @@
 		63A29C7F170D5B5B00284B6B /* zlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zlib.h; sourceTree = "<group>"; };
 		63A29C80170D5B5B00284B6B /* zutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zutil.c; sourceTree = "<group>"; };
 		63A29C81170D5B5B00284B6B /* zutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zutil.h; sourceTree = "<group>"; };
+		63CFF9CC172D0AFE00AFFE60 /* PlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerViewController.h; sourceTree = "<group>"; };
+		63CFF9CD172D0AFE00AFFE60 /* PlayerViewController.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = PlayerViewController.m; sourceTree = "<group>"; };
+		63CFF9CF172D0B4F00AFFE60 /* PlayerWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerWindow.h; sourceTree = "<group>"; };
+		63CFF9D0172D0B4F00AFFE60 /* PlayerWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerWindow.m; sourceTree = "<group>"; };
 		63E58EF0171944A900C31D10 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		63E8F3EC1716CA8900FF269A /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		63E8F3F01716CAB700FF269A /* CADebugMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CADebugMacros.h; path = ../../../../../../Library/Developer/CoreAudio/PublicUtility/CADebugMacros.h; sourceTree = "<group>"; };
@@ -344,6 +351,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63F6E63C172E4D57006A6BC5 /* Foundation.framework in Frameworks */,
 				63E58EF1171944A900C31D10 /* CoreAudio.framework in Frameworks */,
 				63E8F4061716E47100FF269A /* AudioUnit.framework in Frameworks */,
 				63E8F3ED1716CA8900FF269A /* AudioToolbox.framework in Frameworks */,
@@ -425,6 +433,10 @@
 				63A29BA1170C34D700284B6B /* AppDelegate.m */,
 				63A29BA3170C34D800284B6B /* MainMenu.xib */,
 				63A29B95170C34D700284B6B /* Supporting Files */,
+				63CFF9CC172D0AFE00AFFE60 /* PlayerViewController.h */,
+				63CFF9CD172D0AFE00AFFE60 /* PlayerViewController.m */,
+				63CFF9CF172D0B4F00AFFE60 /* PlayerWindow.h */,
+				63CFF9D0172D0B4F00AFFE60 /* PlayerWindow.m */,
 			);
 			path = GaMBL;
 			sourceTree = "<group>";
@@ -915,6 +927,8 @@
 				63E8F3FF1716DB7B00FF269A /* AudioPlayer.cpp in Sources */,
 				63E8F4031716DC9600FF269A /* AudioInterface.cpp in Sources */,
 				631B56AD1717DABB0038982C /* CADebugPrintf.cpp in Sources */,
+				63CFF9CE172D0AFE00AFFE60 /* PlayerViewController.m in Sources */,
+				63CFF9D1172D0B4F00AFFE60 /* PlayerWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
