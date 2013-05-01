@@ -12,21 +12,21 @@ if I get some things wrong along the way.
 - David Ventura, 2013.04.01 (April Fool's!)
 
 ************************************
-CURRENT STATUS (2013.04.27)
+CURRENT STATUS (2013.05.01)
 ************************************
 
-Program runs and can perform basic playback and track jump prev/next for multitrack files.
-Lots of hacks abound to get it working but finally have proof-of-concept running to 
-prove that it can work.  As it turns out the File System is by large still a working part
-of the OSX framework, though certain functions included are deprecated.  Cleaning this up
-is currently low-priority.  Next functionality will be restored before refactoring the
-internal implementation.
+Program runs and can perform basic playback and track jump prev/next for multitrack 
+files. Lots of hacks abound to get it working but finally have proof-of-concept 
+running to prove that it can work.  As it turns out the File System is by large 
+still a working part of the OSX framework, though certain functions included are 
+deprecated.  Cleaning this up is currently low-priority.  Next functionality will 
+be restored before refactoring the internal implementation.
 
 Next major tasks include:
-1. UI updates to match current player state.
-2. Loading of arbitrary files.
-3. Restoration of playback queue and in turn fixing asserts that come from UI interactions.
-4. Building an alpha version and uploading the binary so people can run without building.
+1. Restoration of playback queue and in turn fixing asserts that come from UI interactions.
+2. Building an alpha version and uploading the binary so people can run without building.
+3. List up remaining core features I want to support.
+4. Implement said features to get to beta, and then refactor so the data flow makes sense.
 
 - David
 
