@@ -28,7 +28,7 @@ public:
     virtual ~AudioInterface();
 
     // legacy functions for GMB
-    void set_gain( double dGain ) {} // TODO: gain
+    void set_gain( double dGain );
     double hw_sample_rate() const { return 44100; } // TODO: hw query
     typedef void (*callback_t)( void* );
     void setup( double nSampleRate, bool bStereo, callback_t func, void* pData = NULL );

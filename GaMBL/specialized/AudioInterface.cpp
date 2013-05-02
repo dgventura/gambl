@@ -193,6 +193,9 @@ AudioInterface::AudioInterface()
 #if PLAY_FROM_FILE
     LoadAndSeekToData();
 #endif
+    
+    gAppGlobals.amp = 0.5f;
+    gAppGlobals.pan = 0.5f;
 }
 
 // Clean up memory
@@ -201,6 +204,11 @@ AudioInterface::~AudioInterface()
     DisposeAUGraph(mGraph);
     
     MyFile.close();
+}
+
+void AudioInterface::set_gain( double dGain )
+{
+    gAppGlobals.amp = dGain;
 }
 
 void AudioInterface::play_buffer(const sample_t *pSampleBuffer, int nCount)
@@ -212,8 +220,8 @@ void AudioInterface::play_buffer(const sample_t *pSampleBuffer, int nCount)
     #if USE_AUGRAPH
         startAUGraph();
     #else
-        gAppGlobals.amp = 0.5f;
-        gAppGlobals.pan = 0.5f;
+//      gAppGlobals.amp = 0.5f;
+//      gAppGlobals.pan = 0.5f;
         gAppGlobals.phase = 0;
         gAppGlobals.freq = 440.0f;
         gAppGlobals.m_pAudioItfc = this;

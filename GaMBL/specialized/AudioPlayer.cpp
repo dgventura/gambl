@@ -17,7 +17,6 @@ const int history_max = 2000;
 
 AudioPlayer::AudioPlayer() : m_pMusicAlbum( NULL ), history_pos( -1 ), auto_unpause( false )
 {
-    //history.resize( 1 );
     prefs.init();
 }
 
@@ -48,6 +47,11 @@ bool AudioPlayer::LoadFile( NSFileHandle* const pFile )
     return true;
 }
 
+void AudioPlayer::SetVolume( float fVolume )
+{
+    prefs.volume = fVolume;
+    player.setup_changed( prefs );
+}
 
 shared_ptr< Music_Album > AudioPlayer::GetMusicAlbum() const
 {
@@ -300,6 +304,11 @@ static void append_time( string& strTemp, int seconds )
 
 void AudioPlayer::update_time( string& strTemp )
 {
+    if ( player.is_done() )
+    {
+        next_track();
+    }
+    
 	if ( !prefs.show_info || !m_pMusicAlbum )
 		return;
 	
@@ -312,5 +321,31 @@ void AudioPlayer::update_time( string& strTemp )
 		append_time( strTemp, duration );
 	}
     
+    
+    
     printf( "AUDIO PLAYER time: %s\n", strTemp.c_str() );
 }
+/*
+void AudioPlayer::check_track_end()
+{
+	if ( auto_unpause ) {
+		auto_unpause = false;
+		if ( playing )
+			player.resume();
+	}
+	
+	if ( fast_forwarding | playing )
+	{
+		update_time();
+		
+		if ( player.is_done() )
+		{
+			try {
+				next_track();
+			}
+			catch ( ... ) {
+				report_exception();
+			}
+		}
+	}
+}*/

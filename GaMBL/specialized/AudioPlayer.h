@@ -27,6 +27,7 @@ public:
     bool LoadFile( NSFileHandle* const pDataBuffer );
     shared_ptr< Music_Album > GetMusicAlbum() const;
     bool play_current();
+    void SetVolume( float fVolume );
     
 private:    
     // incoming files

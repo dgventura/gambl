@@ -501,7 +501,7 @@ void Player_Window::check_track_end()
 	}
 }
 
-void Player_Window::check_track_end_( void* self_ ) {
+void Player_Window::check_track_end( void* self_ ) {
 	static_cast<Player_Window*> (self_)->check_track_end();
 }
 

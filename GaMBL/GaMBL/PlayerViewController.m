@@ -89,6 +89,10 @@
 {
     int sliderValue = [_volumeControl intValue];
     
+    AppDelegate* pAppDelegate = (AppDelegate *)[NSApp delegate];
+    AudioPlayer* pAI = [pAppDelegate AudioInterface];
+    pAI->SetVolume( sliderValue / 100.0f );
+    
     NSLog( @"Slide moved! Value: %d", sliderValue );
 }
 

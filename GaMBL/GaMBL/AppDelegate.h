@@ -9,10 +9,10 @@
 #import <Cocoa/Cocoa.h>
 #import "AudioPlayer.h"
 
-@interface AppDelegate : NSObject <NSApplicationDelegate>
+@interface AppDelegate : NSObject <NSApplicationDelegate, NSOpenSavePanelDelegate>
 
 @property AudioPlayer* AudioInterface;
 - (IBAction)open:(id)sender;
-
+- (BOOL)panel:(id)sender shouldShowFilename:(NSString *)filename;
 
 @end

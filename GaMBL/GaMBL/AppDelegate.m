@@ -29,23 +29,42 @@
 #endif
 }
 
+-(BOOL)panel:(id)sender shouldShowFilename:(NSString *)filename
+{
+    NSString* ext = [filename pathExtension];
+    if (ext == @"" || ext == @"/" || ext == nil || ext == NULL || [ext length] < 1) {
+        return TRUE;
+    }
+    
+    //NSLog(@"Ext: '%@'", ext);
+    
+    NSEnumerator* tagEnumerator = [[NSArray arrayWithObjects:@"spc", @"nsf", @"gbs", @"gym", @"rar", nil] objectEnumerator];
+    NSString* allowedExt;
+    while ((allowedExt = [tagEnumerator nextObject]))
+    {
+        if ([ext caseInsensitiveCompare:allowedExt] == NSOrderedSame)
+        {
+            return TRUE;
+        }
+    }
+    
+    return FALSE;
+}
+
 - (IBAction)open:(id)sender
 {
     // Create the File Open Dialog class.
     NSOpenPanel* openDlg = [NSOpenPanel openPanel];
     
-    // Enable the selection of files in the dialog.
     [openDlg setCanChooseFiles:YES];
-    
-    // Enable the selection of directories in the dialog.
     [openDlg setAllowsMultipleSelection:NO];
+    [openDlg setDirectoryURL:[NSURL URLWithString:NSHomeDirectory()]];
+    [openDlg setDelegate:self];
     
     // Display the dialog.  If the OK button was pressed,
     // process the files.
-    //TODO: file file types
-    //TODO: ignore bad file types
     //TODO: default beahvior is enqueue now but with no feed back?!?!
-    if ( [openDlg runModalForDirectory:nil file:nil] == NSOKButton )
+    if ( [openDlg runModal] == NSFileHandlingPanelOKButton )
     {
         // Get an array containing the full filenames of all
         // files and directories selected.
