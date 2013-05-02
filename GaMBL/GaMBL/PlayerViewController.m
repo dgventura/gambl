@@ -17,7 +17,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-
         // start a timer to keep track of the playback status
         const float framerate = 1;
         const float frequency = 1.0f/framerate;
@@ -94,8 +93,6 @@
     AppDelegate* pAppDelegate = (AppDelegate *)[NSApp delegate];
     AudioPlayer* pAI = [pAppDelegate AudioInterface];
     pAI->SetVolume( sliderValue / 100.0f );
-    
-    NSLog( @"Slide moved! Value: %d", sliderValue );
 }
 
 @end

@@ -153,10 +153,10 @@ void Music_Player::stop()
 	emu.stop();
 }
 
-bool Music_Player::is_done() const
+bool Music_Player::is_done( bool bCheckOnly ) const
 {
 	#if !ASYNC_SOUND
-		if ( deferred_enabled && !fast_forwarding )
+		if ( deferred_enabled && !fast_forwarding && !bCheckOnly )
 		{
 			for ( int n = max_blocks - 2 - filled_count(); n > 0; n -= 2 )
 				const_cast<Music_Player*> (this)->deferred_callback();

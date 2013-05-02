@@ -303,7 +303,7 @@ static void append_time( string& strTemp, int seconds )
 
 void AudioPlayer::update_time( string& strTemp )
 {
-    if ( player.is_done() )
+    if ( player.is_done( TRUE ) )
     {
         next_track();
     }
@@ -320,9 +320,9 @@ void AudioPlayer::update_time( string& strTemp )
 		append_time( strTemp, duration );
 	}
     
-    
-    
+#if GAMBL_VERBOSE
     printf( "AUDIO PLAYER time: %s\n", strTemp.c_str() );
+#endif
 }
 /*
 void AudioPlayer::check_track_end()

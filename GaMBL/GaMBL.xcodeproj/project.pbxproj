@@ -1046,13 +1046,14 @@
 		63A29BBD170C34D800284B6B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GaMBL/GaMBL-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
 					"$(inherited)",
 					"HAVE_CONFIG_H=1",
+					"GAMBL_VERBOSE=0",
 					"UNRAR_AVAILABLE=1",
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
@@ -1066,9 +1067,14 @@
 		63A29BBE170C34D800284B6B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GaMBL/GaMBL-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"HAVE_CONFIG_H=1",
+					"UNRAR_AVAILABLE=1",
+				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				HEADER_SEARCH_PATHS = "./**";
 				INFOPLIST_FILE = "GaMBL/GaMBL-Info.plist";

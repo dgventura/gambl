@@ -35,7 +35,7 @@ public:
 	
 	void pause( bool might_resume = true );
 	void resume();
-	bool is_done() const;
+	bool is_done( bool bCheckOnly ) const;
 	
 	void set_mute( int );
 	
