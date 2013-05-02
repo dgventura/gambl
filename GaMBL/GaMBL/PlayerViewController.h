@@ -20,6 +20,8 @@
 @property (weak) IBOutlet NSTextField *copyrightInfoLabel;
 @property (strong) IBOutlet NSWindow *playerWindow;
 @property (weak) IBOutlet NSSlider *volumeControl;
+@property (weak) IBOutlet NSButton *previousButton;
+@property (weak) IBOutlet NSButton *nextButton;
 
 - (void)updatePlaybackUI;
 - (IBAction)playTrack:(id)sender;

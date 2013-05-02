@@ -2098,6 +2098,22 @@
 					</object>
 					<int key="connectionID">749</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">previousButton</string>
+						<reference key="source" ref="610629883"/>
+						<reference key="destination" ref="786391107"/>
+					</object>
+					<int key="connectionID">759</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextButton</string>
+						<reference key="source" ref="610629883"/>
+						<reference key="destination" ref="236187887"/>
+					</object>
+					<int key="connectionID">760</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -3553,11 +3569,6 @@
 						<reference key="parent" ref="439893737"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">727</int>
-						<reference key="object" ref="666207940"/>
-						<reference key="parent" ref="439893737"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">732</int>
 						<reference key="object" ref="386257937"/>
 						<reference key="parent" ref="439893737"/>
@@ -3581,6 +3592,11 @@
 						<int key="objectID">721</int>
 						<reference key="object" ref="218879835"/>
 						<reference key="parent" ref="565454675"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">727</int>
+						<reference key="object" ref="666207940"/>
+						<reference key="parent" ref="439893737"/>
 					</object>
 				</array>
 			</object>
@@ -3812,7 +3828,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">751</int>
+			<int key="maxID">760</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3873,8 +3889,10 @@
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="authorInfoLabel">NSTextField</string>
 						<string key="copyrightInfoLabel">NSTextField</string>
+						<string key="nextButton">NSButton</string>
 						<string key="playbackTimeLabel">NSTextField</string>
 						<string key="playerWindow">NSWindow</string>
+						<string key="previousButton">NSButton</string>
 						<string key="trackInfoLabel">NSTextField</string>
 						<string key="volumeControl">NSSlider</string>
 						<string key="window">PlayerWindow</string>
@@ -3888,6 +3906,10 @@
 							<string key="name">copyrightInfoLabel</string>
 							<string key="candidateClassName">NSTextField</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="nextButton">
+							<string key="name">nextButton</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="playbackTimeLabel">
 							<string key="name">playbackTimeLabel</string>
 							<string key="candidateClassName">NSTextField</string>
@@ -3895,6 +3917,10 @@
 						<object class="IBToOneOutletInfo" key="playerWindow">
 							<string key="name">playerWindow</string>
 							<string key="candidateClassName">NSWindow</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="previousButton">
+							<string key="name">previousButton</string>
+							<string key="candidateClassName">NSButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="trackInfoLabel">
 							<string key="name">trackInfoLabel</string>

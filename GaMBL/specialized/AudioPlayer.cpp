@@ -94,6 +94,7 @@ bool AudioPlayer::play_current()
 //TODO    if ( scope && scope->visible() )
 //		scope->clear( true );
     
+    //TODO: figure out how behavior should work when playing to end
     	track_ref_t& track_ref = current();
     FSRef path = FSResolveAliasFileChk( track_ref );
     
@@ -132,10 +133,6 @@ bool AudioPlayer::play_current()
 	
     if ( !start_track() )
         return false; // track needs to be skipped
-	
-    //TODO: update UI, timers, etc. track_changed();
-    
-//#error assuming all this loading and sound stuff works, how do we update then???
 	
 	return true;
 }
@@ -229,11 +226,13 @@ void AudioPlayer::stopped()
 //TODO: ui 	enable_fast_forward( false );
 	playing = false;
 //TODO: ui 
+//    prev_button.enable( history_pos > 0 );
+//	next_button.enable( history_pos + 1 < history.size() );
+
+
 #if 0
 	playing_changed();
-	prev_button.enable( history_pos > 0 );
-	next_button.enable( history_pos + 1 < history.size() );
-	RemoveWindowProxy( window() );
+		RemoveWindowProxy( window() );
 	std::memset( &proxy_path, 0, sizeof proxy_path );
 	set_title( PROGRAM_NAME );
 	track_text.set_text( "Drop game music here" );

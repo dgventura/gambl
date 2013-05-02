@@ -47,7 +47,9 @@
     AppDelegate* pAppDelegate = (AppDelegate *)[NSApp delegate];
     AudioPlayer* pAI = [pAppDelegate AudioInterface];
     
-    const Music_Album::info_t& info = pAI->GetMusicAlbum()->info();
+    shared_ptr< Music_Album > pAlbum = pAI->GetMusicAlbum();
+    assert( pAlbum );
+    const Music_Album::info_t& info = pAlbum->info();
     
     [_playerWindow setTitle:[NSString stringWithFormat:@"%s - %s", info.game, info.system ]];
 
