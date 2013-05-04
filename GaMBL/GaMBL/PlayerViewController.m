@@ -62,6 +62,7 @@
         const char* const pszCopyright = *info.copyright ? info.copyright : "unknown";
         [_copyrightInfoLabel setStringValue:[NSString stringWithFormat:@"(C) %s", pszCopyright]];
     
+        const char* pszPlayText = NULL;
         if ( pAI->Playing() )
         {
             //TODO: shuffle
@@ -69,11 +70,13 @@
             int track_count = pAI->GetMusicAlbum()->track_count();
             const char* const pszTrackName = *info.song ? info.song : "untitled track";
             [_trackInfoLabel setStringValue:[NSString stringWithFormat:@"%d / %d: %s", track, track_count, pszTrackName]];
+            pszPlayText = "||";
         }
         else
         {
-            [_trackInfoLabel setStringValue:[NSString stringWithUTF8String:"Use playback controls to start playback."]];
+            pszPlayText = " > ";
         }
+        [_playButton setTitle:[NSString stringWithFormat:@"%s", pszPlayText]];
     }
     else
     {
@@ -85,7 +88,7 @@
 {
     AppDelegate* pAppDelegate = (AppDelegate *)[NSApp delegate];
     AudioPlayer* pAI = [pAppDelegate AudioInterface];
-    pAI->play_current();
+    pAI->toggle_pause();
 }
 
 - (IBAction)nextTrack:(id)sender

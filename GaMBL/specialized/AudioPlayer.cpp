@@ -241,6 +241,17 @@ void AudioPlayer::stop( bool clear_history )
 	m_pMusicAlbum.reset();
 }
 
+void AudioPlayer::toggle_pause()
+{
+	playing = !playing;
+	if ( playing ) {
+		player.resume();
+	}
+	else {
+		player.pause();
+	}
+}
+
 void AudioPlayer::stopped()
 {
 //TODO: ui 	enable_fast_forward( false );
