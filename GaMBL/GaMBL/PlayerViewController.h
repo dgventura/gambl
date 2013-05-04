@@ -22,11 +22,14 @@
 @property (weak) IBOutlet NSSlider *volumeControl;
 @property (weak) IBOutlet NSButton *previousButton;
 @property (weak) IBOutlet NSButton *nextButton;
+@property (weak) IBOutlet NSButton *playButton;
 
 - (void)updatePlaybackUI;
 - (IBAction)playTrack:(id)sender;
 - (IBAction)previousTrack:(id)sender;
 - (IBAction)nextTrack:(id)sender;
 - (IBAction)volumeSlider:(id)sender;
+- (IBAction)stopTrack:(id)sender;
+
 
 @end

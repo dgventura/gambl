@@ -10,7 +10,8 @@
 		6314C28D1711B4C100FC7F98 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6314C28C1711B4C100FC7F98 /* libz.1.2.5.dylib */; };
 		631B56AD1717DABB0038982C /* CADebugPrintf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 631B56AA1717DABB0038982C /* CADebugPrintf.cpp */; };
 		631B56AE1717DABB0038982C /* CADebugPrintf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 631B56AA1717DABB0038982C /* CADebugPrintf.cpp */; };
-		633CB296171BBA2400ED915A /* microkorg2008.png in Resources */ = {isa = PBXBuildFile; fileRef = 633CB295171BBA2400ED915A /* microkorg2008.png */; };
+		632AB8BE1734B1F500DB99FC /* icons.icns in Resources */ = {isa = PBXBuildFile; fileRef = 632AB8BD1734B1F500DB99FC /* icons.icns */; };
+		632AB8C21734B64800DB99FC /* speaker.icns in Resources */ = {isa = PBXBuildFile; fileRef = 632AB8C11734B64800DB99FC /* speaker.icns */; };
 		63A29B8F170C34D700284B6B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63A29B8E170C34D700284B6B /* Cocoa.framework */; };
 		63A29B99170C34D700284B6B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 63A29B97170C34D700284B6B /* InfoPlist.strings */; };
 		63A29B9B170C34D700284B6B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A29B9A170C34D700284B6B /* main.m */; };
@@ -132,7 +133,8 @@
 		631B56AA1717DABB0038982C /* CADebugPrintf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CADebugPrintf.cpp; path = ../../../../../../Library/Developer/CoreAudio/PublicUtility/CADebugPrintf.cpp; sourceTree = "<group>"; };
 		631B56AB1717DABB0038982C /* CADebugPrintf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CADebugPrintf.h; path = ../../../../../../Library/Developer/CoreAudio/PublicUtility/CADebugPrintf.h; sourceTree = "<group>"; };
 		631B56AC1717DABB0038982C /* CAException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CAException.h; path = ../../../../../../Library/Developer/CoreAudio/PublicUtility/CAException.h; sourceTree = "<group>"; };
-		633CB295171BBA2400ED915A /* microkorg2008.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = microkorg2008.png; sourceTree = "<group>"; };
+		632AB8BD1734B1F500DB99FC /* icons.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icons.icns; sourceTree = "<group>"; };
+		632AB8C11734B64800DB99FC /* speaker.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = speaker.icns; path = ../speaker.icns; sourceTree = "<group>"; };
 		63A29B8A170C34D700284B6B /* GaMBL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GaMBL.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63A29B8E170C34D700284B6B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		63A29B91170C34D700284B6B /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -375,7 +377,8 @@
 		63A29B7F170C34D700284B6B = {
 			isa = PBXGroup;
 			children = (
-				633CB295171BBA2400ED915A /* microkorg2008.png */,
+				632AB8C11734B64800DB99FC /* speaker.icns */,
+				632AB8BD1734B1F500DB99FC /* icons.icns */,
 				63E58EF0171944A900C31D10 /* CoreAudio.framework */,
 				63E8F4051716E47100FF269A /* AudioUnit.framework */,
 				63E8F3EF1716CA9500FF269A /* PublicUtility */,
@@ -805,7 +808,8 @@
 				63A29B9F170C34D700284B6B /* Credits.rtf in Resources */,
 				63A29BA5170C34D800284B6B /* MainMenu.xib in Resources */,
 				63A29CA5170D5B5B00284B6B /* readme.txt in Resources */,
-				633CB296171BBA2400ED915A /* microkorg2008.png in Resources */,
+				632AB8BE1734B1F500DB99FC /* icons.icns in Resources */,
+				632AB8C21734B64800DB99FC /* speaker.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

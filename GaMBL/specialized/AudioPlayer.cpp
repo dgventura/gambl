@@ -53,9 +53,29 @@ void AudioPlayer::SetVolume( float fVolume )
     player.setup_changed( prefs );
 }
 
+bool AudioPlayer::PreviousTrackOk() const
+{
+    return history_pos > 0;
+}
+
+bool AudioPlayer::NextTrackOk()
+{
+    return history_pos + 1 < history.size() || has_future();
+}
+
+bool AudioPlayer::CurrentTrackOk() const
+{
+    return history_pos >= 0 && history_pos < history.size();;
+}
+
 shared_ptr< Music_Album > AudioPlayer::GetMusicAlbum() const
 {
     return m_pMusicAlbum;
+}
+
+bool AudioPlayer::Playing() const
+{
+    return playing;
 }
 
 bool AudioPlayer::end_drop( bool immediate )

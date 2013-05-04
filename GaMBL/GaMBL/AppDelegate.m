@@ -9,13 +9,15 @@
 #import "AppDelegate.h"
 #import <Foundation/NSString.h>
 
+#define GAMBL_AUTOLOADTEST 0
+
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     _AudioInterface = new AudioPlayer;
  
-#if 0
+#if GAMBL_AUTOLOADTEST
     // try opening an .SPC file
     NSFileHandle *file = [NSFileHandle fileHandleForReadingAtPath: @"/Users/david/dev/code/GMB/GaMBL/test.spc"];
     if (file == nil)
@@ -38,7 +40,7 @@
     
     //NSLog(@"Ext: '%@'", ext);
     
-    NSEnumerator* tagEnumerator = [[NSArray arrayWithObjects:@"spc", @"nsf", @"gbs", @"gym", @"rar", nil] objectEnumerator];
+    NSEnumerator* tagEnumerator = [[NSArray arrayWithObjects:@"spc", @"nsf", @"gbs", @"gym", @"rar", @"zip", nil] objectEnumerator];
     NSString* allowedExt;
     while ((allowedExt = [tagEnumerator nextObject]))
     {

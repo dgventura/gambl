@@ -36,9 +36,12 @@
     NSString* pStrTemp = [[NSString alloc] initWithUTF8String:strTemp.c_str() ];
     [_playbackTimeLabel setStringValue:pStrTemp];
     
-    // TODO: move to dirty update
-    if ( pAI->has_future() )
-        [self updateTrackInfo];
+    // playback buttons
+    [_nextButton setEnabled:pAI->NextTrackOk()];
+    [_previousButton setEnabled:pAI->PreviousTrackOk()];
+    [_playButton setEnabled:pAI->CurrentTrackOk()];
+    
+    [self updateTrackInfo];
 }
 
 - (void)updateTrackInfo
@@ -47,22 +50,35 @@
     AudioPlayer* pAI = [pAppDelegate AudioInterface];
     
     shared_ptr< Music_Album > pAlbum = pAI->GetMusicAlbum();
-    assert( pAlbum );
-    const Music_Album::info_t& info = pAlbum->info();
+    if ( pAlbum )
+    {
+        const Music_Album::info_t& info = pAlbum->info();
+        
+        [_playerWindow setTitle:[NSString stringWithFormat:@"%s - %s", info.game, info.system ]];
+        
+        const char* const pszAuthorName = *info.author ? info.author : "unknown";
+        [_authorInfoLabel setStringValue:[NSString stringWithFormat:@"By %s", pszAuthorName]];
+        
+        const char* const pszCopyright = *info.copyright ? info.copyright : "unknown";
+        [_copyrightInfoLabel setStringValue:[NSString stringWithFormat:@"(C) %s", pszCopyright]];
     
-    [_playerWindow setTitle:[NSString stringWithFormat:@"%s - %s", info.game, info.system ]];
-
-    const char* const pszAuthorName = *info.author ? info.author : "unknown";
-    [_authorInfoLabel setStringValue:[NSString stringWithFormat:@"By %s", pszAuthorName]];
-
-    const char* const pszCopyright = *info.copyright ? info.copyright : "unknown";
-    [_copyrightInfoLabel setStringValue:[NSString stringWithFormat:@"(C) %s", pszCopyright]];
-
-    //TODO: shuffle
-    int track = pAI->current().track + 1;
-    int track_count = pAI->GetMusicAlbum()->track_count();
-    const char* const pszTrackName = *info.song ? info.song : "untitled track";
-    [_trackInfoLabel setStringValue:[NSString stringWithFormat:@"%d / %d: %s", track, track_count, pszTrackName]];
+        if ( pAI->Playing() )
+        {
+            //TODO: shuffle
+            int track = pAI->current().track + 1;
+            int track_count = pAI->GetMusicAlbum()->track_count();
+            const char* const pszTrackName = *info.song ? info.song : "untitled track";
+            [_trackInfoLabel setStringValue:[NSString stringWithFormat:@"%d / %d: %s", track, track_count, pszTrackName]];
+        }
+        else
+        {
+            [_trackInfoLabel setStringValue:[NSString stringWithUTF8String:"Use playback controls to start playback."]];
+        }
+    }
+    else
+    {
+        [_playerWindow setTitle:[NSString stringWithUTF8String:"Open music file to begin playback."]];
+    }
 }
 
 - (IBAction)playTrack:(id)sender
@@ -93,6 +109,13 @@
     AppDelegate* pAppDelegate = (AppDelegate *)[NSApp delegate];
     AudioPlayer* pAI = [pAppDelegate AudioInterface];
     pAI->SetVolume( sliderValue / 100.0f );
+}
+
+- (IBAction)stopTrack:(id)sender
+{
+    AppDelegate* pAppDelegate = (AppDelegate *)[NSApp delegate];
+    AudioPlayer* pAI = [pAppDelegate AudioInterface];
+   // pAI->stop();
 }
 
 @end

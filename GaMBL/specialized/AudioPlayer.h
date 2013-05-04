@@ -28,6 +28,11 @@ public:
     shared_ptr< Music_Album > GetMusicAlbum() const;
     bool play_current();
     void SetVolume( float fVolume );
+    bool NextTrackOk();
+    bool PreviousTrackOk() const;
+    bool CurrentTrackOk() const;
+    bool Playing() const;
+
     
 private:    
     // incoming files
