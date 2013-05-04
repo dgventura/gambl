@@ -114,11 +114,4 @@
     pAI->SetVolume( sliderValue / 100.0f );
 }
 
-- (IBAction)stopTrack:(id)sender
-{
-    AppDelegate* pAppDelegate = (AppDelegate *)[NSApp delegate];
-    AudioPlayer* pAI = [pAppDelegate AudioInterface];
-   // pAI->stop();
-}
-
 @end
