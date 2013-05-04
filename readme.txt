@@ -1,4 +1,4 @@
-Game Music Box Lion (GaMBL)
+Game Music Box for Lion (GaMBL)
 -----------------------------------
 
 I've taken the original Game Music Box source and started porting it to 
@@ -12,21 +12,29 @@ if I get some things wrong along the way.
 - David Ventura, 2013.04.01 (April Fool's!)
 
 ************************************
-CURRENT STATUS (2013.05.01)
+CURRENT STATUS (2013.05.04)
 ************************************
 
 Program runs and can perform basic playback and track jump prev/next for multitrack 
 files. Lots of hacks abound to get it working but finally have proof-of-concept 
-running to prove that it can work.  As it turns out the File System is by large 
-still a working part of the OSX framework, though certain functions included are 
-deprecated.  Cleaning this up is currently low-priority.  Next functionality will 
-be restored before refactoring the internal implementation.
+running to prove that this is a viable project.  Cleaning up deprecated functionality
+is currently low-priority.  Next original functionality will be restored before 
+refactoring the internal implementation.
 
 Next major tasks include:
-1. Restoration of playback queue and in turn fixing asserts that come from UI interactions.
-2. Building an alpha version and uploading the binary so people can run without building.
-3. List up remaining core features I want to support.
-4. Implement said features to get to beta, and then refactor so the data flow makes sense.
+
+-- ALPHA VERSION 0.2 --
+1. Restore channel window, utility window, WAV output
+2. Restore favorites, recently opened, and shuffle
+3. Rewrite Shay's documentation so it reflects the functionality of GaMBL
+4. Release this binary as alpha
+
+-- BETA VERSION 0.3 --
+1. Refactor classes, data flow, information hiding etc. so the model makes sense
+2. Add a playlist editor
+3. Restore fast-forward
+4. Consider adding some audio units to add in effects
+5. Release this binary as beta
 
 - David
 
