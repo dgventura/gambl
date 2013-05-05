@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import <Foundation/NSString.h>
+#import <AppKit/NSWorkspace.h>
 
 #define GAMBL_AUTOLOADTEST 0
 
@@ -77,17 +78,30 @@
         {
             NSString* fileName = [files objectAtIndex:i];
             
-            NSFileHandle *file = [NSFileHandle fileHandleForReadingAtPath:fileName];
-            if (file == nil)
-                NSLog(@"Failed to open file");
-            else
-            {
-                _AudioInterface->LoadFile( file );
-            }
-            
-            [file closeFile];
+            [[NSApp delegate] application:[NSApplication sharedApplication] openFile:fileName];
         }
     }
+}
+
+- (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
+{
+    BOOL bFileOk = NO;
+    
+    NSFileHandle *file = [NSFileHandle fileHandleForReadingAtPath:filename];
+    if (file == nil)
+        NSLog(@"Failed to open file");
+    else
+    {
+        bFileOk = _AudioInterface->LoadFile( file );
+        
+        if ( bFileOk )
+        {
+            [[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:[NSURL fileURLWithPath:filename]];
+        }
+    }
+    [file closeFile];
+    
+    return bFileOk;
 }
 
 - (void)dealloc

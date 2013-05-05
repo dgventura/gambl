@@ -13,6 +13,7 @@
 
 @property AudioPlayer* AudioInterface;
 - (IBAction)open:(id)sender;
+- (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename;
 - (BOOL)panel:(id)sender shouldShowFilename:(NSString *)filename;
 
 @end

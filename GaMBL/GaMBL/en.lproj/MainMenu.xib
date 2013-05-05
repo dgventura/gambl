@@ -369,7 +369,7 @@
 								</object>
 								<string key="NSCellIdentifier">_NS:9</string>
 								<reference key="NSControlView" ref="786391107"/>
-								<int key="NSButtonFlags">-2031337472</int>
+								<int key="NSButtonFlags">-2031206400</int>
 								<int key="NSButtonFlags2">129</int>
 								<string key="NSAlternateContents"/>
 								<string key="NSKeyEquivalent"/>
@@ -525,7 +525,6 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{146, 13}, {67, 17}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
-							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:1535</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="306132032">
