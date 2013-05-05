@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6314C28D1711B4C100FC7F98 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6314C28C1711B4C100FC7F98 /* libz.1.2.5.dylib */; };
+		631B1CC0173638750046D285 /* ChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 631B1CBF173638750046D285 /* ChannelViewController.m */; };
 		631B56AD1717DABB0038982C /* CADebugPrintf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 631B56AA1717DABB0038982C /* CADebugPrintf.cpp */; };
 		631B56AE1717DABB0038982C /* CADebugPrintf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 631B56AA1717DABB0038982C /* CADebugPrintf.cpp */; };
 		632AB8BE1734B1F500DB99FC /* icons.icns in Resources */ = {isa = PBXBuildFile; fileRef = 632AB8BD1734B1F500DB99FC /* icons.icns */; };
@@ -130,6 +131,8 @@
 
 /* Begin PBXFileReference section */
 		6314C28C1711B4C100FC7F98 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
+		631B1CBE173638750046D285 /* ChannelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelViewController.h; sourceTree = "<group>"; };
+		631B1CBF173638750046D285 /* ChannelViewController.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ChannelViewController.m; sourceTree = "<group>"; };
 		631B56AA1717DABB0038982C /* CADebugPrintf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CADebugPrintf.cpp; path = ../../../../../../Library/Developer/CoreAudio/PublicUtility/CADebugPrintf.cpp; sourceTree = "<group>"; };
 		631B56AB1717DABB0038982C /* CADebugPrintf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CADebugPrintf.h; path = ../../../../../../Library/Developer/CoreAudio/PublicUtility/CADebugPrintf.h; sourceTree = "<group>"; };
 		631B56AC1717DABB0038982C /* CAException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CAException.h; path = ../../../../../../Library/Developer/CoreAudio/PublicUtility/CAException.h; sourceTree = "<group>"; };
@@ -440,6 +443,8 @@
 				63CFF9CD172D0AFE00AFFE60 /* PlayerViewController.m */,
 				63CFF9CF172D0B4F00AFFE60 /* PlayerWindow.h */,
 				63CFF9D0172D0B4F00AFFE60 /* PlayerWindow.m */,
+				631B1CBE173638750046D285 /* ChannelViewController.h */,
+				631B1CBF173638750046D285 /* ChannelViewController.m */,
 			);
 			path = GaMBL;
 			sourceTree = "<group>";
@@ -933,6 +938,7 @@
 				631B56AD1717DABB0038982C /* CADebugPrintf.cpp in Sources */,
 				63CFF9CE172D0AFE00AFFE60 /* PlayerViewController.m in Sources */,
 				63CFF9D1172D0B4F00AFFE60 /* PlayerWindow.m in Sources */,
+				631B1CC0173638750046D285 /* ChannelViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

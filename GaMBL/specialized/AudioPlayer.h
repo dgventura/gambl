@@ -28,6 +28,8 @@ public:
     shared_ptr< Music_Album > GetMusicAlbum() const;
     bool play_current();
     void SetVolume( float fVolume );
+    void SetChannelMask( unsigned int nMask );
+    void SetEqValues( bool bCustomSound, float fTreble, float fBass, float fStereo );
     bool NextTrackOk();
     bool PreviousTrackOk() const;
     bool CurrentTrackOk() const;

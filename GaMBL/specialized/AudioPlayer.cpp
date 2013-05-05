@@ -53,6 +53,21 @@ void AudioPlayer::SetVolume( float fVolume )
     player.setup_changed( prefs );
 }
 
+void AudioPlayer::SetChannelMask( unsigned int nMask )
+{
+    player.set_mute( 0x8000 | nMask );
+    player.setup_changed( prefs );
+}
+
+void AudioPlayer::SetEqValues( bool bCustomSound, float fTreble, float fBass, float fStereo )
+{
+    prefs.custom_sound = bCustomSound;
+    prefs.treble = fTreble;
+    prefs.bass = fBass;
+    prefs.echo_depth = fStereo;
+    player.setup_changed( prefs );
+}
+
 bool AudioPlayer::PreviousTrackOk() const
 {
     return history_pos > 0;
