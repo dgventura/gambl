@@ -18,7 +18,7 @@
     if (self)
     {
         // start a timer to keep track of the playback status
-        const float framerate = 1;
+        const float framerate = 2;
         const float frequency = 1.0f/framerate;
         _PlaybackTimer = [NSTimer scheduledTimerWithTimeInterval:frequency target:self selector:@selector(updatePlaybackUI) userInfo:nil repeats:YES];
     }
@@ -44,14 +44,23 @@
     [self updateTrackInfo];
 }
 
+- (void)nudgeVolume:(BOOL)increase
+{
+    float newVolume = [_volumeControl floatValue];
+    newVolume += increase ? 4.0f : -4.0f;
+    [_volumeControl setFloatValue:newVolume];
+    [self volumeSlider:self];
+}
+
 - (void)updateTrackInfo
 {
     AppDelegate* pAppDelegate = (AppDelegate *)[NSApp delegate];
     AudioPlayer* pAI = [pAppDelegate AudioInterface];
     
-    shared_ptr< Music_Album > pAlbum = pAI->GetMusicAlbum();
-    if ( pAlbum )
+    if ( pAI && pAI->GetMusicAlbum() )
     {
+        shared_ptr< Music_Album > pAlbum = pAI->GetMusicAlbum();
+        
         const Music_Album::info_t& info = pAlbum->info();
         
         [_playerWindow setTitle:[NSString stringWithFormat:@"%s - %s", info.game, info.system ]];
@@ -81,7 +90,17 @@
     else
     {
         [_playerWindow setTitle:[NSString stringWithUTF8String:"Open music file to begin playback."]];
+        [_authorInfoLabel setStringValue:[NSString stringWithUTF8String:""]];
+        [_copyrightInfoLabel setStringValue:[NSString stringWithUTF8String:""]];
+        [_trackInfoLabel setStringValue:[NSString stringWithUTF8String:"- / -: no track"]];
     }
+}
+
+- (void)stopAndClear
+{
+    AppDelegate* pAppDelegate = (AppDelegate *)[NSApp delegate];
+    AudioPlayer* pAI = [pAppDelegate AudioInterface];
+    pAI->stop( true );
 }
 
 - (IBAction)playTrack:(id)sender
@@ -107,7 +126,7 @@
 
 - (IBAction)volumeSlider:(id)sender
 {
-    int sliderValue = [_volumeControl intValue];
+    float sliderValue = [_volumeControl floatValue];
     
     AppDelegate* pAppDelegate = (AppDelegate *)[NSApp delegate];
     AudioPlayer* pAI = [pAppDelegate AudioInterface];

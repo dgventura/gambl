@@ -19,17 +19,10 @@
 using namespace std;
 
 #define USE_AUGRAPH         0
-#define PLAY_SINE           0
 #define DUMP_SAMPLES        0
 #define DUMP_STATUS         0
-#define PLAY_FROM_FILE      0
 
 #define WAVE_HEADER_SIZE    48
-#define g_szFile1 "/Users/david/Library/Developer/Xcode/DerivedData/GMB-fsczhtbrbaqjvzelnjsbvhvcboqt/Build/Products/Debug/SD2575.wav"
-#define g_szFile2 "/Users/david/Library/Developer/Xcode/DerivedData/GMB-fsczhtbrbaqjvzelnjsbvhvcboqt/Build/Products/Debug/LC75.wav"
-#define g_szFile3 "/Users/david/Library/Developer/Xcode/DerivedData/GMB-fsczhtbrbaqjvzelnjsbvhvcboqt/Build/Products/Debug/debug.wav"
-#define g_szFile4 "/Users/david/Library/Developer/Xcode/DerivedData/GMB-fsczhtbrbaqjvzelnjsbvhvcboqt/Build/Products/Debug/kung1.wav"
-
 
 #if !USE_AUGRAPH
 typedef struct {
@@ -62,14 +55,6 @@ float clamp( const float f1, const float f2, const float f3 )
 
 ifstream MyFile;
 
-void LoadAndSeekToData()
-{
-    MyFile.close();
-    MyFile.open(  g_szFile4, ios::binary | ios::in );
-    MyFile.seekg( WAVE_HEADER_SIZE );
-    printf( "Seeked to top!\n");
-}
-
 OSStatus appIOProc (AudioDeviceID  inDevice, const AudioTimeStamp*  inNow, const AudioBufferList*   inInputData,
                     const AudioTimeStamp*  inInputTime, AudioBufferList*  outOutputData, const AudioTimeStamp* inOutputTime,
                     void* appGlobals)
@@ -83,7 +68,6 @@ OSStatus appIOProc (AudioDeviceID  inDevice, const AudioTimeStamp*  inNow, const
     double phase = gAppGlobals.phase;
     double amp = gAppGlobals.amp;
     double pan = gAppGlobals.pan;
-    double freq = gAppGlobals.freq * 2. * 3.14159265359 / globals->deviceFormat.mSampleRate;
     
     int numSamples = globals->deviceBufferSize / globals->deviceFormat.mBytesPerFrame;
 
@@ -91,40 +75,13 @@ OSStatus appIOProc (AudioDeviceID  inDevice, const AudioTimeStamp*  inNow, const
     const AudioInterface::sample_t* pReadBuffer = gAppGlobals.m_pAudioItfc->m_pSampleHead;
     for ( i = 0; i < numSamples; ++i )
     {
-#if PLAY_SINE
-        float wave = sin(phase) * amp;
-        phase = phase + freq;
-        *out++ = wave * (1.0-pan);
-        *out++ = wave * pan;
-#else
         if ( i < gAppGlobals.m_pAudioItfc->m_nSampleCount )
         {            
-            if ( MyFile.is_open() )
-            {
-                short nVal, nVal2;
-                MyFile.read( (char*)&nVal, 2 );
-                MyFile.read( (char*)&nVal2, 2 );
-
-                assert( MyFile.is_open() && !MyFile.bad() );
-                if ( MyFile.eof() )
-                {
-                    LoadAndSeekToData();
-                }
-                *out++ = clamp( -1.0f, 1.0f, (nVal / (float)SHRT_MAX) * (1.0f-pan) * amp );
-                *out++ = clamp( -1.0f, 1.0f, (nVal2 / (float)SHRT_MAX) * pan * amp );
-            }
-            else
-            {
-                *out++ = clamp( -1.0f, 1.0f, (*pReadBuffer / (float)SHRT_MAX) * (1.0-pan) * amp );
-                ++pReadBuffer;
-                *out++ = clamp( -1.0f, 1.0f, (*pReadBuffer / (float)SHRT_MAX) * pan * amp );
-                ++pReadBuffer; //TODO: confirm why we need to increment read twice... I guess internally the samples are already stereo?
-            }
-            
-//            fwrite( (const void*)pReadBuffer, sizeof(SInt16), 1, pFile );
-//            fwrite( (const void*)pReadBuffer, sizeof(SInt16), 1, pFile );            
+            *out++ = clamp( -1.0f, 1.0f, (*pReadBuffer / (float)SHRT_MAX) * (1.0-pan) * amp );
+            ++pReadBuffer;
+            *out++ = clamp( -1.0f, 1.0f, (*pReadBuffer / (float)SHRT_MAX) * pan * amp );
+            ++pReadBuffer; //TODO: confirm why we need to increment read twice... I guess internally the samples are already stereo?
         }
-#endif
     }
     gAppGlobals.phase = phase;
 
@@ -190,10 +147,6 @@ static OSStatus renderInput(void *inRefCon, AudioUnitRenderActionFlags *ioAction
 
 AudioInterface::AudioInterface()
 {
-#if PLAY_FROM_FILE
-    LoadAndSeekToData();
-#endif
-    
     gAppGlobals.amp = 0.5f;
     gAppGlobals.pan = 0.5f;
 }
@@ -213,15 +166,11 @@ void AudioInterface::set_gain( double dGain )
 
 void AudioInterface::play_buffer(const sample_t *pSampleBuffer, int nCount)
 {
-    //TODORO: use samples!!!
-
     if ( !m_bPlaying )
     {
     #if USE_AUGRAPH
         startAUGraph();
     #else
-//      gAppGlobals.amp = 0.5f;
-//      gAppGlobals.pan = 0.5f;
         gAppGlobals.phase = 0;
         gAppGlobals.freq = 440.0f;
         gAppGlobals.m_pAudioItfc = this;

@@ -338,7 +338,7 @@
 		63CFF9CC172D0AFE00AFFE60 /* PlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerViewController.h; sourceTree = "<group>"; };
 		63CFF9CD172D0AFE00AFFE60 /* PlayerViewController.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = PlayerViewController.m; sourceTree = "<group>"; };
 		63CFF9CF172D0B4F00AFFE60 /* PlayerWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerWindow.h; sourceTree = "<group>"; };
-		63CFF9D0172D0B4F00AFFE60 /* PlayerWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerWindow.m; sourceTree = "<group>"; };
+		63CFF9D0172D0B4F00AFFE60 /* PlayerWindow.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = PlayerWindow.m; sourceTree = "<group>"; };
 		63E58EF0171944A900C31D10 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		63E8F3EC1716CA8900FF269A /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		63E8F3F01716CAB700FF269A /* CADebugMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CADebugMacros.h; path = ../../../../../../Library/Developer/CoreAudio/PublicUtility/CADebugMacros.h; sourceTree = "<group>"; };

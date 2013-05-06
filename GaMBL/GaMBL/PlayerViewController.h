@@ -11,7 +11,6 @@
 
 @interface PlayerViewController : NSViewController
 
-@property IBOutlet PlayerWindow *window;
 @property NSTimer* PlaybackTimer;
 
 @property (strong) IBOutlet NSWindow *playerWindow;
@@ -25,6 +24,9 @@
 @property (weak) IBOutlet NSButton *playButton;
 
 - (void)updatePlaybackUI;
+- (void)nudgeVolume:(BOOL)increase;
+- (void)stopAndClear;
+
 - (IBAction)playTrack:(id)sender;
 - (IBAction)previousTrack:(id)sender;
 - (IBAction)nextTrack:(id)sender;

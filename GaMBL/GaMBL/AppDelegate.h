@@ -27,4 +27,7 @@
 - (BOOL)panel:(id)sender shouldShowFilename:(NSString *)filename;
 - (BOOL)validateMenuItem:(NSMenuItem *)item;
 
+
+- (void)keyUp:(NSEvent*)event;
+
 @end

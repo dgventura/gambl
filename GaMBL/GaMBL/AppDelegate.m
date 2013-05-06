@@ -46,11 +46,10 @@ const int GCTRL_LENDENDLESS     = 314;
 -(BOOL)panel:(id)sender shouldShowFilename:(NSString *)filename
 {
     NSString* ext = [filename pathExtension];
-    if (ext == @"" || ext == @"/" || ext == nil || ext == NULL || [ext length] < 1) {
+    if (ext == @"" || ext == @"/" || ext == nil || ext == NULL || [ext length] < 1)
+    {
         return TRUE;
     }
-    
-    //NSLog(@"Ext: '%@'", ext);
     
     NSEnumerator* tagEnumerator = [[NSArray arrayWithObjects:@"spc", @"nsf", @"gbs", @"gym", @"rar", @"zip", nil] objectEnumerator];
     NSString* allowedExt;
@@ -180,6 +179,11 @@ const int GCTRL_LENDENDLESS     = 314;
 - (void)dealloc
 {
     delete _AudioInterface;
+}
+
+- (void)keyUp:(NSEvent*)event
+{
+    int pony =88;
 }
 
 @end

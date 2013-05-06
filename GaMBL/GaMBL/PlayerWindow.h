@@ -8,6 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class PlayerViewController;
+
 @interface PlayerWindow : NSView
+
+@property (strong) IBOutlet PlayerViewController *viewController;
+
+- (void)keyDown:(NSEvent *)theEvent;
+- (BOOL)acceptsFirstResponder;
 
 @end
