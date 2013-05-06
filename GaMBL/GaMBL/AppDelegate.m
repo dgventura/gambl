@@ -12,6 +12,16 @@
 
 #define GAMBL_AUTOLOADTEST 0
 
+//TODO: is there a way to share tags with interface builder to prevent these getting out of sync???
+const int GCTRL_SHUFFLE     = 301;
+const int GCTRL_SKIPSHORT   = 302;
+const int GCTRL_EXTENDCUR   = 303;
+const int GCTRL_LENSHORT    = 311;
+const int GCTRL_LENNORM     = 312;
+const int GCTRL_LENEXT      = 313;
+const int GCTRL_LENDENDLESS = 314;
+
+
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -80,6 +90,40 @@
             
             [[NSApp delegate] application:[NSApplication sharedApplication] openFile:fileName];
         }
+    }
+}
+
+- (IBAction)playbackMenu:(id)sender
+{
+    const int nControlTag = [sender tag];
+    NSMenuItem *menuItem = (NSMenuItem *)sender;
+    switch ( nControlTag )
+    {
+        case GCTRL_SHUFFLE:
+            [menuItem setState:![menuItem state]];
+            _AudioInterface->SetShuffle( [menuItem state] == NSOnState );
+            break;
+        case GCTRL_SKIPSHORT:
+            [menuItem setState:![menuItem state]];
+            _AudioInterface->SetSkipShortTracks( [menuItem state] == NSOnState );
+            break;
+        case GCTRL_EXTENDCUR:
+            _AudioInterface->ExtendCurrent();
+            break;
+        case GCTRL_LENSHORT:
+        case GCTRL_LENNORM:
+        case GCTRL_LENEXT:
+        case GCTRL_LENDENDLESS:
+            _AudioInterface->SetPlayLength( nControlTag - GCTRL_LENSHORT );
+            for ( int i = GCTRL_LENSHORT; i <= GCTRL_LENDENDLESS; ++i )
+            {
+                int n= 99;
+                //TODO grab reference to other control and change checked state
+            }
+            break;
+        default:
+            assert(0);
+            break;
     }
 }
 

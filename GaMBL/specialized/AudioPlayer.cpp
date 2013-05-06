@@ -68,6 +68,31 @@ void AudioPlayer::SetEqValues( bool bCustomSound, float fTreble, float fBass, fl
     player.setup_changed( prefs );
 }
 
+void AudioPlayer::SetShuffle( bool bShuffle )
+{
+    prefs.shuffle = bShuffle;
+    player.setup_changed( prefs );
+}
+
+void AudioPlayer::SetSkipShortTracks( bool bSkip )
+{
+    prefs.songs_only = bSkip;
+    player.setup_changed( prefs );
+}
+
+void AudioPlayer::SetPlayLength( int nLength )
+{
+    static float durations [] = { 1.0 / 2.73, 1.0, 2.0564, 100 };
+	prefs.duration = durations [nLength];
+    
+    player.setup_changed( prefs );
+}
+
+void AudioPlayer::ExtendCurrent()
+{
+    player.extend_track( 60 * 1 );
+}
+
 bool AudioPlayer::PreviousTrackOk() const
 {
     return history_pos > 0;

@@ -27,9 +27,15 @@ public:
     bool LoadFile( NSFileHandle* const pDataBuffer );
     shared_ptr< Music_Album > GetMusicAlbum() const;
     bool play_current();
+    
     void SetVolume( float fVolume );
     void SetChannelMask( unsigned int nMask );
     void SetEqValues( bool bCustomSound, float fTreble, float fBass, float fStereo );
+    void SetShuffle( bool bShuffle );
+    void SetSkipShortTracks( bool bSkip );
+    void SetPlayLength( int nLength );
+    void ExtendCurrent();
+    
     bool NextTrackOk();
     bool PreviousTrackOk() const;
     bool CurrentTrackOk() const;
