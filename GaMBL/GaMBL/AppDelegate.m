@@ -13,13 +13,14 @@
 #define GAMBL_AUTOLOADTEST 0
 
 //TODO: is there a way to share tags with interface builder to prevent these getting out of sync???
-const int GCTRL_SHUFFLE     = 301;
-const int GCTRL_SKIPSHORT   = 302;
-const int GCTRL_EXTENDCUR   = 303;
-const int GCTRL_LENSHORT    = 311;
-const int GCTRL_LENNORM     = 312;
-const int GCTRL_LENEXT      = 313;
-const int GCTRL_LENDENDLESS = 314;
+const int GCTRL_SHOWSOUNDPANEL  = 211;
+const int GCTRL_SHUFFLE         = 301;
+const int GCTRL_SKIPSHORT       = 302;
+const int GCTRL_EXTENDCUR       = 303;
+const int GCTRL_LENSHORT        = 311;
+const int GCTRL_LENNORM         = 312;
+const int GCTRL_LENEXT          = 313;
+const int GCTRL_LENDENDLESS     = 314;
 
 
 @implementation AppDelegate
@@ -115,16 +116,44 @@ const int GCTRL_LENDENDLESS = 314;
         case GCTRL_LENEXT:
         case GCTRL_LENDENDLESS:
             _AudioInterface->SetPlayLength( nControlTag - GCTRL_LENSHORT );
-            for ( int i = GCTRL_LENSHORT; i <= GCTRL_LENDENDLESS; ++i )
-            {
-                int n= 99;
-                //TODO grab reference to other control and change checked state
-            }
+            [_shortMenuItem setState:(nControlTag == GCTRL_LENSHORT ? NSOnState : NSOffState)];
+            [_normalMenuItem setState:(nControlTag == GCTRL_LENNORM ? NSOnState : NSOffState)];
+            [_extendedMenuItem setState:(nControlTag == GCTRL_LENEXT ? NSOnState : NSOffState)];
+            [_endlessMenuItem setState:(nControlTag == GCTRL_LENDENDLESS ? NSOnState : NSOffState)];
             break;
         default:
             assert(0);
             break;
     }
+}
+
+- (IBAction)viewMenu:(id)sender
+{
+    const int nControlTag = [sender tag];
+    NSMenuItem *menuItem = (NSMenuItem *)sender;
+    switch ( nControlTag )
+    {
+        case GCTRL_SHOWSOUNDPANEL:
+            [menuItem setState:![menuItem state]];
+            [_soundPanel setIsVisible:[menuItem state] == NSOnState];
+            break;
+        default:
+            assert(0);
+            break;
+    }
+}
+
+- (BOOL)validateMenuItem:(NSMenuItem *)item
+{
+    // disable playback menu when nothing is loaded
+    if ( [item parentItem] == _playbackMenu )
+        return _AudioInterface->GetMusicAlbum() ? YES : NO;
+    else if ( [item tag] == GCTRL_SHOWSOUNDPANEL )
+    {
+        [item setState:[_soundPanel isVisible]];
+    }
+
+    return YES;
 }
 
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
