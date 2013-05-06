@@ -24,17 +24,20 @@ refactoring the internal implementation.
 Next major tasks include:
 
 -- ALPHA VERSION 0.2 --
-1. Restore channel window, utility window, WAV output
+1. Restore channel window, WAV output
 2. Restore favorites, recently opened, and shuffle
-3. Rewrite Shay's documentation so it reflects the functionality of GaMBL
-4. Release this binary as alpha
+3. Restore keyboard commands for playback
+4. Rewrite Shay's documentation so it reflects the functionality of GaMBL
+5. Release this binary as alpha
 
 -- BETA VERSION 0.3 --
 1. Refactor classes, data flow, information hiding etc. so the model makes sense
 2. Add a playlist editor
-3. Restore fast-forward
-4. Consider adding some audio units to add in effects
-5. Release this binary as beta
+3. Utility window
+4. Restore fast-forward
+5. Drag and drop?
+6. Consider adding some audio units to add in effects
+7. Release this binary as beta
 
 - David
 
