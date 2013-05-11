@@ -35,11 +35,13 @@ public:
     void SetSkipShortTracks( bool bSkip );
     void SetPlayLength( int nLength );
     void ExtendCurrent();
+    void RecordCurrentTrack();
     
     bool NextTrackOk();
     bool PreviousTrackOk() const;
     bool CurrentTrackOk() const;
     bool Playing() const;
+    
 
     
 private:    
@@ -70,6 +72,8 @@ public:	bool prev_track();
     void update_time( string& strTemp );
     void stop( bool clear_history = false );
     void stopped();
+    
+    void record_track( const track_ref_t& track, int mute_mask );
     
     bool auto_unpause;
     

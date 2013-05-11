@@ -14,6 +14,8 @@ class Music_Album;
 class File_Emu;
 class Progress_Hook;
 
+const long wave_sample_rate = 44100;
+
 void handle_disk_full();
 
 bool choose_folder( FSRef* );

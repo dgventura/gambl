@@ -11,6 +11,7 @@
 #include "file_util.h"
 #include "music_util.h"
 #include "prefs.h"
+#include "wave_export.h"
 
 extern App_Prefs prefs;
 const int history_max = 2000;
@@ -116,6 +117,64 @@ shared_ptr< Music_Album > AudioPlayer::GetMusicAlbum() const
 bool AudioPlayer::Playing() const
 {
     return playing;
+}
+
+void AudioPlayer::RecordCurrentTrack()
+{
+    record_track( current(), mute_mask );
+}
+
+void AudioPlayer::record_track( const track_ref_t& track, int mute_mask )
+{
+	// to do: make copy of track if use persists after nav dialog
+	unique_ptr<Music_Album> album( load_music_album( FSResolveAliasFileChk( track ) ) );
+	if ( !album )
+    {
+		check( false );
+		return;
+	}
+	
+	// open file in emulator and start track
+	File_Emu emu;
+	emu.change_setup( prefs );
+	emu.load( album.get(), wave_sample_rate );
+	emu.set_mute( mute_mask );
+	emu.start_track( track.track );
+	album->uncache();
+	
+	// generate initial filename
+	char name [256];
+	std::strcpy( name, album->info().filename );
+	if ( album->track_count() > 1 )
+	{
+		name [31 - 3] = 0;
+		char num [32];
+		num [0] = '-';
+		num_to_str( track.track + 1, num + 1, 2 );
+		std::strcat( name, num );
+	}
+	
+	// get save location
+	CFStringRef str = CFStringCreateWithCString( NULL, name, kCFStringEncodingASCII );
+	FSRef dir;
+	HFSUniStr255 filename;
+    
+	if ( ask_save_file( &dir, &filename, str ) )
+	{
+		// write wave
+	//TODO	Progress_Window pw( "Record Track" );
+		char new_name [256];
+		filename_to_str( filename, new_name );
+	//TODO	pw.set_text( new_name );
+	//TODO	pw.set_total( 1 );
+		try {
+			write_wave( emu, dir, filename, -1/*, &pw*/ );
+		}
+		catch ( ... ) {
+			handle_disk_full();
+			throw;
+		}
+	}
 }
 
 bool AudioPlayer::end_drop( bool immediate )

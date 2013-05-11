@@ -26,7 +26,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA */
 #include "source_begin.h"
 
 const int stereo = 2;
-const long wave_sample_rate = 44100;
 
 // util
 
@@ -42,8 +41,6 @@ static void cfstr_to_unistr( CFStringRef in, HFSUniStr255* out ) {
 	CFRange range = { 0, out->length };
 	CFStringGetCharacters( in, range, out->unicode );
 }
-
-#ifdef GMB_COMPILE_GUI
 
 static bool ask_save_file( FSRef* dir, HFSUniStr255* name, CFStringRef initial_name = NULL )
 {
@@ -97,8 +94,6 @@ bool choose_folder( FSRef* dir )
 	
 	return true;
 }
-
-#endif // #ifdef GMB_COMPILE_GUI
 
 static void write_wave( File_Emu& emu, const FSRef& dir, const HFSUniStr255& name,
 		long min_length = -1, Progress_Hook* hook = NULL )

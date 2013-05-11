@@ -51,7 +51,7 @@ const int GCTRL_LENDENDLESS     = 314;
         return TRUE;
     }
     
-    NSEnumerator* tagEnumerator = [[NSArray arrayWithObjects:@"spc", @"nsf", @"gbs", @"gym", @"rar", @"zip", nil] objectEnumerator];
+    NSEnumerator* tagEnumerator = [[NSArray arrayWithObjects:@"spc", @"nsf", @"gbs", @"gym", @"vgm", @"rar", @"zip", @"7z", nil] objectEnumerator];
     NSString* allowedExt;
     while ((allowedExt = [tagEnumerator nextObject]))
     {
@@ -70,7 +70,7 @@ const int GCTRL_LENDENDLESS     = 314;
     NSOpenPanel* openDlg = [NSOpenPanel openPanel];
     
     [openDlg setCanChooseFiles:YES];
-    [openDlg setAllowsMultipleSelection:NO];
+    [openDlg setAllowsMultipleSelection:YES];
     [openDlg setDirectoryURL:[NSURL URLWithString:NSHomeDirectory()]];
     [openDlg setDelegate:self];
     
