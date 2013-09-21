@@ -30,6 +30,7 @@
 - (IBAction)playTrack:(id)sender;
 - (IBAction)previousTrack:(id)sender;
 - (IBAction)nextTrack:(id)sender;
+- (IBAction)favoriteTrack:(id)sender;
 - (IBAction)volumeSlider:(id)sender;
 
 @end

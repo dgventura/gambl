@@ -41,7 +41,6 @@ public:
     bool PreviousTrackOk() const;
     bool CurrentTrackOk() const;
     bool Playing() const;
-    
 
     
 private:    

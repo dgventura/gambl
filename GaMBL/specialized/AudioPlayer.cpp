@@ -16,7 +16,7 @@
 extern App_Prefs prefs;
 const int history_max = 2000;
 
-AudioPlayer::AudioPlayer() : m_pMusicAlbum( NULL ), history_pos( -1 ), auto_unpause( false )
+AudioPlayer::AudioPlayer() : m_pMusicAlbum( NULL ), history_pos( -1 ), auto_unpause( false ), playing( false )
 {
     prefs.init();
 }

@@ -124,6 +124,12 @@
     pAI->prev_track();
 }
 
+- (IBAction)favoriteTrack:(id)sender
+{
+    AppDelegate* pAppDelegate = (AppDelegate *)[NSApp delegate];
+    [pAppDelegate favoriteCurrentTrack];
+}
+
 - (IBAction)volumeSlider:(id)sender
 {
     float sliderValue = [_volumeControl floatValue];
