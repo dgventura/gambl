@@ -2,6 +2,44 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>rar</string>
+				<string>zip</string>
+				<string>7z</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>GaMBL Music Archive</string>
+			<key>LSHandlerRank</key>
+			<string>Default</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeIconFile</key>
+			<string>icons</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>rsn</string>
+				<string>vgz</string>
+				<string>vgm</string>
+				<string>spc</string>
+				<string>gym</string>
+				<string>nsfe</string>
+				<string>nsf</string>
+				<string>gbs</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>GaMBL Music File</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+		</dict>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -17,11 +55,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.1</string>
+	<string>0.2.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>10</string>
+	<string>11</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.music</string>
 	<key>LSMinimumSystemVersion</key>

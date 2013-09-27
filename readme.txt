@@ -11,35 +11,30 @@ first stab at Cocoa, so don't be surprised if I get some things wrong along the 
 - David Ventura, 2013.04.01 (April Fool's!)
 
 ************************************
-CURRENT STATUS (2013.05.04)
+CURRENT STATUS (2013.09.23) v0.2
 ************************************
 
 Program runs and can perform basic playback and track jump prev/next for multitrack 
 files. Lots of hacks abound to get it working but finally have proof-of-concept 
 running to prove that this is a viable project.  Cleaning up deprecated functionality
-is currently low-priority.  Next original functionality will be restored before 
-refactoring the internal implementation.
+is currently low-priority.  Refactoring of the window and audio classes is
+my first priority.
 
-Pre-alpha version is available for download in .app form from the GitHub Wiki:
+Alpha version is available for download in .app form from the GitHub Wiki:
 https://github.com/dgventura/gambl/wiki
 
 Next major tasks include:
 
--- ALPHA VERSION 0.2 --
-1. Restore channel window, WAV output
-2. Restore favorites, recently opened, and shuffle
-3. Restore keyboard commands for playback
-4. Rewrite Shay's documentation so it reflects the functionality of GaMBL
-5. Release this binary as alpha
-
 -- BETA VERSION 0.3 --
 1. Refactor classes, data flow, information hiding etc. so the model makes sense
-2. Add a playlist editor
-3. Utility window
-4. Restore fast-forward
-5. Drag and drop?
-6. Consider adding some audio units to add in effects
-7. Release this binary as beta
+2. Fix favourites to allow individual track selections
+3. Support for 7zip archives
+4. Add a playlist editor
+5. Utility window
+6. Restore fast-forward
+7. Drag and drop?
+8. Consider adding some audio units to add in effects
+9. Release this binary as beta
 
 - David
 
@@ -55,31 +50,13 @@ reflect changes I've made to GaMBL.
 Core Functionality
 ------------------
 
-Evaluate new music:
-	- Fast-forward to get to main part of track quickly
-	- Shorten track lengths so songs can be gone over in less time.
-	- Play files in order they are dropped (i.e. alphabetical).
-	- Optionally change file type immediately, so newly downloaded files
-can get a proper icon
-
-Listen to music in the background:
-	- Optional track shuffling (might want to listen to album in order).
-	- Fade tracks after they've played a while.
-	- Customize equalization for "classic" systems, since their sound can
-be irritating.
-	- Minimize user-interface and have no often-changing display that would
-distract in the background (i.e. hide elapsed time).
-
-Record music to sound files:
-	- Batch mode for converting a collection.
-	- Save current track with custom channel muting.
-
-Music utility
-	- Set icons, remove filename extensions
-	- Rename based on information tags
-	- Compress/expand
-	- Check music integrity
-
+* Play emulator files for most 8 and 16-bit systems.
+	NSF, GBS, SPC, GYM, VGM, (RAR, ZIP of aforementioned systems)
+* Basic keyboard and mouse controls for play/pause/next/prev track(s).
+* Adjust play time of tracks and shuffle play order.
+* Rudimentary equaliser and NSF channel toggle.
+* Export to WAV.
+* Tag albums as favorites.
 
 Design Decisions
 ----------------
@@ -98,14 +75,31 @@ enabled.
 Prefer rigid code that is more likely to reveal bugs than flexible code
 that hides bugs.
 
+In general, Shay's classes have an underbar in the name
+(Player_Window), whereas the classes I've written are in the Cocoa
+convention (PlayerWindow).  This is confusing, but over time I'll remove
+the deprecated classes as I refactor.
 
 Architecture
 ------------
 
-PlayerWindowController presents the main window, queues dropped files, 
-and plays them with MusicPlayer.
+(*asterisk indicates currently unsupported but planned functionality*)
 
-MusicPlayer uses File_Emu and AudioInterface to play tracks from a file.
+GaMBL uses Cocoa in place of the legacy Carbon window classes that
+controlled application flow in Game Music Box.  The model view controller
+places the window interactions in each of the controller classes.
+
+PlayerViewController presents the main window, *queues dropped files, 
+and plays them with AudioPlayer.
+
+ChannelViewController handles interaction with AudioPlayer for
+the equaliser and channel muting.
+
+AppDelegate handles application launch, shutdown, and file operations.
+
+AudioPlayer is a logical sound player which interacts with the legacy
+Music_Player which in turn uses File_Emu and AudioInterface 
+to play tracks from a file.
 
 AudioInterface is a minimal wrapper over Core Audio.
 
@@ -121,6 +115,13 @@ Wave_export handles wave exporting, using File_Emu to synthesize and
 Wave_Writer for output.
 
 App_Prefs manages the preferences file and window.
+
+How to build
+------------
+You should be able to grab the repository directory from Git, and build
+as is on Xcode 4+ on OS X 10.7 or later.  Unfortunately, THIS DOES NOT WORK
+as there are some environment problems I haven't yet resolved.  If you 
+really prefer building yourself as opposed to the binary, LET ME KNOW. :)
 
 
 Sound Queue

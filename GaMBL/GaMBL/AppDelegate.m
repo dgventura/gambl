@@ -62,7 +62,8 @@ const int GCTRL_RESETFAVORITES  = 403;
         return TRUE;
     }
     
-    NSEnumerator* tagEnumerator = [[NSArray arrayWithObjects:@"spc", @"nsf", @"gbs", @"gym", @"vgm", @"rar", @"zip", @"7z", nil] objectEnumerator];
+    //TODO: grab extensions from Info.plist CFBundleTypeExtensions
+    NSEnumerator* tagEnumerator = [[NSArray arrayWithObjects:@"spc", @"nsf", @"gbs", @"gym", @"vgm", @"vgz", @"rsn", @"rar", @"zip", @"7z", nil] objectEnumerator];
     NSString* allowedExt;
     while ((allowedExt = [tagEnumerator nextObject]))
     {
@@ -190,6 +191,9 @@ const int GCTRL_RESETFAVORITES  = 403;
 
 - (void)favoriteCurrentTrack
 {
+    if ( !_AudioInterface->has_future() )
+        return;
+    
     add_favorite( _AudioInterface->current(), _AudioInterface->GetMusicAlbum() );
     [self addFavoritesToMenu];
 }
@@ -321,6 +325,8 @@ const int GCTRL_RESETFAVORITES  = 403;
     {
         _AudioInterface = new AudioPlayer;
     }
+    
+    _AudioInterface->stop( true );
     
     NSFileHandle *file = [NSFileHandle fileHandleForReadingAtPath:filename];
     if (file == nil)
