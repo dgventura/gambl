@@ -18,21 +18,26 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Initialization code here.
+    if (self)
+    {
+        // register for notification of current track changes
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(syncEmulatorChannelsToUI:)
+                                                     name:@"TrackChanged" object:nil];
     }
     
     return self;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)updateSoundAttributes
 {
     AppDelegate* pAppDelegate = (AppDelegate *)[NSApp delegate];
     AudioPlayer* pAI = [pAppDelegate AudioInterface];
-    
-    // TODO: find a way to handle this on track changed/loaded... callback??
-    // probably should study what normal models are for syncing data across multiple views
-    [self syncEmulatorChannelsToUI];
     
     int mask = 0;
     mask |= ((_channel1Button.state == NSOffState)) << 0;
@@ -57,7 +62,7 @@
     pAI->SetEqValues( bCustomSound, fTreble, fBass, fStereo );
 }
 
-- (void)syncEmulatorChannelsToUI
+- (void)syncEmulatorChannelsToUI:(NSNotification *)notification 
 {
     if ( !self.channelButtons.count )
     {
@@ -70,11 +75,16 @@
     
     shared_ptr<Music_Album> pMA = pAI->GetMusicAlbum();
     NSMutableArray *channelNames = [[NSMutableArray alloc] init];
-    const char** ppChannelName = pMA->info().channel_names;
-    for ( int i = 0; i < pMA->info().channel_count; ++i )
+    
+    // only grab channel names if we have valid info for an active track
+    if ( pMA )
     {
-        [channelNames addObject:[NSString stringWithUTF8String:*ppChannelName]];
-        ++ppChannelName;
+        const char** ppChannelName = pMA->info().channel_names;
+        for ( int i = 0; i < pMA->info().channel_count; ++i )
+        {
+            [channelNames addObject:[NSString stringWithUTF8String:*ppChannelName]];
+            ++ppChannelName;
+        }
     }
     [self setChannelNames:channelNames];
 }

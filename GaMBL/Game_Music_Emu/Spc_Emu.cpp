@@ -25,6 +25,7 @@ Spc_Emu::Spc_Emu()
 	resample_ratio = 1.0;
 	use_resampler = false;
 	spc_data = NULL;
+    voice_count_ = Spc_Dsp::voice_count;
 }
 
 Spc_Emu::~Spc_Emu()

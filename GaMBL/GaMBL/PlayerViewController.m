@@ -94,6 +94,8 @@
         [_copyrightInfoLabel setStringValue:[NSString stringWithUTF8String:""]];
         [_trackInfoLabel setStringValue:[NSString stringWithUTF8String:"- / -: no track"]];
     }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"TrackChanged" object:self userInfo:nil];
 }
 
 - (void)stopAndClear
