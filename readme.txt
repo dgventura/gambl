@@ -11,7 +11,7 @@ first stab at Cocoa, so don't be surprised if I get some things wrong along the 
 - David Ventura, 2013.04.01 (April Fool's!)
 
 ************************************
-CURRENT STATUS (2013.09.23) v0.2
+CURRENT STATUS (2013.10.19) v0.2.2
 ************************************
 
 Program runs and can perform basic playback and track jump prev/next for multitrack 
@@ -32,9 +32,8 @@ Next major tasks include:
 4. Add a playlist editor
 5. Utility window
 6. Restore fast-forward
-7. Drag and drop?
-8. Consider adding some audio units to add in effects
-9. Release this binary as beta
+7. Consider adding some audio units to add in effects
+8. Release this binary as beta
 
 - David
 
