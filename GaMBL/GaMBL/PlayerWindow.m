@@ -8,17 +8,57 @@
 
 #import "PlayerWindow.h"
 #import "PlayerViewController.h"
+#import "AppDelegate.h"
 
 @implementation PlayerWindow
 
-- (id)initWithFrame:(NSRect)frame
+- (void)awakeFromNib
 {
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code here.
-    }
+    NSLog(@"[%@ %@]", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+    [self registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
+}
+
+- (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender
+{
+    NSPasteboard *pboard;
+    NSDragOperation sourceDragMask;
     
-    return self;
+    sourceDragMask = [sender draggingSourceOperationMask];
+    pboard = [sender draggingPasteboard];
+    
+    if ( [[pboard types] containsObject:NSFilenamesPboardType] ) {
+        if (sourceDragMask & NSDragOperationLink) {
+            return NSDragOperationLink;
+        } else if (sourceDragMask & NSDragOperationCopy) {
+            return NSDragOperationCopy;
+        }
+    }
+    return NSDragOperationNone;
+}
+
+- (BOOL)performDragOperation:(id <NSDraggingInfo>)sender
+{
+    NSPasteboard *pboard;
+    NSDragOperation sourceDragMask;
+    
+    sourceDragMask = [sender draggingSourceOperationMask];
+    pboard = [sender draggingPasteboard];
+    
+    if ( [[pboard types] containsObject:NSFilenamesPboardType] ) {
+        NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
+        
+        //TODO: maybe support special usage (like adding to favorites??) if modifier keys are used
+        // Depending on the dragging source and modifier keys,
+        // the file data may be copied or linked
+        AppDelegate* pAppDelegate = (AppDelegate *)[NSApp delegate];
+        /*if (sourceDragMask & NSDragOperationLink) {
+            [pAppDelegate application:[NSApplication sharedApplication] openFile:files[0]];
+        } else {
+            [pAppDelegate application:[NSApplication sharedApplication] openFile:files[0]];
+        }*/
+        [pAppDelegate enqueueMultipleFiles:files :YES];
+    }
+    return YES;
 }
 
 - (BOOL)acceptsFirstResponder

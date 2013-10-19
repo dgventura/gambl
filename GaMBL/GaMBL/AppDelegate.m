@@ -319,8 +319,6 @@ const int GCTRL_RESETFAVORITES  = 403;
 
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
 {
-    BOOL bFileOk = NO;
-    
     if ( _AudioInterface == NULL )
     {
         _AudioInterface = new AudioPlayer;
@@ -328,9 +326,18 @@ const int GCTRL_RESETFAVORITES  = 403;
     
     _AudioInterface->stop( true );
     
+    BOOL bFileOk  = [self enqueueSingleFile:filename];
+    
+    return bFileOk;
+}
+
+- (BOOL)enqueueSingleFile:(NSString *)filename
+{
+    BOOL bFileOk = NO;
+    
     NSFileHandle *file = [NSFileHandle fileHandleForReadingAtPath:filename];
-    if (file == nil)
-        NSLog(@"Failed to open file");
+    if ( file == nil )
+        NSLog( @"Failed to open file %@", filename );
     else
     {
         bFileOk = _AudioInterface->LoadFile( file );
@@ -343,6 +350,17 @@ const int GCTRL_RESETFAVORITES  = 403;
     [file closeFile];
     
     return bFileOk;
+}
+
+- (void)enqueueMultipleFiles:(NSArray *)fileNames :(BOOL)bResetPlayer
+{
+    if ( bResetPlayer )
+        _AudioInterface->stop( true );
+    
+    for (NSString *currentName in fileNames)
+    {
+        [self enqueueSingleFile:currentName];
+    }
 }
 
 - (void)dealloc

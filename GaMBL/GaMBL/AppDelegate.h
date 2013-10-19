@@ -27,6 +27,7 @@
 - (IBAction)viewMenu:(id)sender;
 - (IBAction)favoritesMenu:(id)sender;
 
+- (void)enqueueMultipleFiles:(NSArray *)fileNames :(BOOL)bResetPlayer;
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename;
 - (BOOL)panel:(id)sender shouldShowFilename:(NSString *)filename;
 - (BOOL)validateMenuItem:(NSMenuItem *)item;
