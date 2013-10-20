@@ -127,4 +127,11 @@
 {
     [self updateSoundAttributes];
 }
+
+- (IBAction)exportStems:(id)sender
+{
+    AppDelegate* pAppDelegate = (AppDelegate *)[NSApp delegate];
+    AudioPlayer* pAI = [pAppDelegate AudioInterface];
+    pAI->RecordCurrentTrack( true );
+}
 @end

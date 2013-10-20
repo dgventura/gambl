@@ -30,6 +30,7 @@
 - (IBAction)trebleSliderMoved:(id)sender;
 - (IBAction)bassSliderMoved:(id)sender;
 - (IBAction)stereoSliderMoved:(id)sender;
+- (IBAction)exportStems:(id)sender;
 
 - (void)updateSoundAttributes;
 - (void)setChannelNames:(NSArray *)channelNames;

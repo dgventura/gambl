@@ -119,12 +119,12 @@ bool AudioPlayer::Playing() const
     return playing;
 }
 
-void AudioPlayer::RecordCurrentTrack()
+void AudioPlayer::RecordCurrentTrack( bool bSeparateAllChannels )
 {
-    record_track( current(), mute_mask );
+    record_track( current(), mute_mask, bSeparateAllChannels );
 }
 
-void AudioPlayer::record_track( const track_ref_t& track, int mute_mask )
+void AudioPlayer::record_track( const track_ref_t& track, int mute_mask, bool bSeparateAllChannels )
 {
 	// to do: make copy of track if use persists after nav dialog
 	unique_ptr<Music_Album> album( load_music_album( FSResolveAliasFileChk( track ) ) );
@@ -138,9 +138,8 @@ void AudioPlayer::record_track( const track_ref_t& track, int mute_mask )
 	File_Emu emu;
 	emu.change_setup( prefs );
 	emu.load( album.get(), wave_sample_rate );
-	emu.set_mute( mute_mask );
-	emu.start_track( track.track );
-	album->uncache();
+    emu.set_mute( mute_mask );
+    emu.start_track( track.track ); // IMPORTANT!! This is needed to be used before grabbing album metadata because the starting actually loads the archive into memory
 	
 	// generate initial filename
 	char name [256];
@@ -155,25 +154,43 @@ void AudioPlayer::record_track( const track_ref_t& track, int mute_mask )
 	}
 	
 	// get save location
-	CFStringRef str = CFStringCreateWithCString( NULL, name, kCFStringEncodingASCII );
 	FSRef dir;
 	HFSUniStr255 filename;
     
-	if ( ask_save_file( &dir, &filename, str ) )
+	if ( ask_save_file( &dir, &filename, name ) )
 	{
-		// write wave
-	//TODO	Progress_Window pw( "Record Track" );
-		char new_name [256];
-		filename_to_str( filename, new_name );
-	//TODO	pw.set_text( new_name );
-	//TODO	pw.set_total( 1 );
-		try {
-			write_wave( emu, dir, filename, -1/*, &pw*/ );
-		}
-		catch ( ... ) {
-			handle_disk_full();
-			throw;
-		}
+        char baseFileName[PATH_MAX];
+        filename_to_str( filename, baseFileName );
+        remove_filename_extension( baseFileName );
+        
+        int nMaxChannels = bSeparateAllChannels ? emu.emu()->voice_count() : 1;
+            mute_mask = 0x7fff;
+
+        for ( int nChannel = 0; nChannel < nMaxChannels; ++nChannel )
+        {
+            if ( bSeparateAllChannels )
+            {
+                char new_name [256];
+                mute_mask = 0x7fff;
+                mute_mask &= ~(1 << nChannel);
+                sprintf( new_name, "%s %s.wav", baseFileName, album->info().channel_names[nChannel] );
+                str_to_filename( new_name, filename );
+            }
+            
+            emu.set_mute( mute_mask );
+            emu.start_track( track.track );
+            //album->uncache();
+            
+            try
+            {
+                write_wave( emu, dir, filename, -1/*, &pw*/ );
+            }
+            catch ( ... )
+            {
+                handle_disk_full();
+                throw;
+            }
+        }
 	}
 }
 

@@ -111,7 +111,7 @@ const int GCTRL_RESETFAVORITES  = 403;
     switch ( nControlTag )
     {
         case GCTRL_EXPORT:
-            _AudioInterface->RecordCurrentTrack();
+            _AudioInterface->RecordCurrentTrack( false );
             break;
     }
 }
@@ -200,7 +200,7 @@ const int GCTRL_RESETFAVORITES  = 403;
 
 - (void)recordTrackPushed
 {
-    _AudioInterface->RecordCurrentTrack();
+    _AudioInterface->RecordCurrentTrack( false );
 }
 
 - (NSMutableArray *)getFavoritePaths

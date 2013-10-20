@@ -35,7 +35,7 @@ public:
     void SetSkipShortTracks( bool bSkip );
     void SetPlayLength( int nLength );
     void ExtendCurrent();
-    void RecordCurrentTrack();
+    void RecordCurrentTrack( bool bSeparateAllChannels );
     
     bool NextTrackOk();
     bool PreviousTrackOk() const;
@@ -72,7 +72,7 @@ public:	bool prev_track();
     void stop( bool clear_history = false );
     void stopped();
     
-    void record_track( const track_ref_t& track, int mute_mask );
+    void record_track( const track_ref_t& track, int mute_mask, bool bSeparateAllChannels );
     
     bool auto_unpause;
     
