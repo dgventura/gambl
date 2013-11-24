@@ -164,7 +164,6 @@ void AudioPlayer::record_track( const track_ref_t& track, int mute_mask, bool bS
         remove_filename_extension( baseFileName );
         
         int nMaxChannels = bSeparateAllChannels ? emu.emu()->voice_count() : 1;
-            mute_mask = 0x7fff;
 
         for ( int nChannel = 0; nChannel < nMaxChannels; ++nChannel )
         {
@@ -183,7 +182,7 @@ void AudioPlayer::record_track( const track_ref_t& track, int mute_mask, bool bS
             
             try
             {
-                write_wave( emu, dir, filename, -1/*, &pw*/ );
+                write_wave( emu, dir, filename, -1, NULL/*&pw*/, bSeparateAllChannels );
             }
             catch ( ... )
             {
