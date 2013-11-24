@@ -90,7 +90,6 @@
 		63A29CC5170D5B5B00284B6B /* unpack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63A29C54170D5B5B00284B6B /* unpack.cpp */; };
 		63A29CC6170D5B5B00284B6B /* unpack15.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63A29C56170D5B5B00284B6B /* unpack15.cpp */; };
 		63A29CC7170D5B5B00284B6B /* unpack20.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63A29C57170D5B5B00284B6B /* unpack20.cpp */; };
-		63A29CC8170D5B5B00284B6B /* Audio_Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63A29C60170D5B5B00284B6B /* Audio_Player.cpp */; };
 		63A29CCA170D5B5B00284B6B /* File_Archive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63A29C64170D5B5B00284B6B /* File_Archive.cpp */; };
 		63A29CCB170D5B5B00284B6B /* Gzip_Reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63A29C66170D5B5B00284B6B /* Gzip_Reader.cpp */; };
 		63A29CCC170D5B5B00284B6B /* sound_debugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63A29C68170D5B5B00284B6B /* sound_debugger.cpp */; };
@@ -136,7 +135,7 @@
 		631B56AA1717DABB0038982C /* CADebugPrintf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CADebugPrintf.cpp; path = ../../../../../../Library/Developer/CoreAudio/PublicUtility/CADebugPrintf.cpp; sourceTree = "<group>"; };
 		631B56AB1717DABB0038982C /* CADebugPrintf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CADebugPrintf.h; path = ../../../../../../Library/Developer/CoreAudio/PublicUtility/CADebugPrintf.h; sourceTree = "<group>"; };
 		631B56AC1717DABB0038982C /* CAException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CAException.h; path = ../../../../../../Library/Developer/CoreAudio/PublicUtility/CAException.h; sourceTree = "<group>"; };
-		632AB8BD1734B1F500DB99FC /* icons.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icons.icns; sourceTree = "<group>"; };
+		632AB8BD1734B1F500DB99FC /* icons.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = icons.icns; path = ../icons.icns; sourceTree = "<group>"; };
 		632AB8C11734B64800DB99FC /* speaker.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = speaker.icns; path = ../speaker.icns; sourceTree = "<group>"; };
 		63A29B8A170C34D700284B6B /* GaMBL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GaMBL.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63A29B8E170C34D700284B6B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -304,8 +303,6 @@
 		63A29C5C170D5B5B00284B6B /* enable_optimizer.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = enable_optimizer.h; sourceTree = "<group>"; };
 		63A29C5D170D5B5B00284B6B /* prefix.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = prefix.h; sourceTree = "<group>"; };
 		63A29C5E170D5B5B00284B6B /* source_begin.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = source_begin.h; sourceTree = "<group>"; };
-		63A29C60170D5B5B00284B6B /* Audio_Player.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Audio_Player.cpp; sourceTree = "<group>"; };
-		63A29C61170D5B5B00284B6B /* Audio_Player.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Audio_Player.h; sourceTree = "<group>"; };
 		63A29C64170D5B5B00284B6B /* File_Archive.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = File_Archive.cpp; sourceTree = "<group>"; };
 		63A29C65170D5B5B00284B6B /* File_Archive.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = File_Archive.h; sourceTree = "<group>"; };
 		63A29C66170D5B5B00284B6B /* Gzip_Reader.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Gzip_Reader.cpp; sourceTree = "<group>"; };
@@ -380,8 +377,6 @@
 		63A29B7F170C34D700284B6B = {
 			isa = PBXGroup;
 			children = (
-				632AB8C11734B64800DB99FC /* speaker.icns */,
-				632AB8BD1734B1F500DB99FC /* icons.icns */,
 				63E58EF0171944A900C31D10 /* CoreAudio.framework */,
 				63E8F4051716E47100FF269A /* AudioUnit.framework */,
 				63E8F3EF1716CA9500FF269A /* PublicUtility */,
@@ -452,6 +447,8 @@
 		63A29B95170C34D700284B6B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				632AB8C11734B64800DB99FC /* speaker.icns */,
+				632AB8BD1734B1F500DB99FC /* icons.icns */,
 				63A29B96170C34D700284B6B /* GaMBL-Info.plist */,
 				63A29B97170C34D700284B6B /* InfoPlist.strings */,
 				63A29B9A170C34D700284B6B /* main.m */,
@@ -681,8 +678,6 @@
 		63A29C5F170D5B5B00284B6B /* specialized */ = {
 			isa = PBXGroup;
 			children = (
-				63A29C60170D5B5B00284B6B /* Audio_Player.cpp */,
-				63A29C61170D5B5B00284B6B /* Audio_Player.h */,
 				63A29C64170D5B5B00284B6B /* File_Archive.cpp */,
 				63A29C65170D5B5B00284B6B /* File_Archive.h */,
 				63A29C66170D5B5B00284B6B /* Gzip_Reader.cpp */,
@@ -917,7 +912,6 @@
 				63A29CC5170D5B5B00284B6B /* unpack.cpp in Sources */,
 				63A29CC6170D5B5B00284B6B /* unpack15.cpp in Sources */,
 				63A29CC7170D5B5B00284B6B /* unpack20.cpp in Sources */,
-				63A29CC8170D5B5B00284B6B /* Audio_Player.cpp in Sources */,
 				63A29CCA170D5B5B00284B6B /* File_Archive.cpp in Sources */,
 				63A29CCB170D5B5B00284B6B /* Gzip_Reader.cpp in Sources */,
 				63A29CCC170D5B5B00284B6B /* sound_debugger.cpp in Sources */,

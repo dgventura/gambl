@@ -44,6 +44,11 @@ public:
     void stop( bool clear_history = false );
     track_ref_t& current();
     bool has_future();
+    
+    bool prev_track();
+	bool next_track();
+	void toggle_pause();
+    void update_time( string& strTemp );
 
     
 private:    
@@ -57,8 +62,6 @@ private:
     Music_Queue queue;
 	Music_Queue history;
 	int history_pos;
-private:	
-    
     
     // player
     shared_ptr< Music_Album > m_pMusicAlbum;
@@ -68,17 +71,12 @@ private:
 	bool playing;
 	bool play_current_();
 	bool start_track();
-private:	bool prev_track();
-	bool next_track();
-	void toggle_pause();
-    void update_time( string& strTemp );
+
     void stopped();
     
     void record_track( const track_ref_t& track, int mute_mask, bool bSeparateAllChannels );
     
     bool auto_unpause;
-    
-    
 };
 
 #endif //   AUDIOPLAYER_H

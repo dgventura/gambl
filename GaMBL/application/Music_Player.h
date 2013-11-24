@@ -10,7 +10,6 @@
 #include "thread_util.h"
 
 #include "File_Emu.h"
-#include "Audio_Player.h"
 #include "AudioInterface.h"
 
 class Music_Album;
@@ -74,7 +73,7 @@ private:
 	
 	// queue
 	enum { blocks_per_sec = 44100 / block_size }; // approximate
-	typedef Audio_Player::sample_t sample_t;
+	typedef short sample_t;
 	typedef sample_t block_t [block_size];
 	runtime_array<block_t> blocks;
 	volatile int write_pos;
