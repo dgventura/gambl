@@ -41,6 +41,9 @@ public:
     bool PreviousTrackOk() const;
     bool CurrentTrackOk() const;
     bool Playing() const;
+    void stop( bool clear_history = false );
+    track_ref_t& current();
+    bool has_future();
 
     
 private:    
@@ -54,8 +57,8 @@ private:
     Music_Queue queue;
 	Music_Queue history;
 	int history_pos;
-public:	track_ref_t& current();
-    bool has_future();
+private:	
+    
     
     // player
     shared_ptr< Music_Album > m_pMusicAlbum;
@@ -65,11 +68,10 @@ public:	track_ref_t& current();
 	bool playing;
 	bool play_current_();
 	bool start_track();
-public:	bool prev_track();
+private:	bool prev_track();
 	bool next_track();
 	void toggle_pause();
     void update_time( string& strTemp );
-    void stop( bool clear_history = false );
     void stopped();
     
     void record_track( const track_ref_t& track, int mute_mask, bool bSeparateAllChannels );
