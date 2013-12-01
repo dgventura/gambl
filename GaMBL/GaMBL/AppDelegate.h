@@ -7,11 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "AudioPlayer.h"
+#import "GameMusicPlayer.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate, NSOpenSavePanelDelegate>
 
-@property AudioPlayer* AudioInterface;
+@property GameMusicPlayer* musicPlayer;
 @property (weak) IBOutlet NSMenuItem *shortMenuItem;
 @property (weak) IBOutlet NSMenuItem *normalMenuItem;
 @property (weak) IBOutlet NSMenuItem *extendedMenuItem;

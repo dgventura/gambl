@@ -29,7 +29,7 @@
 - (void)updatePlaybackUI
 {
     AppDelegate* pAppDelegate = (AppDelegate *)[NSApp delegate];
-    AudioPlayer* pAI = [pAppDelegate AudioInterface];
+    GameMusicPlayer* pAI = [pAppDelegate musicPlayer];
     
     string strTemp;
     pAI->update_time( strTemp );
@@ -55,7 +55,7 @@
 - (void)updateTrackInfo
 {
     AppDelegate* pAppDelegate = (AppDelegate *)[NSApp delegate];
-    AudioPlayer* pAI = [pAppDelegate AudioInterface];
+    GameMusicPlayer* pAI = [pAppDelegate musicPlayer];
     
     if ( pAI && pAI->GetMusicAlbum() )
     {
@@ -101,28 +101,28 @@
 - (void)stopAndClear
 {
     AppDelegate* pAppDelegate = (AppDelegate *)[NSApp delegate];
-    AudioPlayer* pAI = [pAppDelegate AudioInterface];
+    GameMusicPlayer* pAI = [pAppDelegate musicPlayer];
     pAI->stop( true );
 }
 
 - (IBAction)playTrack:(id)sender
 {
     AppDelegate* pAppDelegate = (AppDelegate *)[NSApp delegate];
-    AudioPlayer* pAI = [pAppDelegate AudioInterface];
+    GameMusicPlayer* pAI = [pAppDelegate musicPlayer];
     pAI->toggle_pause();
 }
 
 - (IBAction)nextTrack:(id)sender
 {
     AppDelegate* pAppDelegate = (AppDelegate *)[NSApp delegate];
-    AudioPlayer* pAI = [pAppDelegate AudioInterface];
+    GameMusicPlayer* pAI = [pAppDelegate musicPlayer];
     pAI->next_track();
 }
 
 - (IBAction)previousTrack:(id)sender
 {
     AppDelegate* pAppDelegate = (AppDelegate *)[NSApp delegate];
-    AudioPlayer* pAI = [pAppDelegate AudioInterface];
+    GameMusicPlayer* pAI = [pAppDelegate musicPlayer];
     pAI->prev_track();
 }
 
@@ -137,7 +137,7 @@
     float sliderValue = [_volumeControl floatValue];
     
     AppDelegate* pAppDelegate = (AppDelegate *)[NSApp delegate];
-    AudioPlayer* pAI = [pAppDelegate AudioInterface];
+    GameMusicPlayer* pAI = [pAppDelegate musicPlayer];
     pAI->SetVolume( sliderValue / 100.0f );
 }
 

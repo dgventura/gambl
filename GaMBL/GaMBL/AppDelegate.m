@@ -35,7 +35,7 @@ const int GCTRL_RESETFAVORITES  = 403;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    _AudioInterface = new AudioPlayer;
+    _musicPlayer = new GameMusicPlayer;
  
 #if GAMBL_AUTOLOADTEST
     // try opening an .SPC file
@@ -44,7 +44,7 @@ const int GCTRL_RESETFAVORITES  = 403;
         NSLog(@"Failed to open file");
     else
     {
-        _AudioInterface->LoadFile( file );
+        _musicPlayer->LoadFile( file );
     }
     
     [file closeFile];
@@ -111,7 +111,7 @@ const int GCTRL_RESETFAVORITES  = 403;
     switch ( nControlTag )
     {
         case GCTRL_EXPORT:
-            _AudioInterface->RecordCurrentTrack( false );
+            _musicPlayer->RecordCurrentTrack( false );
             break;
     }
 }
@@ -124,20 +124,20 @@ const int GCTRL_RESETFAVORITES  = 403;
     {
         case GCTRL_SHUFFLE:
             [menuItem setState:![menuItem state]];
-            _AudioInterface->SetShuffle( [menuItem state] == NSOnState );
+            _musicPlayer->SetShuffle( [menuItem state] == NSOnState );
             break;
         case GCTRL_SKIPSHORT:
             [menuItem setState:![menuItem state]];
-            _AudioInterface->SetSkipShortTracks( [menuItem state] == NSOnState );
+            _musicPlayer->SetSkipShortTracks( [menuItem state] == NSOnState );
             break;
         case GCTRL_EXTENDCUR:
-            _AudioInterface->ExtendCurrent();
+            _musicPlayer->ExtendCurrent();
             break;
         case GCTRL_LENSHORT:
         case GCTRL_LENNORM:
         case GCTRL_LENEXT:
         case GCTRL_LENDENDLESS:
-            _AudioInterface->SetPlayLength( nControlTag - GCTRL_LENSHORT );
+            _musicPlayer->SetPlayLength( nControlTag - GCTRL_LENSHORT );
             [_shortMenuItem setState:(nControlTag == GCTRL_LENSHORT ? NSOnState : NSOffState)];
             [_normalMenuItem setState:(nControlTag == GCTRL_LENNORM ? NSOnState : NSOffState)];
             [_extendedMenuItem setState:(nControlTag == GCTRL_LENEXT ? NSOnState : NSOffState)];
@@ -191,16 +191,16 @@ const int GCTRL_RESETFAVORITES  = 403;
 
 - (void)favoriteCurrentTrack
 {
-    if ( !_AudioInterface->has_future() )
+    if ( !_musicPlayer->has_future() )
         return;
     
-    add_favorite( _AudioInterface->current(), _AudioInterface->GetMusicAlbum() );
+    add_favorite( _musicPlayer->current(), _musicPlayer->GetMusicAlbum() );
     [self addFavoritesToMenu];
 }
 
 - (void)recordTrackPushed
 {
-    _AudioInterface->RecordCurrentTrack( false );
+    _musicPlayer->RecordCurrentTrack( false );
 }
 
 - (NSMutableArray *)getFavoritePaths
@@ -254,7 +254,7 @@ const int GCTRL_RESETFAVORITES  = 403;
 - (void)playFavorites
 {
     // clear all current playback status
-    _AudioInterface->stop( true );
+    _musicPlayer->stop( true );
 
     NSMutableArray *favorites = [self getFavoritePaths];
     
@@ -262,7 +262,7 @@ const int GCTRL_RESETFAVORITES  = 403;
     {
         NSLog( @"Queueing favorite: %@", path );
         NSFileHandle *file = [NSFileHandle fileHandleForReadingAtPath:path];
-        _AudioInterface->LoadFile( file );
+        _musicPlayer->LoadFile( file );
     }
 }
 
@@ -306,9 +306,9 @@ const int GCTRL_RESETFAVORITES  = 403;
 {
     // disable playback menu when nothing is loaded
     if ( [item parentItem] == _playbackMenu )
-        return _AudioInterface->GetMusicAlbum() ? YES : NO;
+        return _musicPlayer->GetMusicAlbum() ? YES : NO;
     else if ( [item tag] == GCTRL_EXPORT )
-        return _AudioInterface->Playing() ? YES : NO;
+        return _musicPlayer->Playing() ? YES : NO;
     else if ( [item tag] == GCTRL_SHOWSOUNDPANEL )
     {
         [item setState:[_soundPanel isVisible]];
@@ -319,12 +319,12 @@ const int GCTRL_RESETFAVORITES  = 403;
 
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
 {
-    if ( _AudioInterface == NULL )
+    if ( _musicPlayer == NULL )
     {
-        _AudioInterface = new AudioPlayer;
+        _musicPlayer = new GameMusicPlayer;
     }
     
-    _AudioInterface->stop( true );
+    _musicPlayer->stop( true );
     
     BOOL bFileOk  = [self enqueueSingleFile:filename];
     
@@ -340,7 +340,7 @@ const int GCTRL_RESETFAVORITES  = 403;
         NSLog( @"Failed to open file %@", filename );
     else
     {
-        bFileOk = _AudioInterface->LoadFile( file );
+        bFileOk = _musicPlayer->LoadFile( file );
         
         if ( bFileOk )
         {
@@ -355,7 +355,7 @@ const int GCTRL_RESETFAVORITES  = 403;
 - (void)enqueueMultipleFiles:(NSArray *)fileNames :(BOOL)bResetPlayer
 {
     if ( bResetPlayer )
-        _AudioInterface->stop( true );
+        _musicPlayer->stop( true );
     
     for (NSString *currentName in fileNames)
     {
@@ -365,7 +365,7 @@ const int GCTRL_RESETFAVORITES  = 403;
 
 - (void)dealloc
 {
-    delete _AudioInterface;
+    delete _musicPlayer;
 }
 
 - (void)keyUp:(NSEvent*)event
