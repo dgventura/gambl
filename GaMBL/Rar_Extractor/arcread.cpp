@@ -104,7 +104,7 @@ const char* Archive::ReadHeader()
 						Raw.Get(&hd->SubData[0],DataSize);
 						if (hd->CmpName(SUBHEAD_TYPE_RR))
 						{
-							byte *D=&hd->SubData[8];
+							//DGV byte *D=&hd->SubData[8];
 						}
 					}
 				}

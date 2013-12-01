@@ -268,8 +268,10 @@ void Unpack::ReadLastTables()
         ReadTables20();
     }
     else
+    {
       if (DecodeNumber((struct Decode *)&LD)==269)
         ReadTables20();
+    }
 }
 
 

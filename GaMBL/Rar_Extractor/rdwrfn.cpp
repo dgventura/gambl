@@ -66,7 +66,9 @@ void ComprDataIO::UnpWrite(byte *Addr,uint Count)
       UnpFileCRC=OldCRC((ushort)UnpFileCRC,Addr,Count);
     else
 #endif
+    {
       UnpFileCRC=CRC(UnpFileCRC,Addr,Count);
+    }
 }
 
 void ComprDataIO::SetFiles( Archive* in, Rar_Writer* out )

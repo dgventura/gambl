@@ -26,14 +26,8 @@ void write_wave( File_Emu& emu, const FSRef& dir, const HFSUniStr255& name,
 bool select_music_items( Music_Queue*, const char* title, const char* message,
 		const char* button );
 
-void record_track_( const track_ref_t& track, const FSRef& out_dir,
-		const File_Emu::setup_t&, Progress_Hook& );
-
 // Ask for output folder then record tracks
 void record_tracks( const track_ref_t*, int count );
-
-// Ask for output file then record track
-void record_track( const track_ref_t&, int mute_mask );
 
 #endif
 

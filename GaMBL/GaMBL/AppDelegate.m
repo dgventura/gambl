@@ -57,7 +57,7 @@ const int GCTRL_RESETFAVORITES  = 403;
 -(BOOL)panel:(id)sender shouldShowFilename:(NSString *)filename
 {
     NSString* ext = [filename pathExtension];
-    if (ext == @"" || ext == @"/" || ext == nil || ext == NULL || [ext length] < 1)
+    if ( ext == nil || ext == NULL || [ext length] < 1 || [ext compare:@"/"] == NSOrderedSame )
     {
         return TRUE;
     }
@@ -168,8 +168,8 @@ const int GCTRL_RESETFAVORITES  = 403;
 - (IBAction)favoritesMenu:(id)sender
 {
     const int nControlTag = [sender tag];
-    NSMenuItem *menuItem = (NSMenuItem *)sender;
-    NSString *favoriteText = [menuItem title];
+    //NSMenuItem *menuItem = (NSMenuItem *)sender;
+    //NSString *favoriteText = [menuItem title];
     switch ( nControlTag )
     {
         case GCTRL_ADDFAVORITE:
@@ -191,10 +191,10 @@ const int GCTRL_RESETFAVORITES  = 403;
 
 - (void)favoriteCurrentTrack
 {
-    if ( !_musicPlayer->has_future() )
+    if ( !_musicPlayer->CurrentTrackOk() )
         return;
     
-    add_favorite( _musicPlayer->current(), _musicPlayer->GetMusicAlbum() );
+    add_favorite( _musicPlayer->GetCurrentTrack(), _musicPlayer->GetMusicAlbum() );
     [self addFavoritesToMenu];
 }
 
@@ -254,7 +254,7 @@ const int GCTRL_RESETFAVORITES  = 403;
 - (void)playFavorites
 {
     // clear all current playback status
-    _musicPlayer->stop( true );
+    _musicPlayer->Stop( true );
 
     NSMutableArray *favorites = [self getFavoritePaths];
     
@@ -270,7 +270,7 @@ const int GCTRL_RESETFAVORITES  = 403;
 {
     FSRef dir = favorites_dir();
     char szPath[PATH_MAX];
-    OSStatus err = FSRefMakePath( &dir, (UInt8*)szPath, sizeof(szPath) );
+    FSRefMakePath( &dir, (UInt8*)szPath, sizeof(szPath) );
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSDirectoryEnumerator *en = [fileManager enumeratorAtPath:[NSString stringWithUTF8String:szPath]];
@@ -324,7 +324,7 @@ const int GCTRL_RESETFAVORITES  = 403;
         _musicPlayer = new GameMusicPlayer;
     }
     
-    _musicPlayer->stop( true );
+    _musicPlayer->Stop( true );
     
     BOOL bFileOk  = [self enqueueSingleFile:filename];
     
@@ -355,7 +355,7 @@ const int GCTRL_RESETFAVORITES  = 403;
 - (void)enqueueMultipleFiles:(NSArray *)fileNames :(BOOL)bResetPlayer
 {
     if ( bResetPlayer )
-        _musicPlayer->stop( true );
+        _musicPlayer->Stop( true );
     
     for (NSString *currentName in fileNames)
     {
@@ -370,7 +370,7 @@ const int GCTRL_RESETFAVORITES  = 403;
 
 - (void)keyUp:(NSEvent*)event
 {
-    int pony =88;
+    //TODO: to we need to handle this??
 }
 
 @end

@@ -277,10 +277,11 @@ static void compress_item( const Cat_Info& info, Action_Hooks& hooks, bool pack_
 {
 	if ( info.is_dir() )
 	{
-		int spc_count = 0;
 		
 		// to do: re-enable when re-adding packed SPC support
 		/*
+         
+         int spc_count = 0;
 		
 		if ( pack_spcs && !hooks.is_scanning() )
 		{

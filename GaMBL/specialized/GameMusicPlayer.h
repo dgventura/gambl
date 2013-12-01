@@ -25,9 +25,10 @@ public:
     virtual ~GameMusicPlayer();
 
     bool LoadFile( NSFileHandle* const pDataBuffer );
-    shared_ptr< Music_Album > GetMusicAlbum() const;
-    bool play_current();
     
+    shared_ptr< Music_Album > GetMusicAlbum() const;
+    
+    // mutators for UI handling
     void SetVolume( float fVolume );
     void SetChannelMask( unsigned int nMask );
     void SetEqValues( bool bCustomSound, float fTreble, float fBass, float fStereo );
@@ -35,21 +36,19 @@ public:
     void SetSkipShortTracks( bool bSkip );
     void SetPlayLength( int nLength );
     void ExtendCurrent();
+    void Stop( bool clear_history = false );
+    bool PlayPreviousTrack();
+	bool PlayNextTrack();
+	void TogglePause();
+    void UpdatePlaybackTime( string& strTemp );
     void RecordCurrentTrack( bool bSeparateAllChannels );
-    
+
+    // query playback state
     bool NextTrackOk();
     bool PreviousTrackOk() const;
     bool CurrentTrackOk() const;
     bool Playing() const;
-    void stop( bool clear_history = false );
-    track_ref_t& current();
-    bool has_future();
-    
-    bool prev_track();
-	bool next_track();
-	void toggle_pause();
-    void update_time( string& strTemp );
-
+    track_ref_t& GetCurrentTrack();
     
 private:    
     // incoming files
@@ -60,6 +59,7 @@ private:
     Music_Queue queue;
 	Music_Queue history;
 	int history_pos;
+    bool has_future();
     
     // player
     shared_ptr< Music_Album > m_pMusicAlbum;
@@ -69,8 +69,7 @@ private:
 	bool playing;
 	bool start_track();
     void stopped();
-    
-    
+    bool play_current();
     void record_track( const track_ref_t& track, int mute_mask, bool bSeparateAllChannels );
     
     bool auto_unpause;

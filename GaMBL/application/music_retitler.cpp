@@ -207,7 +207,7 @@ static void retitle_item( const Cat_Info& info, Action_Hooks& hooks )
 	
 	char dir_name [64];
 	dir_name [0] = 0;
-	OSType single_type = 0;
+//DGV	OSType single_type = 0;
 	
 	// rename files
 	for ( int i = 0; i < files.size(); i++ )

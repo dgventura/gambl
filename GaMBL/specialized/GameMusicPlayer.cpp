@@ -121,7 +121,7 @@ bool GameMusicPlayer::Playing() const
 
 void GameMusicPlayer::RecordCurrentTrack( bool bSeparateAllChannels )
 {
-    record_track( current(), mute_mask, bSeparateAllChannels );
+    record_track( GetCurrentTrack(), mute_mask, bSeparateAllChannels );
 }
 
 void GameMusicPlayer::record_track( const track_ref_t& track, int mute_mask, bool bSeparateAllChannels )
@@ -211,7 +211,7 @@ bool GameMusicPlayer::end_drop( bool immediate )
 		scoped_restorer<bool> r( &prefs.songs_only );
 		if ( queue.size() == 1 )
 			prefs.songs_only = false; // disable songs_only in case single non-song track was played
-		next_track();
+		PlayNextTrack();
 		if ( !playing )
 			return false;
 	}
@@ -230,7 +230,7 @@ bool GameMusicPlayer::play_current()
 //		scope->clear( true );
     
     //TODO: figure out how behavior should work when playing to end
-    	track_ref_t& track_ref = current();
+    track_ref_t& track_ref = GetCurrentTrack();
     FSRef path = FSResolveAliasFileChk( track_ref );
     
 	OSType file_type = 0;
@@ -272,7 +272,7 @@ bool GameMusicPlayer::play_current()
 	return true;
 }
 
-bool GameMusicPlayer::next_track()
+bool GameMusicPlayer::PlayNextTrack()
 {
 	history_pos++;
 	
@@ -288,11 +288,11 @@ bool GameMusicPlayer::next_track()
 	
 	// no more tracks
 	history_pos = history.size();
-	stop();
+	Stop();
 	return false;
 }
 
-bool GameMusicPlayer::prev_track()
+bool GameMusicPlayer::PlayPreviousTrack()
 {
 	if ( m_pMusicAlbum && (m_EmuInterface.elapsed() > 3 || !playing) ) {
 		if ( start_track() )
@@ -302,7 +302,7 @@ bool GameMusicPlayer::prev_track()
 	while ( history_pos > 0 )
 	{
 		history_pos--;
-		if ( !FSResolveAliasFileExists( current() ) ) {
+		if ( !FSResolveAliasFileExists( GetCurrentTrack() ) ) {
 			history.erase( history.begin() + history_pos );
 		}
 		else if ( play_current() )
@@ -312,7 +312,7 @@ bool GameMusicPlayer::prev_track()
 	// no more tracks
 	if ( history_pos != -1 ) {
 		history_pos = -1;
-		stop();
+		Stop();
 	}
 	return false;
 }
@@ -321,7 +321,7 @@ bool GameMusicPlayer::start_track()
 {
 	bool was_playing = playing;
 	playing = false; // in case error occurs
-	m_EmuInterface.start_track( current().track );
+	m_EmuInterface.start_track( GetCurrentTrack().track );
 	playing = was_playing;
 	if ( prefs.songs_only && !m_pMusicAlbum->info().is_song )
 		return false;
@@ -335,7 +335,7 @@ bool GameMusicPlayer::start_track()
 	return true;
 }
 
-void GameMusicPlayer::stop( bool clear_history )
+void GameMusicPlayer::Stop( bool clear_history )
 {
 	if ( clear_history ) {
 		reset_container( history );
@@ -356,7 +356,7 @@ void GameMusicPlayer::stop( bool clear_history )
 	m_pMusicAlbum.reset();
 }
 
-void GameMusicPlayer::toggle_pause()
+void GameMusicPlayer::TogglePause()
 {
 	playing = !playing;
 	if ( playing ) {
@@ -435,7 +435,7 @@ bool GameMusicPlayer::has_future()
 	return false;
 }
 
-track_ref_t& GameMusicPlayer::current() {
+track_ref_t& GameMusicPlayer::GetCurrentTrack() {
 	assert( history_pos < history.size() );
 	return history [history_pos];
 }
@@ -447,11 +447,11 @@ static void append_time( string& strTemp, int seconds )
     strTemp += num;
 }
 
-void GameMusicPlayer::update_time( string& strTemp )
+void GameMusicPlayer::UpdatePlaybackTime( string& strTemp )
 {
     if ( m_EmuInterface.is_done( TRUE ) )
     {
-        next_track();
+        PlayNextTrack();
     }
     
 	if ( !prefs.show_info || !m_pMusicAlbum )

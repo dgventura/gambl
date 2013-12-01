@@ -50,9 +50,9 @@ public:
 	
 	struct out_end_ {
 		void operator = ( debug_out_ const& ) const {
+            #if DEBUG_OUT_BREAKS
 			const unsigned char* str = output_end();
-			#if DEBUG_OUT_BREAKS
-				DebugStr( str );
+                DebugStr( str );
 			#endif
 		}
 	};

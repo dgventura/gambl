@@ -32,7 +32,7 @@
     GameMusicPlayer* pAI = [pAppDelegate musicPlayer];
     
     string strTemp;
-    pAI->update_time( strTemp );
+    pAI->UpdatePlaybackTime( strTemp );
     NSString* pStrTemp = [[NSString alloc] initWithUTF8String:strTemp.c_str() ];
     [_playbackTimeLabel setStringValue:pStrTemp];
     
@@ -75,7 +75,7 @@
         if ( pAI->Playing() )
         {
             //TODO: shuffle
-            int track = pAI->current().track + 1;
+            int track = pAI->GetCurrentTrack().track + 1;
             int track_count = pAI->GetMusicAlbum()->track_count();
             const char* const pszTrackName = *info.song ? info.song : "untitled track";
             [_trackInfoLabel setStringValue:[NSString stringWithFormat:@"%d / %d: %s", track, track_count, pszTrackName]];
@@ -102,28 +102,28 @@
 {
     AppDelegate* pAppDelegate = (AppDelegate *)[NSApp delegate];
     GameMusicPlayer* pAI = [pAppDelegate musicPlayer];
-    pAI->stop( true );
+    pAI->Stop( true );
 }
 
 - (IBAction)playTrack:(id)sender
 {
     AppDelegate* pAppDelegate = (AppDelegate *)[NSApp delegate];
     GameMusicPlayer* pAI = [pAppDelegate musicPlayer];
-    pAI->toggle_pause();
+    pAI->TogglePause();
 }
 
 - (IBAction)nextTrack:(id)sender
 {
     AppDelegate* pAppDelegate = (AppDelegate *)[NSApp delegate];
     GameMusicPlayer* pAI = [pAppDelegate musicPlayer];
-    pAI->next_track();
+    pAI->PlayNextTrack();
 }
 
 - (IBAction)previousTrack:(id)sender
 {
     AppDelegate* pAppDelegate = (AppDelegate *)[NSApp delegate];
     GameMusicPlayer* pAI = [pAppDelegate musicPlayer];
-    pAI->prev_track();
+    pAI->PlayPreviousTrack();
 }
 
 - (IBAction)favoriteTrack:(id)sender
