@@ -14,6 +14,7 @@
 		632AB8BE1734B1F500DB99FC /* icons.icns in Resources */ = {isa = PBXBuildFile; fileRef = 632AB8BD1734B1F500DB99FC /* icons.icns */; };
 		632AB8C21734B64800DB99FC /* speaker.icns in Resources */ = {isa = PBXBuildFile; fileRef = 632AB8C11734B64800DB99FC /* speaker.icns */; };
 		632F1654184BBB6B00912D95 /* GameMusicPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 632F1653184BBB6B00912D95 /* GameMusicPlayer.cpp */; };
+		632F1657184BBD0400912D95 /* EmuInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 632F1656184BBD0400912D95 /* EmuInterface.cpp */; };
 		63A29B8F170C34D700284B6B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63A29B8E170C34D700284B6B /* Cocoa.framework */; };
 		63A29B99170C34D700284B6B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 63A29B97170C34D700284B6B /* InfoPlist.strings */; };
 		63A29B9B170C34D700284B6B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A29B9A170C34D700284B6B /* main.m */; };
@@ -27,7 +28,6 @@
 		63A29C82170D5B5B00284B6B /* favorites.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63A29BC3170D5B5A00284B6B /* favorites.cpp */; };
 		63A29C83170D5B5B00284B6B /* music_actions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63A29BC5170D5B5A00284B6B /* music_actions.cpp */; };
 		63A29C84170D5B5B00284B6B /* music_packer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63A29BC7170D5B5A00284B6B /* music_packer.cpp */; };
-		63A29C85170D5B5B00284B6B /* Music_Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63A29BC8170D5B5A00284B6B /* Music_Player.cpp */; };
 		63A29C86170D5B5B00284B6B /* music_retitler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63A29BCA170D5B5A00284B6B /* music_retitler.cpp */; };
 		63A29C87170D5B5B00284B6B /* prefs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63A29BCB170D5B5A00284B6B /* prefs.cpp */; };
 		63A29C88170D5B5B00284B6B /* wave_export.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63A29BCD170D5B5A00284B6B /* wave_export.cpp */; };
@@ -138,6 +138,8 @@
 		632AB8C11734B64800DB99FC /* speaker.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = speaker.icns; path = ../speaker.icns; sourceTree = "<group>"; };
 		632F1652184BBB5D00912D95 /* GameMusicPlayer.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = GameMusicPlayer.h; path = specialized/GameMusicPlayer.h; sourceTree = SOURCE_ROOT; };
 		632F1653184BBB6B00912D95 /* GameMusicPlayer.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = GameMusicPlayer.cpp; path = specialized/GameMusicPlayer.cpp; sourceTree = SOURCE_ROOT; };
+		632F1655184BBCE300912D95 /* EmuInterface.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = EmuInterface.h; sourceTree = "<group>"; };
+		632F1656184BBD0400912D95 /* EmuInterface.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = EmuInterface.cpp; sourceTree = "<group>"; };
 		63A29B8A170C34D700284B6B /* GaMBL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GaMBL.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63A29B8E170C34D700284B6B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		63A29B91170C34D700284B6B /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -162,8 +164,6 @@
 		63A29BC5170D5B5A00284B6B /* music_actions.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = music_actions.cpp; sourceTree = "<group>"; };
 		63A29BC6170D5B5A00284B6B /* music_actions.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = music_actions.h; sourceTree = "<group>"; };
 		63A29BC7170D5B5A00284B6B /* music_packer.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = music_packer.cpp; sourceTree = "<group>"; };
-		63A29BC8170D5B5A00284B6B /* Music_Player.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Music_Player.cpp; sourceTree = "<group>"; };
-		63A29BC9170D5B5A00284B6B /* Music_Player.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Music_Player.h; sourceTree = "<group>"; };
 		63A29BCA170D5B5A00284B6B /* music_retitler.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = music_retitler.cpp; sourceTree = "<group>"; };
 		63A29BCB170D5B5A00284B6B /* prefs.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = prefs.cpp; sourceTree = "<group>"; };
 		63A29BCC170D5B5A00284B6B /* prefs.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = prefs.h; sourceTree = "<group>"; };
@@ -479,15 +479,13 @@
 		63A29BC2170D5B5A00284B6B /* application */ = {
 			isa = PBXGroup;
 			children = (
-				632F1653184BBB6B00912D95 /* GameMusicPlayer.cpp */,
-				632F1652184BBB5D00912D95 /* GameMusicPlayer.h */,
 				63A29BC3170D5B5A00284B6B /* favorites.cpp */,
 				63A29BC4170D5B5A00284B6B /* favorites.h */,
 				63A29BC5170D5B5A00284B6B /* music_actions.cpp */,
 				63A29BC6170D5B5A00284B6B /* music_actions.h */,
 				63A29BC7170D5B5A00284B6B /* music_packer.cpp */,
-				63A29BC8170D5B5A00284B6B /* Music_Player.cpp */,
-				63A29BC9170D5B5A00284B6B /* Music_Player.h */,
+				632F1656184BBD0400912D95 /* EmuInterface.cpp */,
+				632F1655184BBCE300912D95 /* EmuInterface.h */,
 				63A29BCA170D5B5A00284B6B /* music_retitler.cpp */,
 				63A29BCB170D5B5A00284B6B /* prefs.cpp */,
 				63A29BCC170D5B5A00284B6B /* prefs.h */,
@@ -677,6 +675,8 @@
 		63A29C5F170D5B5B00284B6B /* specialized */ = {
 			isa = PBXGroup;
 			children = (
+				632F1653184BBB6B00912D95 /* GameMusicPlayer.cpp */,
+				632F1652184BBB5D00912D95 /* GameMusicPlayer.h */,
 				63A29C64170D5B5B00284B6B /* File_Archive.cpp */,
 				63A29C65170D5B5B00284B6B /* File_Archive.h */,
 				63A29C66170D5B5B00284B6B /* Gzip_Reader.cpp */,
@@ -848,7 +848,6 @@
 				63A29C82170D5B5B00284B6B /* favorites.cpp in Sources */,
 				63A29C83170D5B5B00284B6B /* music_actions.cpp in Sources */,
 				63A29C84170D5B5B00284B6B /* music_packer.cpp in Sources */,
-				63A29C85170D5B5B00284B6B /* Music_Player.cpp in Sources */,
 				63A29C86170D5B5B00284B6B /* music_retitler.cpp in Sources */,
 				63A29C87170D5B5B00284B6B /* prefs.cpp in Sources */,
 				63A29C88170D5B5B00284B6B /* wave_export.cpp in Sources */,
@@ -932,6 +931,7 @@
 				63CFF9D1172D0B4F00AFFE60 /* PlayerWindow.m in Sources */,
 				631B1CC0173638750046D285 /* ChannelViewController.m in Sources */,
 				632F1654184BBB6B00912D95 /* GameMusicPlayer.cpp in Sources */,
+				632F1657184BBD0400912D95 /* EmuInterface.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

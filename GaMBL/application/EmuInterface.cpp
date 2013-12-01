@@ -1,7 +1,7 @@
 
 // Game_Music_Box 0.5.2. http://www.slack.net/~ant/game-music-box
 
-#include "Music_Player.h"
+#include "EmuInterface.h"
 
 #include <cmath>
 
@@ -32,7 +32,7 @@ const int pending_block = max_blocks;
 const int ffwd_blocks = 4;
 const int stereo = 2;
 
-Music_Player::Music_Player() :
+EmuInterface::EmuInterface() :
 	blocks( max_blocks + 1 ),
 	dtask( deferred_callback_, this )
 {
@@ -65,12 +65,12 @@ Music_Player::Music_Player() :
 	#endif
 }
 
-Music_Player::~Music_Player()
+EmuInterface::~EmuInterface()
 {
 	pause( false );
 }
 
-void Music_Player::setup_changed( const setup_t& setup )
+void EmuInterface::setup_changed( const setup_t& setup )
 {
 	emu.change_setup( setup );
 	
@@ -82,7 +82,7 @@ void Music_Player::setup_changed( const setup_t& setup )
 	player.set_gain( v );
 }
 
-void Music_Player::set_mute( int mask )
+void EmuInterface::set_mute( int mask )
 {
 	low_latency = (mask != 0);
 	mute_mask = mask & 0x7fff;
@@ -105,7 +105,7 @@ static void fade_samples( blip_sample_t* p, int step )
 	}
 }
 
-const int ramp_size = Music_Player::block_size / 2;
+const int ramp_size = EmuInterface::block_size / 2;
 
 static void make_ramp( blip_sample_t* p, int left, int right, int step )
 {
@@ -123,14 +123,14 @@ static void make_ramp( blip_sample_t* p, int left, int right, int step )
 	}
 }
 
-int Music_Player::elapsed() const
+int EmuInterface::elapsed() const
 {
 	long n = emu.sample_count() - (filled_count() + silence_pending) *
 			block_size;
 	return n / (stereo * sample_rate);
 }
 
-bool Music_Player::enable_fast_forward( bool b )
+bool EmuInterface::enable_fast_forward( bool b )
 {
 	bool result = fast_forwarding;
 	if ( !b )
@@ -146,26 +146,26 @@ bool Music_Player::enable_fast_forward( bool b )
 	return result;
 }
 
-void Music_Player::stop()
+void EmuInterface::stop()
 {
 	pause( false );
 	emu.stop();
 }
 
-bool Music_Player::is_done( bool bCheckOnly ) const
+bool EmuInterface::is_done( bool bCheckOnly ) const
 {
 	#if !ASYNC_SOUND
 		if ( deferred_enabled && !fast_forwarding && !bCheckOnly )
 		{
 			for ( int n = max_blocks - 2 - filled_count(); n > 0; n -= 2 )
-				const_cast<Music_Player*> (this)->deferred_callback();
+				const_cast<EmuInterface*> (this)->deferred_callback();
 		}
 	#endif
 	
 	return blocks_played > silence_timeout && emu.is_done();
 }
 
-void Music_Player::play( Music_Album* album )
+void EmuInterface::play( Music_Album* album )
 {
 	pause( false );
 	
@@ -187,7 +187,7 @@ void Music_Player::play( Music_Album* album )
 	emu.load( album, sample_rate );
 }
 
-void Music_Player::start_track( int track )
+void EmuInterface::start_track( int track )
 {
 	pause( false );
 	emu.start_track( track );
@@ -206,7 +206,7 @@ void Music_Player::start_track( int track )
 	silence_timeout = INT_MAX;
 }
 
-void Music_Player::stop_deferred()
+void EmuInterface::stop_deferred()
 {
 	deferred_enabled = false;
 	
@@ -219,7 +219,7 @@ void Music_Player::stop_deferred()
     player.stop();
 }
 
-void Music_Player::pause( bool might_resume )
+void EmuInterface::pause( bool might_resume )
 {
 	if ( !playing )
 		return;
@@ -256,7 +256,7 @@ void Music_Player::pause( bool might_resume )
 	}
 }
 
-void Music_Player::play_buffer( const sample_t* p, long s )
+void EmuInterface::play_buffer( const sample_t* p, long s )
 {
 	#if RECORD_SOUND
 		write_sound_debugger( p, s );
@@ -264,7 +264,7 @@ void Music_Player::play_buffer( const sample_t* p, long s )
 	player.play_buffer( p, s );
 }
 
-void Music_Player::resume()
+void EmuInterface::resume()
 {
 	if ( playing )
 		return;
@@ -302,7 +302,7 @@ void Music_Player::resume()
 
 // fast_forward
 
-inline void Music_Player::fast_forward()
+inline void EmuInterface::fast_forward()
 {
 	assert( playing );
 	
@@ -342,18 +342,18 @@ inline void Music_Player::fast_forward()
 	sync_memory();
 }
 
-void Music_Player::fast_forward_( void* self ) {
-	static_cast<Music_Player*> (self)->fast_forward();
+void EmuInterface::fast_forward_( void* self ) {
+	static_cast<EmuInterface*> (self)->fast_forward();
 }
 
 // queue_block
 
-int Music_Player::filled_count() const
+int EmuInterface::filled_count() const
 {
 	return (write_pos + max_blocks - read_pos) % max_blocks;
 }
 
-void Music_Player::queue_block()
+void EmuInterface::queue_block()
 {
 	if ( filled_count() >= max_blocks - 1 )
 		return; // no room in queue
@@ -409,7 +409,7 @@ void Music_Player::queue_block()
 
 // deferred_callback
 
-inline void Music_Player::deferred_callback()
+inline void EmuInterface::deferred_callback()
 {
 	check( !deferred_active );
 	
@@ -461,16 +461,16 @@ inline void Music_Player::deferred_callback()
 	}
 }
 
-void Music_Player::deferred_callback_( void* data )
+void EmuInterface::deferred_callback_( void* data )
 {
 	sync_memory();
-	static_cast<Music_Player*> (data)->deferred_callback();
+	static_cast<EmuInterface*> (data)->deferred_callback();
 	sync_memory();
 }
 
 // sound_callback
 
-inline void Music_Player::sound_callback()
+inline void EmuInterface::sound_callback()
 {
 	blocks_played++;
 	
@@ -516,14 +516,14 @@ inline void Music_Player::sound_callback()
 #endif
 }
 
-void Music_Player::sound_callback_( void* self )
+void EmuInterface::sound_callback_( void* self )
 {
 	sync_memory();
-	static_cast<Music_Player*> (self)->sound_callback();
+	static_cast<EmuInterface*> (self)->sound_callback();
 	sync_memory();
 }
 
-const short* Music_Player::scope_buffer() const
+const short* EmuInterface::scope_buffer() const
 {
 	return (emu.emu() && emu.sample_count()) ? blocks [(read_pos + 1) % max_blocks] : NULL;
 }

@@ -3,8 +3,8 @@
 
 // Game_Music_Box 0.5.2. Copyright (C) 2005 Shay Green. GNU LGPL license.
 
-#ifndef MUSIC_PLAYER_H
-#define MUSIC_PLAYER_H
+#ifndef EMUINTERFACE_H
+#define EMUINTERFACE_H
 
 #include "common.h"
 #include "thread_util.h"
@@ -14,10 +14,10 @@
 
 class Music_Album;
 
-class Music_Player {
+class EmuInterface {
 public:
-	Music_Player();
-	~Music_Player();
+	EmuInterface();
+	~EmuInterface();
 	
 	struct setup_t : File_Emu::setup_t {
 		double volume;
@@ -100,17 +100,17 @@ public://TODO: hack
 	static void sound_callback_( void* );
 };
 
-inline const Music_Emu* Music_Player::music_emu() const {
+inline const Music_Emu* EmuInterface::music_emu() const {
 	return emu.emu();
 }
 
-inline int Music_Player::track_length() const {
+inline int EmuInterface::track_length() const {
 	return emu.track_length();
 }
 
-inline void Music_Player::extend_track( int seconds ) {
+inline void EmuInterface::extend_track( int seconds ) {
 	emu.extend_track( seconds );
 }
 
-#endif
+#endif // EMUINTERFACE_H
 

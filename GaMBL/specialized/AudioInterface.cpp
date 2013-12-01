@@ -14,7 +14,7 @@
 //
 
 #include "AudioInterface.h"
-#include "Music_Player.h"
+#include "EmuInterface.h"
 
 using namespace std;
 
@@ -206,7 +206,7 @@ void AudioInterface::play_buffer(const sample_t *pSampleBuffer, int nCount)
 
 void AudioInterface::setup( double nSampleRate, bool bStereo, callback_t func, void* pData )
 {
-    m_pMusicPlayer = (Music_Player*)pData;
+    m_pMusicPlayer = (EmuInterface*)pData;
     m_MusicPlayerCallback = func;
 
 #if USE_AUGRAPH

@@ -19,7 +19,7 @@
 #include <AudioToolbox/AudioToolbox.h>
 #include "CAStreamBasicDescription.h"
 
-class Music_Player;
+class EmuInterface;
 
 class AudioInterface
 {
@@ -40,7 +40,7 @@ public:
     double sinPhase;
     
     //TODO: don't save these KARIKARI
-    Music_Player* m_pMusicPlayer;
+    EmuInterface* m_pMusicPlayer;
     const sample_t* m_pSampleHead;
     int m_nSampleCount;
     

@@ -7,9 +7,9 @@
 #define PREFS_H
 
 #include "common.h"
-#include "Music_Player.h"
+#include "EmuInterface.h"
 
-struct App_Prefs : public Music_Player::setup_t
+struct App_Prefs : public EmuInterface::setup_t
 {
     Point player_pos;
 	Point chans_pos;
