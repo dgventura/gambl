@@ -48,6 +48,7 @@ public:
     bool PreviousTrackOk() const;
     bool CurrentTrackOk() const;
     bool Playing() const;
+
     track_ref_t& GetCurrentTrack();
     
 private:    
