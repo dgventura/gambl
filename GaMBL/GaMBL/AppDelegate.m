@@ -62,8 +62,18 @@ const int GCTRL_RESETFAVORITES  = 403;
         return TRUE;
     }
     
-    //TODO: grab extensions from Info.plist CFBundleTypeExtensions
-    NSEnumerator* tagEnumerator = [[NSArray arrayWithObjects:@"spc", @"nsf", @"gbs", @"gym", @"vgm", @"vgz", @"rsn", @"rar", @"zip", @"7z", nil] objectEnumerator];
+    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+    NSArray *documentTypes = [info objectForKey:@"CFBundleDocumentTypes"];
+    NSMutableArray *fileTypes = [[NSMutableArray alloc] init];
+    NSAssert( documentTypes && info, @"" );
+    for ( NSDictionary *item in documentTypes )
+    {
+        NSArray *tempTypes = [item objectForKey:@"CFBundleTypeExtensions"];
+        [fileTypes addObjectsFromArray:tempTypes];
+    }
+    NSAssert( fileTypes.count, @"No filetypes found in bundle to support." );
+    
+    NSEnumerator* tagEnumerator = [fileTypes objectEnumerator];
     NSString* allowedExt;
     while ((allowedExt = [tagEnumerator nextObject]))
     {
