@@ -37,7 +37,7 @@
 - (void)updateSoundAttributes
 {
     AppDelegate* pAppDelegate = (AppDelegate *)[NSApp delegate];
-    AudioPlayer* pAI = [pAppDelegate AudioInterface];
+    GameMusicPlayer* pAI = [pAppDelegate musicPlayer];
     
     int mask = 0;
     mask |= ((_channel1Button.state == NSOffState)) << 0;
@@ -71,7 +71,7 @@
     }
     
     AppDelegate* pAppDelegate = (AppDelegate *)[NSApp delegate];
-    AudioPlayer* pAI = [pAppDelegate AudioInterface];
+    GameMusicPlayer* pAI = [pAppDelegate musicPlayer];
     
     shared_ptr<Music_Album> pMA = pAI->GetMusicAlbum();
     NSMutableArray *channelNames = [[NSMutableArray alloc] init];
@@ -131,7 +131,7 @@
 - (IBAction)exportStems:(id)sender
 {
     AppDelegate* pAppDelegate = (AppDelegate *)[NSApp delegate];
-    AudioPlayer* pAI = [pAppDelegate AudioInterface];
+    GameMusicPlayer* pAI = [pAppDelegate musicPlayer];
     pAI->RecordCurrentTrack( true );
 }
 @end

@@ -127,7 +127,7 @@ BOOST::uint8_t const* Vgm_Emu_Impl::gd3_data( int* size ) const
 		return NULL;
 	
 	byte const* gd3 = data + gd3_offset;
-	long remain = data_end - gd3;
+//DGV	long remain = data_end - gd3;
 	if ( data_end - gd3 < 16 || 0 != memcmp( gd3, "Gd3 ", 4 ) || get_le32( gd3 + 4 ) >= 0x200 )
 		return NULL;
 	

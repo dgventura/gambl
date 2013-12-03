@@ -40,7 +40,7 @@ public:
 		double const n_harm = 256;
 		angle /= n_harm;
 		double pow_a_n = pow( rolloff, n_harm );
-		double rescale = 1.0 / n_harm;
+		//DGV double rescale = 1.0 / n_harm;
 		
 		double num = 1.0 - rolloff * cos( angle ) -
 				pow_a_n * cos( n_harm * angle ) +
@@ -167,7 +167,7 @@ double Fir_Resampler::time_ratio( double ratio, double rolloff, double volume )
 	}
 	
 	if ( show_impulse ) {
-		printf( "skip = %X\n", skip_bits );
+		printf( "skip = %lX\n", skip_bits );
 		printf( "step = %d\n", step );
 	}
 	
