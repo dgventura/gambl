@@ -7,6 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6300A387184FE48B00F8D0B3 /* GameMusicPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 632F1653184BBB6B00912D95 /* GameMusicPlayer.cpp */; };
+		63036C05184E8C86003B494F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63036C04184E8C86003B494F /* UIKit.framework */; };
+		63036C07184E8C86003B494F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63036C06184E8C86003B494F /* Foundation.framework */; };
+		63036C09184E8C86003B494F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63036C08184E8C86003B494F /* CoreGraphics.framework */; };
+		63036C0F184E8C86003B494F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 63036C0D184E8C86003B494F /* InfoPlist.strings */; };
+		63036C11184E8C86003B494F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 63036C10184E8C86003B494F /* main.m */; };
+		63036C15184E8C86003B494F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 63036C14184E8C86003B494F /* AppDelegate.m */; };
+		63036C17184E8C86003B494F /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 63036C16184E8C86003B494F /* Default.png */; };
+		63036C19184E8C86003B494F /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63036C18184E8C86003B494F /* Default@2x.png */; };
+		63036C1B184E8C86003B494F /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63036C1A184E8C86003B494F /* Default-568h@2x.png */; };
+		63036C1E184E8C86003B494F /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63036C1C184E8C86003B494F /* MainStoryboard_iPhone.storyboard */; };
+		63036C21184E8C86003B494F /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63036C1F184E8C86003B494F /* MainStoryboard_iPad.storyboard */; };
+		63036C24184E8C86003B494F /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63036C23184E8C86003B494F /* FirstViewController.m */; };
+		63036C26184E8C86003B494F /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = 63036C25184E8C86003B494F /* first.png */; };
+		63036C28184E8C86003B494F /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63036C27184E8C86003B494F /* first@2x.png */; };
+		63036C2B184E8C86003B494F /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63036C2A184E8C86003B494F /* SecondViewController.m */; };
+		63036C2D184E8C86003B494F /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = 63036C2C184E8C86003B494F /* second.png */; };
+		63036C2F184E8C86003B494F /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63036C2E184E8C86003B494F /* second@2x.png */; };
+		63036C34184E8F06003B494F /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63036C33184E8F06003B494F /* CoreAudio.framework */; };
+		63036C36184E8F19003B494F /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 63036C35184E8F19003B494F /* libc++.dylib */; };
+		63036C38184E8F2C003B494F /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 63036C37184E8F2C003B494F /* libz.1.2.5.dylib */; };
 		6314C28D1711B4C100FC7F98 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6314C28C1711B4C100FC7F98 /* libz.1.2.5.dylib */; };
 		631B1CC0173638750046D285 /* ChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 631B1CBF173638750046D285 /* ChannelViewController.m */; };
 		631B56AD1717DABB0038982C /* CADebugPrintf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 631B56AA1717DABB0038982C /* CADebugPrintf.cpp */; };
@@ -15,6 +36,10 @@
 		632AB8C21734B64800DB99FC /* speaker.icns in Resources */ = {isa = PBXBuildFile; fileRef = 632AB8C11734B64800DB99FC /* speaker.icns */; };
 		632F1654184BBB6B00912D95 /* GameMusicPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 632F1653184BBB6B00912D95 /* GameMusicPlayer.cpp */; };
 		632F1657184BBD0400912D95 /* EmuInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 632F1656184BBD0400912D95 /* EmuInterface.cpp */; };
+		63829FAB184E917A0021CEE0 /* GameMusicPlayer.h in Sources */ = {isa = PBXBuildFile; fileRef = 632F1652184BBB5D00912D95 /* GameMusicPlayer.h */; };
+		63829FAC184E917B0021CEE0 /* GameMusicPlayer.h in Sources */ = {isa = PBXBuildFile; fileRef = 632F1652184BBB5D00912D95 /* GameMusicPlayer.h */; };
+		63829FAD184E917C0021CEE0 /* GameMusicPlayer.h in Sources */ = {isa = PBXBuildFile; fileRef = 632F1652184BBB5D00912D95 /* GameMusicPlayer.h */; };
+		63829FAE184E91C10021CEE0 /* AppDelegate.h in Sources */ = {isa = PBXBuildFile; fileRef = 63036C13184E8C86003B494F /* AppDelegate.h */; };
 		63A29B8F170C34D700284B6B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63A29B8E170C34D700284B6B /* Cocoa.framework */; };
 		63A29B99170C34D700284B6B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 63A29B97170C34D700284B6B /* InfoPlist.strings */; };
 		63A29B9B170C34D700284B6B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A29B9A170C34D700284B6B /* main.m */; };
@@ -74,7 +99,6 @@
 		63A29CB1170D5B5B00284B6B /* error_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63A29C28170D5B5A00284B6B /* error_util.cpp */; };
 		63A29CB2170D5B5B00284B6B /* file_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63A29C2A170D5B5A00284B6B /* file_util.cpp */; };
 		63A29CB4170D5B5B00284B6B /* pod_vector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63A29C2E170D5B5A00284B6B /* pod_vector.cpp */; };
-		63A29CB5170D5B5B00284B6B /* thread_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63A29C31170D5B5A00284B6B /* thread_util.cpp */; };
 		63A29CB6170D5B5B00284B6B /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63A29C33170D5B5A00284B6B /* util.cpp */; };
 		63A29CB7170D5B5B00284B6B /* abstract_file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63A29C36170D5B5B00284B6B /* abstract_file.cpp */; };
 		63A29CB8170D5B5B00284B6B /* archive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63A29C38170D5B5B00284B6B /* archive.cpp */; };
@@ -128,6 +152,33 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		63036BFE184E8B92003B494F /* GaMBL copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GaMBL copy-Info.plist"; path = "/Users/david/dev/code/GMB/GaMBL/GaMBL copy-Info.plist"; sourceTree = "<absolute>"; };
+		63036C03184E8C86003B494F /* GaMBi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GaMBi.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		63036C04184E8C86003B494F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		63036C06184E8C86003B494F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		63036C08184E8C86003B494F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
+		63036C0C184E8C86003B494F /* GaMBi-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GaMBi-Info.plist"; sourceTree = "<group>"; };
+		63036C0E184E8C86003B494F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		63036C10184E8C86003B494F /* main.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = main.m; sourceTree = "<group>"; };
+		63036C12184E8C86003B494F /* GaMBi-Prefix.pch */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = "GaMBi-Prefix.pch"; sourceTree = "<group>"; };
+		63036C13184E8C86003B494F /* AppDelegate.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = AppDelegate.h; sourceTree = "<group>"; };
+		63036C14184E8C86003B494F /* AppDelegate.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = AppDelegate.m; sourceTree = "<group>"; };
+		63036C16184E8C86003B494F /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		63036C18184E8C86003B494F /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		63036C1A184E8C86003B494F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		63036C1D184E8C86003B494F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
+		63036C20184E8C86003B494F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
+		63036C22184E8C86003B494F /* FirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
+		63036C23184E8C86003B494F /* FirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
+		63036C25184E8C86003B494F /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
+		63036C27184E8C86003B494F /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
+		63036C29184E8C86003B494F /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
+		63036C2A184E8C86003B494F /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
+		63036C2C184E8C86003B494F /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
+		63036C2E184E8C86003B494F /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
+		63036C33184E8F06003B494F /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk/System/Library/Frameworks/CoreAudio.framework; sourceTree = DEVELOPER_DIR; };
+		63036C35184E8F19003B494F /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk/usr/lib/libc++.dylib"; sourceTree = DEVELOPER_DIR; };
+		63036C37184E8F2C003B494F /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk/usr/lib/libz.1.2.5.dylib; sourceTree = DEVELOPER_DIR; };
 		6314C28C1711B4C100FC7F98 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
 		631B1CBE173638750046D285 /* ChannelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelViewController.h; sourceTree = "<group>"; };
 		631B1CBF173638750046D285 /* ChannelViewController.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ChannelViewController.m; sourceTree = "<group>"; };
@@ -262,8 +313,6 @@
 		63A29C2E170D5B5A00284B6B /* pod_vector.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = pod_vector.cpp; sourceTree = "<group>"; };
 		63A29C2F170D5B5A00284B6B /* pod_vector.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = pod_vector.h; sourceTree = "<group>"; };
 		63A29C30170D5B5A00284B6B /* runtime_array.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = runtime_array.h; sourceTree = "<group>"; };
-		63A29C31170D5B5A00284B6B /* thread_util.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = thread_util.cpp; sourceTree = "<group>"; };
-		63A29C32170D5B5A00284B6B /* thread_util.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = thread_util.h; sourceTree = "<group>"; };
 		63A29C33170D5B5A00284B6B /* util.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = util.cpp; sourceTree = "<group>"; };
 		63A29C34170D5B5A00284B6B /* util.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = util.h; sourceTree = "<group>"; };
 		63A29C36170D5B5B00284B6B /* abstract_file.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = abstract_file.cpp; sourceTree = "<group>"; };
@@ -348,6 +397,19 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		63036C00184E8C86003B494F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63036C38184E8F2C003B494F /* libz.1.2.5.dylib in Frameworks */,
+				63036C36184E8F19003B494F /* libc++.dylib in Frameworks */,
+				63036C34184E8F06003B494F /* CoreAudio.framework in Frameworks */,
+				63036C05184E8C86003B494F /* UIKit.framework in Frameworks */,
+				63036C07184E8C86003B494F /* Foundation.framework in Frameworks */,
+				63036C09184E8C86003B494F /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		63A29B87170C34D700284B6B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -373,9 +435,46 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		63036C0A184E8C86003B494F /* GaMBi */ = {
+			isa = PBXGroup;
+			children = (
+				63036C13184E8C86003B494F /* AppDelegate.h */,
+				63036C14184E8C86003B494F /* AppDelegate.m */,
+				63036C1C184E8C86003B494F /* MainStoryboard_iPhone.storyboard */,
+				63036C1F184E8C86003B494F /* MainStoryboard_iPad.storyboard */,
+				63036C22184E8C86003B494F /* FirstViewController.h */,
+				63036C23184E8C86003B494F /* FirstViewController.m */,
+				63036C25184E8C86003B494F /* first.png */,
+				63036C27184E8C86003B494F /* first@2x.png */,
+				63036C29184E8C86003B494F /* SecondViewController.h */,
+				63036C2A184E8C86003B494F /* SecondViewController.m */,
+				63036C2C184E8C86003B494F /* second.png */,
+				63036C2E184E8C86003B494F /* second@2x.png */,
+				63036C0B184E8C86003B494F /* Supporting Files */,
+			);
+			path = GaMBi;
+			sourceTree = "<group>";
+		};
+		63036C0B184E8C86003B494F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				63036C0C184E8C86003B494F /* GaMBi-Info.plist */,
+				63036C0D184E8C86003B494F /* InfoPlist.strings */,
+				63036C10184E8C86003B494F /* main.m */,
+				63036C12184E8C86003B494F /* GaMBi-Prefix.pch */,
+				63036C16184E8C86003B494F /* Default.png */,
+				63036C18184E8C86003B494F /* Default@2x.png */,
+				63036C1A184E8C86003B494F /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		63A29B7F170C34D700284B6B = {
 			isa = PBXGroup;
 			children = (
+				63036C37184E8F2C003B494F /* libz.1.2.5.dylib */,
+				63036C35184E8F19003B494F /* libc++.dylib */,
+				63036C33184E8F06003B494F /* CoreAudio.framework */,
 				63E58EF0171944A900C31D10 /* CoreAudio.framework */,
 				63E8F4051716E47100FF269A /* AudioUnit.framework */,
 				63E8F3EF1716CA9500FF269A /* PublicUtility */,
@@ -392,8 +491,10 @@
 				63A29C58170D5B5B00284B6B /* setup */,
 				63A29C6E170D5B5B00284B6B /* zlib */,
 				63A29BB1170C34D800284B6B /* GaMBLTests */,
+				63036C0A184E8C86003B494F /* GaMBi */,
 				63A29B8D170C34D700284B6B /* Frameworks */,
 				63A29B8B170C34D700284B6B /* Products */,
+				63036BFE184E8B92003B494F /* GaMBL copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -402,6 +503,7 @@
 			children = (
 				63A29B8A170C34D700284B6B /* GaMBL.app */,
 				63A29BAB170C34D800284B6B /* GaMBLTests.octest */,
+				63036C03184E8C86003B494F /* GaMBi.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -411,6 +513,9 @@
 			children = (
 				63A29B8E170C34D700284B6B /* Cocoa.framework */,
 				63A29BAC170C34D800284B6B /* SenTestingKit.framework */,
+				63036C04184E8C86003B494F /* UIKit.framework */,
+				63036C06184E8C86003B494F /* Foundation.framework */,
+				63036C08184E8C86003B494F /* CoreGraphics.framework */,
 				63A29B90170C34D700284B6B /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -612,8 +717,6 @@
 				63A29C2E170D5B5A00284B6B /* pod_vector.cpp */,
 				63A29C2F170D5B5A00284B6B /* pod_vector.h */,
 				63A29C30170D5B5A00284B6B /* runtime_array.h */,
-				63A29C31170D5B5A00284B6B /* thread_util.cpp */,
-				63A29C32170D5B5A00284B6B /* thread_util.h */,
 				63A29C33170D5B5A00284B6B /* util.cpp */,
 				63A29C34170D5B5A00284B6B /* util.h */,
 			);
@@ -735,6 +838,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		63036C02184E8C86003B494F /* GaMBi */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 63036C30184E8C86003B494F /* Build configuration list for PBXNativeTarget "GaMBi" */;
+			buildPhases = (
+				63036BFF184E8C86003B494F /* Sources */,
+				63036C00184E8C86003B494F /* Frameworks */,
+				63036C01184E8C86003B494F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GaMBi;
+			productName = GaMBi;
+			productReference = 63036C03184E8C86003B494F /* GaMBi.app */;
+			productType = "com.apple.product-type.application";
+		};
 		63A29B89170C34D700284B6B /* GaMBL */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 63A29BBC170C34D800284B6B /* Build configuration list for PBXNativeTarget "GaMBL" */;
@@ -794,11 +914,29 @@
 			targets = (
 				63A29B89170C34D700284B6B /* GaMBL */,
 				63A29BAA170C34D800284B6B /* GaMBLTests */,
+				63036C02184E8C86003B494F /* GaMBi */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		63036C01184E8C86003B494F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63036C0F184E8C86003B494F /* InfoPlist.strings in Resources */,
+				63036C17184E8C86003B494F /* Default.png in Resources */,
+				63036C19184E8C86003B494F /* Default@2x.png in Resources */,
+				63036C1B184E8C86003B494F /* Default-568h@2x.png in Resources */,
+				63036C1E184E8C86003B494F /* MainStoryboard_iPhone.storyboard in Resources */,
+				63036C21184E8C86003B494F /* MainStoryboard_iPad.storyboard in Resources */,
+				63036C26184E8C86003B494F /* first.png in Resources */,
+				63036C28184E8C86003B494F /* first@2x.png in Resources */,
+				63036C2D184E8C86003B494F /* second.png in Resources */,
+				63036C2F184E8C86003B494F /* second@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		63A29B88170C34D700284B6B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -839,6 +977,20 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		63036BFF184E8C86003B494F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63036C11184E8C86003B494F /* main.m in Sources */,
+				63036C15184E8C86003B494F /* AppDelegate.m in Sources */,
+				63036C24184E8C86003B494F /* FirstViewController.m in Sources */,
+				63036C2B184E8C86003B494F /* SecondViewController.m in Sources */,
+				63829FAC184E917B0021CEE0 /* GameMusicPlayer.h in Sources */,
+				63829FAE184E91C10021CEE0 /* AppDelegate.h in Sources */,
+				6300A387184FE48B00F8D0B3 /* GameMusicPlayer.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		63A29B86170C34D700284B6B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -893,7 +1045,6 @@
 				63A29CB1170D5B5B00284B6B /* error_util.cpp in Sources */,
 				63A29CB2170D5B5B00284B6B /* file_util.cpp in Sources */,
 				63A29CB4170D5B5B00284B6B /* pod_vector.cpp in Sources */,
-				63A29CB5170D5B5B00284B6B /* thread_util.cpp in Sources */,
 				63A29CB6170D5B5B00284B6B /* util.cpp in Sources */,
 				63A29CB7170D5B5B00284B6B /* abstract_file.cpp in Sources */,
 				63A29CB8170D5B5B00284B6B /* archive.cpp in Sources */,
@@ -932,6 +1083,7 @@
 				631B1CC0173638750046D285 /* ChannelViewController.m in Sources */,
 				632F1654184BBB6B00912D95 /* GameMusicPlayer.cpp in Sources */,
 				632F1657184BBD0400912D95 /* EmuInterface.cpp in Sources */,
+				63829FAB184E917A0021CEE0 /* GameMusicPlayer.h in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -943,6 +1095,7 @@
 				63E8F3F41716CACC00FF269A /* CAStreamBasicDescription.cpp in Sources */,
 				63E8F4041716DC9600FF269A /* AudioInterface.cpp in Sources */,
 				631B56AE1717DABB0038982C /* CADebugPrintf.cpp in Sources */,
+				63829FAD184E917C0021CEE0 /* GameMusicPlayer.h in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -957,6 +1110,30 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		63036C0D184E8C86003B494F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				63036C0E184E8C86003B494F /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		63036C1C184E8C86003B494F /* MainStoryboard_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				63036C1D184E8C86003B494F /* en */,
+			);
+			name = MainStoryboard_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		63036C1F184E8C86003B494F /* MainStoryboard_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				63036C20184E8C86003B494F /* en */,
+			);
+			name = MainStoryboard_iPad.storyboard;
+			sourceTree = "<group>";
+		};
 		63A29B97170C34D700284B6B /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -992,6 +1169,64 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		63036C31184E8C86003B494F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GaMBi/GaMBi-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"HAVE_CONFIG_H=1",
+					"GAMBL_VERBOSE=0",
+					"UNRAR_AVAILABLE=1",
+				);
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				HEADER_SEARCH_PATHS = "./**";
+				INFOPLIST_FILE = "GaMBi/GaMBi-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		63036C32184E8C86003B494F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GaMBi/GaMBi-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				HEADER_SEARCH_PATHS = "./**";
+				INFOPLIST_FILE = "GaMBi/GaMBi-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
 		63A29BBA170C34D800284B6B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1118,6 +1353,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		63036C30184E8C86003B494F /* Build configuration list for PBXNativeTarget "GaMBi" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				63036C31184E8C86003B494F /* Debug */,
+				63036C32184E8C86003B494F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		63A29B84170C34D700284B6B /* Build configuration list for PBXProject "GaMBL" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -32,8 +32,6 @@ void pstrcpy( unsigned char* out, const unsigned char* in );
 // it's 'width' characters long. If width < 0, pad with '0'.
 void num_to_str( long n, char* out, int width = 0 );
 
-void cstr_to_hfs( const char* const pszCString, HFSUniStr255& hfsString );
-
 // Return pointer to terminator at end of C string
 char* str_end( char* );
 

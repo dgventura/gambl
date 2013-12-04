@@ -39,16 +39,6 @@ void num_to_str( long n, char* out, int leading )
 	strcpy( out, buf );
 }
 
-void cstr_to_hfs( const char* const pszCString, HFSUniStr255& hfsString )
-{
-    int len = strlen(pszCString);
-    hfsString.length = len;
-    for (int i=0; i<len; i++)
-    {
-        hfsString.unicode[i] = pszCString[i];
-    }
-}
-
 int random( int range )
 {
 	static int init = (std::srand( (int) std::clock() % RAND_MAX ),0);

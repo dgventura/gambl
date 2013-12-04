@@ -15,7 +15,7 @@
 //#define OPTIMIZE 1
 
 // Break into debugger at debug_out statements
-#define DEBUG_OUT_BREAKS 1
+#define DEBUG_OUT_BREAKS 0
 
 
 // Make use of unrar library

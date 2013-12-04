@@ -7,7 +7,6 @@
 #define EMUINTERFACE_H
 
 #include "common.h"
-#include "thread_util.h"
 
 #include "File_Emu.h"
 #include "AudioInterface.h"
@@ -65,7 +64,7 @@ private:
 	void queue_block();
 	
 	// fast forward
-	Event_Loop_Timer ffwd_timer;
+	//TODO: FF Event_Loop_Timer ffwd_timer;
 	volatile long ffwd_next_time;
 	volatile int fast_forwarding;
 	void fast_forward();
@@ -81,7 +80,7 @@ private:
 	int filled_count() const;
 	
 	// deferred queue filler
-	Deferred_Task dtask;
+	DeferredTask dtask;
 	volatile int deferred_active;
 	volatile int deferred_enabled;
 	void stop_deferred();
@@ -89,8 +88,8 @@ private:
 	static void deferred_callback_( void* );
 	
 	// audio block output
-	Virtual_Memory_Holder this_vmholder;
-	Virtual_Memory_Holder blocks_vmholder;
+	//TODO: thread Virtual_Memory_Holder this_vmholder;
+	//TODO: thread Virtual_Memory_Holder blocks_vmholder;
 	volatile long blocks_played;
 	volatile int stop_output; // 0) done, 1) fade out, -1) stopping
 	AudioInterface player;

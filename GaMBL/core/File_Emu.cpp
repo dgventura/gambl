@@ -4,7 +4,6 @@
 #include "File_Emu.h"
 
 #include <cmath>
-#include "thread_util.h"
 
 #include "music_util.h"
 #include "Spc_Emu.h"
@@ -178,11 +177,9 @@ void File_Emu::change_setup( const setup_t& new_setup )
 {
 	setup_changed = false; // don't let it read setup as it's being modified
 	
-	sync_memory();
 	setup_ = new_setup;
 	if ( music_album )
 		update_length();
-	sync_memory();
 	
 	setup_changed = true;
 }

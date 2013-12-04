@@ -6,7 +6,10 @@
 #ifndef LIB_COMMON_H
 #define LIB_COMMON_H
 
-#include <Cocoa/Cocoa.h>
+#ifndef TARGET_OS_IPHONE
+    #include <Cocoa/Cocoa.h>
+#endif
+
 #include "blargg_common.h"
 //#include <Files.h>
 #include <memory>

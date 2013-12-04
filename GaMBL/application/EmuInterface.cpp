@@ -33,13 +33,8 @@ const int ffwd_blocks = 4;
 const int stereo = 2;
 
 EmuInterface::EmuInterface() :
-	blocks( max_blocks + 1 ),
-	dtask( deferred_callback_, this )
+	blocks( max_blocks + 1 )
 {
-	this_vmholder.hold( this, sizeof *this );
-	blocks_vmholder.hold( blocks.begin(), blocks.end() );
-	ffwd_timer.set_callback( fast_forward_, this );
-	
 	low_latency = false;
 	mute_mask = 0;
 	sample_rate = 44100;
@@ -133,16 +128,18 @@ int EmuInterface::elapsed() const
 bool EmuInterface::enable_fast_forward( bool b )
 {
 	bool result = fast_forwarding;
+#if 0
 	if ( !b )
 	{
-		ffwd_timer.remove();
+		//TODO: FF ffwd_timer.remove();
 		fast_forwarding = false;
 	}
 	else if ( !ffwd_timer.installed() && emu.emu() )
 	{
 		ffwd_next_time = 0;
-		ffwd_timer.install( 10, 0.5 );
+		//TODO: FF ffwd_timer.install( 10, 0.5 );
 	}
+#endif
 	return result;
 }
 
@@ -212,7 +209,6 @@ void EmuInterface::stop_deferred()
 	
 	// deferred task might be active if running OS X
 	do {
-		sync_memory();
 	}
 	while ( deferred_active ); // to do: eliminate busy wait
 
@@ -230,7 +226,6 @@ void EmuInterface::pause( bool might_resume )
 	unsigned long timeout = TickCount() + 12;
 	stop_output = true;
 	do {
-		sync_memory();
 	}
 	while ( stop_output && TickCount() < timeout );
 	
@@ -242,7 +237,6 @@ void EmuInterface::pause( bool might_resume )
 		player.stop();
 	}
 	
-	sync_memory();
 	playing = false;
 	
 	if ( might_resume )
@@ -291,10 +285,8 @@ void EmuInterface::resume()
 			queue_block();
 	}
 	
-	sync_memory();
 	deferred_enabled = true;
 	stop_output = false;
-	sync_memory();
 	
 	play_buffer( blocks [read_pos], block_size );
 	playing = true;
@@ -324,22 +316,20 @@ inline void EmuInterface::fast_forward()
 	const int skip_samples = (sample_rate / skip_len) & ~1;
 	for ( int n = 2 * skip_len; n-- && blocks_played <= ffwd_next_time; ) {
 		emu.skip( skip_samples );
-		sync_memory();
 	}
 	
 	// wait for second block to begin
 	while ( blocks_played <= ffwd_next_time ) // to do: eliminate busy wait
-		sync_memory();
+    {
+    }
 	ffwd_next_time = blocks_played + 1;
 	
 	// fade next block in
 	queue_block();
 	fade_samples( blocks [(write_pos + max_blocks - 1) % max_blocks], 1 );
 	
-	ffwd_timer.set_next_time( 0.008 );
-	sync_memory();
+	//TODO: FF ffwd_timer.set_next_time( 0.008 );
 	deferred_enabled = true;
-	sync_memory();
 }
 
 void EmuInterface::fast_forward_( void* self ) {
@@ -463,9 +453,7 @@ inline void EmuInterface::deferred_callback()
 
 void EmuInterface::deferred_callback_( void* data )
 {
-	sync_memory();
 	static_cast<EmuInterface*> (data)->deferred_callback();
-	sync_memory();
 }
 
 // sound_callback
@@ -518,9 +506,7 @@ inline void EmuInterface::sound_callback()
 
 void EmuInterface::sound_callback_( void* self )
 {
-	sync_memory();
 	static_cast<EmuInterface*> (self)->sound_callback();
-	sync_memory();
 }
 
 const short* EmuInterface::scope_buffer() const

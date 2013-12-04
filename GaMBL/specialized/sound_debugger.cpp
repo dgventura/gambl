@@ -6,7 +6,6 @@
 #include <algorithm>
 #include "Wave_Writer.h"
 #include "file_util.h"
-#include "thread_util.h"
 #include <string>
 
 /* Copyright (C) 2005 Shay Green. This module is free software; you
@@ -39,7 +38,6 @@ private:
 	runtime_array<sample_t> buf;
 	volatile long write_pos;
 	volatile long read_pos;
-	Event_Loop_Timer task;
 	
 	long written() const;
 	void flush();
@@ -84,8 +82,6 @@ Sound_Debugger::Sound_Debugger() :
 {
 	write_pos = 0;
 	read_pos = 0;
-	task.set_callback( flush_, this );
-	task.install( 0.5 );
 }
 
 Sound_Debugger::~Sound_Debugger() {
