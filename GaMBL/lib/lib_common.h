@@ -17,8 +17,6 @@
 #include <cstring>
 #include <cstdlib>
 #include <cstddef>
-//#include <TextUtils.h>
-#include "debug.h"
 #include "debug_out.h"
 #include "util.h"
 #include "error_util.h"
