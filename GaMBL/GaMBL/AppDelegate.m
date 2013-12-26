@@ -217,11 +217,12 @@ const int GCTRL_RESETFAVORITES  = 403;
 {
     NSMutableArray *favorites = [[NSMutableArray alloc] init];
     
-    char szPath[PATH_MAX];
-    const FSRef& dir = favorites_dir();
-    OSStatus err = FSRefMakePath( &dir, (UInt8*)szPath, PATH_MAX );
+    std::wstring strPath;
+    GaMBLFileHandle dir = favorites_dir();
+    OSStatus err = dir.GetFilePath( strPath );
+    assert( !err );
     
-    NSURL *directoryURL = [NSURL fileURLWithPath:[NSString stringWithUTF8String:szPath] isDirectory:YES];
+    NSURL *directoryURL = [NSURL fileURLWithPath:[NSString stringWithwstring:strPath] isDirectory:YES];
     assert(directoryURL);
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -247,14 +248,14 @@ const int GCTRL_RESETFAVORITES  = 403;
         }
         else if ( ![isDirectory boolValue] )
         {
-            
-            FSRef targetReference;
             Boolean wasAliased, isFolder;
-            err = FSPathMakeRef( (UInt8*)[[url path] UTF8String], &targetReference, NULL );
-            err = FSResolveAliasFile( &targetReference, TRUE, &isFolder, &wasAliased );
-            err = FSRefMakePath( &targetReference, (UInt8*)szPath, sizeof(szPath) );
+            std::wstring strPath =  [[url path] getwstring];
+            GaMBLFileHandle targetReference( strPath, "r" );
+            //TODO: RAD err = DeprecatedFSResolveAliasFile( &targetReference, TRUE, &isFolder, &wasAliased );
+            OSStatus err = targetReference.GetFilePath( strPath );
+            assert( !err );
  
-            [favorites addObject:[NSString stringWithUTF8String:szPath]];
+            [favorites addObject:[NSString stringWithwstring:strPath]];
         }
     }
     
@@ -278,18 +279,19 @@ const int GCTRL_RESETFAVORITES  = 403;
 
 - (void)resetFavorites
 {
-    FSRef dir = favorites_dir();
-    char szPath[PATH_MAX];
-    FSRefMakePath( &dir, (UInt8*)szPath, sizeof(szPath) );
+    GaMBLFileHandle dir = favorites_dir();
+    std::wstring strPath;
+    OSStatus err = dir.GetFilePath( strPath );
+    assert( !err );
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSDirectoryEnumerator *en = [fileManager enumeratorAtPath:[NSString stringWithUTF8String:szPath]];
+    NSDirectoryEnumerator *en = [fileManager enumeratorAtPath:[NSString stringWithwstring:strPath]];
     
     NSString *path;
     NSError *myError;
     while ( path = [en nextObject] )
     {
-        BOOL res = [fileManager removeItemAtPath:[NSString stringWithFormat:@"%s/%@", szPath, path] error:&myError];
+        BOOL res = [fileManager removeItemAtPath:[NSString stringWithFormat:@"%@/%@", [NSString stringWithwstring:strPath], path] error:&myError];
         if ( !res )
         {
             NSLog( @"Error removing path: %@ ", path );

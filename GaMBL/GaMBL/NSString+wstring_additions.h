@@ -7,7 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <string>
 
 @interface NSString (wstring_additions)
-
++(NSString*) stringWithwstring:(const std::wstring&)string;
+-(std::wstring) getwstring;
 @end

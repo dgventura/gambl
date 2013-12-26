@@ -6,7 +6,7 @@
 #include "Music_Album.h"
 
 #include "music_util.h"
-#include "file_util.h"
+#include "FileUtilities.h"
 #include "Spc_Emu.h"
 #include "prefs.h"
 
@@ -91,9 +91,9 @@ Music_Album* new_spc_album()
 
 struct Spcp_Album : Spc_Album
 {
-	FSRef path;
+	GaMBLFileHandle path;
 	
-	Spcp_Album( const FSRef& path_ ) : path( path_ ) {
+	Spcp_Album( const GaMBLFileHandle& path_ ) : path( path_ ) {
 	}
 	
 	int load_track_( Music_Emu& emu, int, File_Archive* archive )
@@ -125,7 +125,7 @@ struct Spcp_Album : Spc_Album
 	}
 };
 
-Music_Album* new_spcp_album( const FSRef& path )
+Music_Album* new_spcp_album( const GaMBLFileHandle& path )
 {
 	return new Spcp_Album( path );
 }

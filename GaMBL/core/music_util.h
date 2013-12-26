@@ -11,7 +11,7 @@
 #include "pod_vector.h"
 class Cat_Info;
 
-struct track_ref_t : FSRef {
+struct track_ref_t : GaMBLFileHandle {
 	short track;
 };
 
@@ -25,7 +25,7 @@ const char* fix_music_file_type( const Cat_Info&, bool change_type );
 int extract_track_num( NSString& filename );
 
 // Append file or folder to playlist
-void append_playlist( const FSRef&, Music_Queue& );
+void append_playlist( const GaMBLFileHandle&, Music_Queue& );
 
 const OSType nsf_type = 'NSF ';
 const OSType nsfe_type= 'NSFE';
@@ -63,22 +63,22 @@ OSType identify_music_filename( const char* );
 // Determine if file is game music file, and what type it is. Result is 0
 // if it's not a game music file. Providing type allows elimination of
 // filesystem calls if file's type is already set correctly.
-OSType identify_music_file( const FSRef& );
-OSType identify_music_file( const FSRef&, OSType );
+OSType identify_music_file( const GaMBLFileHandle& );
+OSType identify_music_file( const GaMBLFileHandle&, OSType );
 OSType identify_music_file( const HFSUniStr255&, OSType );
 
 // Determine type of music file based on file's header. Result is 0 if unrecognized.
-OSType identify_music_file_data( const FSRef& );
+OSType identify_music_file_data( const GaMBLFileHandle& );
 OSType identify_music_file_data( const void* first_four_bytes, int file_size );
 
 // Read possibly gzipped and/or packed SPC file data into 'out'. False if
 // SPC had no compression.
-bool read_packed_spc( const FSRef&, runtime_array<char>& out );
-bool unpack_spc( const FSRef& dir, runtime_array<char>& data );
+bool read_packed_spc( const GaMBLFileHandle&, runtime_array<char>& out );
+bool unpack_spc( const GaMBLFileHandle& dir, runtime_array<char>& data );
 
 // End of public interface
-OSType identify_music_file_( const FSRef*, OSType, const HFSUniStr255* );
-inline OSType identify_music_file( const FSRef& path, OSType type ) {
+OSType identify_music_file_( const GaMBLFileHandle*, OSType, const HFSUniStr255* );
+inline OSType identify_music_file( const GaMBLFileHandle& path, OSType type ) {
 	return identify_music_file_( &path, type, NULL );
 }
 inline OSType identify_music_file( const HFSUniStr255& name, OSType type ) {

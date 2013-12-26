@@ -55,28 +55,31 @@ void throw_null() {
 	throw_error( "null" );
 }
 
-void throw_file_error( const char* str, const FSRef& fsref )
+void throw_file_error( const char* str, const GaMBLFileHandle& fsref )
 {
 	if ( str )
 		throw File_Error( -1, fsref, str );
 }
 
-void throw_file_error( long code, const FSRef& fsref )
+void throw_file_error( long code, const GaMBLFileHandle& fsref )
 {
 	if ( code )
 		throw File_Error( code, fsref );
 }
 
-void throw_file_error( long code, const FSRef& dir, const HFSUniStr255& name )
+void throw_file_error( long code, const GaMBLFileHandle& dir, const HFSUniStr255& name )
 {
+    //RAD
+#if 0
 	if ( code )
 	{
-		FSRef fsref;
+		GaMBLFileHandle fsref;
 		if ( !FSMakeFSRefUnicode( &dir, name.length, name.unicode, 0, &fsref ) )
 			throw_file_error( code, fsref );
 		else
 			throw_file_error( code, dir ); // to do: preserve name for display later
 	}
+#endif
 }
 
 const char* error_to_str( long code )
@@ -134,10 +137,14 @@ static void code_to_str( long code, char* out )
 	}
 }
 
-bool exception_to_str( char* out )
+bool exception_to_str( std::wstring& out )
 {
 	bool result = true;
 	
+    assert(0);
+    
+#if 0 //TODO DGV
+    
 	try
 	{
 		throw;
@@ -145,12 +152,11 @@ bool exception_to_str( char* out )
 	}
 	catch ( File_Error& e )
 	{
-		std::strcpy( out, e.what() );
-		code_to_str( e.code, out + std::strlen( out ) );
+		out.assign( e.what(), strlen(e.what()) );
+		code_to_str( e.code, out + out.length() );
 		int len = std::strlen( out );
 		std::strcat( out, ": " );
-		OSErr err = FSRefMakePath( &e.fsref, (UInt8*) out + len + 2,
-				exception_str_max - len - 2 );
+		OSErr err = GetFilePath( e.fsref, out );
 		if ( err )
 			out [len] = 0;
 	}
@@ -179,7 +185,8 @@ bool exception_to_str( char* out )
 	{
 		result = false;
 	}
-	
+#endif
+    
 	return result;
 }
 

@@ -42,7 +42,7 @@ static int estimate_count( OSType type )
 }
 
 // Remove (OS 9)/hide (OS X) file extension. Ignores errors.
-static void remove_filename_extension( const FSRef& path )
+static void remove_filename_extension( const GaMBLFileHandle& path )
 {
     debug_if_error( LSSetExtensionHiddenForRef( &path, true ) );
 }
@@ -50,7 +50,7 @@ static void remove_filename_extension( const FSRef& path )
 static void associate_item( const Cat_Info& info, Action_Hooks& hooks, bool hide_ext )
 {
 	// build list of files to rename
-	pod_vector<FSRef> files;
+	pod_vector<GaMBLFileHandle> files;
 	
 	if ( info.is_dir() )
 	{
@@ -94,7 +94,7 @@ static void associate_item( const Cat_Info& info, Action_Hooks& hooks, bool hide
 	}
 }
 
-void associate_music( const FSRef& path, Action_Hooks& hooks, bool hide_ext )
+void associate_music( const GaMBLFileHandle& path, Action_Hooks& hooks, bool hide_ext )
 {
 	Cat_Info info;
 	info.read( path, kFSCatInfoNodeFlags | kFSCatInfoFinderInfo );
@@ -103,7 +103,7 @@ void associate_music( const FSRef& path, Action_Hooks& hooks, bool hide_ext )
 
 // check_music_files
 
-static void check_music_file( const FSRef& orig_path, const Cat_Info& info, Action_Hooks& hooks )
+static void check_music_file( const GaMBLFileHandle& orig_path, const Cat_Info& info, Action_Hooks& hooks )
 {
 	OSType type = identify_music_file( info.ref(), info.finfo().fileType );
 	if ( !type )
@@ -169,7 +169,7 @@ static void check_item( const Cat_Info& info_in, Action_Hooks& hooks, int depth 
 	if ( depth > 10 )
 		throw_error( "Folders nested too deeply" );
 	
-	FSRef path = info_in.ref();
+	GaMBLFileHandle path = info_in.ref();
 	
 	try
 	{
@@ -178,7 +178,7 @@ static void check_item( const Cat_Info& info_in, Action_Hooks& hooks, int depth 
 		const Cat_Info& info = use_new_info ? new_info : info_in;
 		
 		if ( use_new_info ) {
-			new_info.read( FSResolveAliasFileChk( info_in.ref() ),
+			new_info.read( DeprecatedFSResolveAliasFileChk( info_in.ref() ),
 					kFSCatInfoNodeFlags | kFSCatInfoFinderInfo );
 			path = new_info.ref();
 		}
@@ -203,7 +203,7 @@ static void check_item( const Cat_Info& info_in, Action_Hooks& hooks, int depth 
 	}
 }
 
-void check_music_files( const FSRef& path, Action_Hooks& hooks )
+void check_music_files( const GaMBLFileHandle& path, Action_Hooks& hooks )
 {
 	Cat_Info info;
 	info.read( path, kFSCatInfoNodeFlags | kFSCatInfoFinderInfo );

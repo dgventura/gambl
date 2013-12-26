@@ -6,7 +6,7 @@
 #include "Music_Album.h"
 
 #include "music_util.h"
-#include "file_util.h"
+#include "FileUtilities.h"
 #include "Nsf_Emu.h"
 
 /* Copyright (C) 2005 Shay Green. This module is free software; you
@@ -198,7 +198,7 @@ void Music_Album::set_track_count( int n ) {
 
 // load_music_album
 
-Music_Album* load_music_album( const FSRef& path )
+Music_Album* load_music_album( const GaMBLFileHandle& path )
 {
 	HFSUniStr255 name;
 	Cat_Info info;
@@ -211,7 +211,7 @@ Music_Album* load_music_album( const FSRef& path )
 	return load_music_album( path, type, name );
 }
 
-Music_Album* load_music_album( const FSRef& path, OSType type, const HFSUniStr255& name )
+Music_Album* load_music_album( const GaMBLFileHandle& path, OSType type, const HFSUniStr255& name )
 {
 	bool use_parent = false;
 	
@@ -323,7 +323,7 @@ int Music_Album::track_count()
 	return track_count_;
 }
 
-int album_track_count( const FSRef& path, OSType type, const HFSUniStr255& name )
+int album_track_count( const GaMBLFileHandle& path, OSType type, const HFSUniStr255& name )
 {
 	int file_count = 0;
 	int first_file = 0;

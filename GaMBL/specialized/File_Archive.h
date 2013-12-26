@@ -40,13 +40,13 @@ protected:
 };
 
 // Treat a single file as an archive with a single file named 'filename'
-File_Archive* open_file_archive( const FSRef&, const char* filename );
+File_Archive* open_file_archive( const GaMBLFileHandle&, const char* filename );
 
 // Open ZIP archive
-File_Archive* open_zip_archive( const FSRef& );
+File_Archive* open_zip_archive( const GaMBLFileHandle& );
 
 // Open RAR archive
-File_Archive* open_rar_archive( const FSRef& );
+File_Archive* open_rar_archive( const GaMBLFileHandle& );
 
 inline const File_Archive::info_t& File_Archive::info() const {
 	return info_;

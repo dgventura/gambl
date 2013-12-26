@@ -5,7 +5,7 @@
 
 #include <algorithm>
 #include "Wave_Writer.h"
-#include "file_util.h"
+#include "FileUtilities.h"
 #include <string>
 
 /* Copyright (C) 2005 Shay Green. This module is free software; you
@@ -58,23 +58,28 @@ void ConvertCStringToUnicode( const char* inCString, HFSUniStr255* outUniName )
     }
 }
 
-FSRef make_debug_wave()
+GaMBLFileHandle make_debug_wave()
 {
+#if 0 //RAD
 	HFSUniStr255 name;
     ConvertCStringToUnicode( "debug.wav", &name );
     assert( name.length > 0 );
-	FSRef dir = get_parent( get_bundle_fsref() );
-	FSRef file;
-	if ( FSMakeFSRefExists( dir, name, &file ) )
+	GaMBLFileHandle dir = get_parent( get_bundle_fsref() );
+	
+    GaMBLFileHandle file =
+	if ( DeprecatedFSMakeFSRefExists( dir, name, &file ) )
 		FSDeleteObject( &file );
 	create_file( dir, name, 'WAVE', 'Nqst' );
-    FSRef newFile = FSMakeFSRefChk( dir, name );
-    bool bFileOk = FSIsFSRefValid( &newFile );
+    GaMBLFileHandle newFile = DeprecatedFSMakeFSRefChk( dir, name );
+    bool bFileOk = DeprecatedFSIsFSRefValid( &newFile );
     assert( bFileOk );
     
     return newFile;
+#else
+    return DummyHandle;
+#endif
 }
-	
+
 Sound_Debugger::Sound_Debugger() :
 	file( make_debug_wave() ),
 	wave( &file ),

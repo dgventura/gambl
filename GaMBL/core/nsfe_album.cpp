@@ -7,7 +7,7 @@
 #include "Music_Album.h"
 
 #include "music_util.h"
-#include "file_util.h"
+#include "FileUtilities.h"
 #include "Nsf_Emu.h"
 
 /* Copyright (C) 2005 Shay Green. This module is free software; you

@@ -58,10 +58,10 @@ void File_Archive::uncache()
 struct Single_File_Archive : File_Archive
 {
 	unique_ptr<Gzip_Reader> file;
-	FSRef path;
+	GaMBLFileHandle path;
 	char filename [256 + 8];
 	
-	Single_File_Archive( const FSRef& path_, const char* fn ) : path( path_ )
+	Single_File_Archive( const GaMBLFileHandle& path_, const char* fn ) : path( path_ )
 	{
 		info_.is_file = true;
 		info_.name = filename;
@@ -89,7 +89,7 @@ struct Single_File_Archive : File_Archive
 	}
 };
 
-File_Archive* open_file_archive( const FSRef& path, const char* filename ) {
+File_Archive* open_file_archive( const GaMBLFileHandle& path, const char* filename ) {
 	return new Single_File_Archive( path, filename );
 }
 
@@ -101,7 +101,7 @@ struct Zip_Archive : File_Archive
 	Zip_Extractor arc;
 	int index;
 	
-	Zip_Archive( const FSRef& path ) : reader( path )
+	Zip_Archive( const GaMBLFileHandle& path ) : reader( path )
 	{
 		index = -1;
 		if ( !arc.open( &reader ) )
@@ -148,7 +148,7 @@ struct Zip_Archive : File_Archive
 	}
 };
 
-File_Archive* open_zip_archive( const FSRef& path ) {
+File_Archive* open_zip_archive( const GaMBLFileHandle& path ) {
 	return new Zip_Archive( path );
 }
 
@@ -173,7 +173,7 @@ struct Rar_Archive : File_Archive
 	
 	void rewind();
 	
-	Rar_Archive( const FSRef& path_ ) : reader( path_ )
+	Rar_Archive( const GaMBLFileHandle& path_ ) : reader( path_ )
 	{
 		is_open = false;
 		rewind();
@@ -233,7 +233,7 @@ void Rar_Archive::rewind()
 	scan_only = false;
 }
 	
-File_Archive* open_rar_archive( const FSRef& path ) {
+File_Archive* open_rar_archive( const GaMBLFileHandle& path ) {
 	return new Rar_Archive( path );
 }
 
@@ -250,7 +250,7 @@ struct Empty_Archive : File_Archive
 	}
 };
 
-File_Archive* open_rar_archive( const FSRef& ) {
+File_Archive* open_rar_archive( const GaMBLFileHandle& ) {
 	return new Empty_Archive;
 }
 

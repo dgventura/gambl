@@ -2,7 +2,7 @@
 // Game_Music_Box 0.5.2. http://www.slack.net/~ant/game-music-box
 
 #include "favorites.h"
-#include "file_util.h"
+#include "FileUtilities.h"
 
 /* Copyright (C) 2005 Shay Green. This module is free software; you
 can redistribute it and/or modify it under the terms of the GNU Lesser
@@ -25,26 +25,32 @@ const char* system_names [5] = {
 	"Sega Genesis"
 };
 
-static FSRef create_dir( const FSRef& parent, const char* name )
+static GaMBLFileHandle create_dir( const GaMBLFileHandle& parent, const char* name )
 {
+    assert(0)
+#if 0 //RAD
 	HFSUniStr255 filename;
 	str_to_filename( name, filename );
 	sanitize_filename( filename );
-	FSRef dir;
+	GaMBLFileHandle dir;
 	if ( !FSMakeFSRefExists( parent, filename, &dir ) )
 		FSCreateDirectoryUnicodeChk( parent, filename, 0, NULL, &dir );
 	else
-		dir = FSResolveAliasFileChk( dir );
+		dir = DeprecatedFSResolveAliasFileChk( dir );
 	return dir;
+#else
+    return DummyHandle;
+#endif
 }
 
-const FSRef& favorites_dir()
+const GaMBLFileHandle& favorites_dir()
 {
-	static FSRef dir;
+	static GaMBLFileHandle dir;
 	static bool found;
+#if 0 //RAD
 	if ( !found )
 	{
-		if ( debug_if_error( FSFindFolder( kOnSystemDisk,
+		if ( debug_if_error( DeprecatedFSFindFolder( kOnSystemDisk,
 				kPreferencesFolderType, true, &dir ) ) )
 		{
 			dir = get_parent( get_bundle_fsref() );
@@ -52,6 +58,7 @@ const FSRef& favorites_dir()
 		dir = create_dir( dir, "Game Music Favorites" );
 		found = true;
 	}
+#endif
 	return dir;
 }
 
@@ -60,7 +67,7 @@ void play_classic_favorites( Player_Window& player )
 //TODO: GUI
 #if 0
 	player.begin_drop();
-	FSRef dir = favorites_dir();
+	GaMBLFileHandle dir = favorites_dir();
 	player.handle_drop( create_dir( dir, system_names [0] ) );
 	player.handle_drop( create_dir( dir, system_names [1] ) );
 	player.handle_drop( create_dir( dir, system_names [2] ) );
@@ -73,7 +80,7 @@ void play_favorites( Player_Window& player, const char* name )
     //TODO: GUI
 #if 0
 	player.begin_drop();
-	FSRef dir = favorites_dir();
+	GaMBLFileHandle dir = favorites_dir();
 	player.handle_drop( create_dir( dir, name ) );
 	player.end_drop();
 #endif
@@ -88,7 +95,7 @@ void add_favorite( const track_ref_t& track, shared_ptr< Music_Album > album )
 {
 	// to do: currently just a quick hack
 	
-	FSRef dir = favorites_dir();
+	GaMBLFileHandle dir = favorites_dir();
 	
 	dir = create_dir( dir, album->info().system );
 	
@@ -122,6 +129,6 @@ void add_favorite( const track_ref_t& track, shared_ptr< Music_Album > album )
 	
 	// don't create if alias already exists
 	if ( !FSMakeFSRefExists( dir, filename ) )
-		make_alias_file( FSResolveAliasFileChk( track ), dir, filename );
+		make_alias_file( DeprecatedFSResolveAliasFileChk( track ), dir, filename );
 }
 

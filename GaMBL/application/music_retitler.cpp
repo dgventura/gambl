@@ -11,7 +11,7 @@
 #include "Music_Album.h"
 #include "pod_vector.h"
 #include "Music_Emu.h"
-#include "file_util.h"
+#include "FileUtilities.h"
 
 /* Copyright (C) 2005 Shay Green. This module is free software; you
 can redistribute it and/or modify it under the terms of the GNU Lesser
@@ -65,7 +65,7 @@ static void extract_spc_str( const char* in, int in_size, char* out )
 	*p = 0;
 }
 
-static bool read_spc_header( const FSRef& path, spc_header_t* out )
+static bool read_spc_header( const GaMBLFileHandle& path, spc_header_t* out )
 {
 	Gzip_Reader file( path );
 	file.read( out, sizeof *out );
@@ -108,7 +108,7 @@ static bool extract_track_number( const char* in, char* out )
 	return true;
 }
 
-static void get_spc_info( const FSRef& path, char* name, char* game )
+static void get_spc_info( const GaMBLFileHandle& path, char* name, char* game )
 {
 	// to do: use extended SPC info?
 	
@@ -157,7 +157,7 @@ static void get_spc_info( const FSRef& path, char* name, char* game )
 	std::strcat( name, title );
 }
 
-static bool get_album_name( const FSRef& path, char* name, char* game )
+static bool get_album_name( const GaMBLFileHandle& path, char* name, char* game )
 {
 	// to do: avoid creating emulator and all that?
 	// to do: scan all tracks to be sure game name matches?
@@ -190,7 +190,7 @@ static bool get_album_name( const FSRef& path, char* name, char* game )
 static void retitle_item( const Cat_Info& info, Action_Hooks& hooks )
 {
 	// Build file list
-	pod_vector<FSRef> files;
+	pod_vector<GaMBLFileHandle> files;
 	int rename_dir = -1;
 	if ( info.is_dir() )
 	{
@@ -212,7 +212,7 @@ static void retitle_item( const Cat_Info& info, Action_Hooks& hooks )
 	// rename files
 	for ( int i = 0; i < files.size(); i++ )
 	{
-		const FSRef& path = files [i];
+		const GaMBLFileHandle& path = files [i];
 		
 		try
 		{
@@ -281,7 +281,7 @@ static void retitle_item( const Cat_Info& info, Action_Hooks& hooks )
 				filename_to_str( filename, song );
 				
 				if ( 0 != std::strcmp( song, old ) )
-					throw_file_error( FSRenameUnicode( &path, filename.length,
+					throw_file_error( DeprecatedFSRenameUnicode( &path, filename.length,
 							filename.unicode, 0, NULL ), path );
 			}
 		}
@@ -301,12 +301,12 @@ static void retitle_item( const Cat_Info& info, Action_Hooks& hooks )
 		get_filename( info.ref(), old_name, sizeof old_name );
 		
 		if ( 0 != std::strcmp( dir_name, old_name ) )
-			throw_file_error( FSRenameUnicode( &info.ref(), filename.length,
+			throw_file_error( DeprecatedFSRenameUnicode( &info.ref(), filename.length,
 					filename.unicode, 0, NULL ), info.ref() );
 	}
 }
 
-void retitle_music( const FSRef& path, Action_Hooks& hooks )
+void retitle_music( const GaMBLFileHandle& path, Action_Hooks& hooks )
 {
 	Cat_Info info;
 	info.read( path, kFSCatInfoNodeFlags | kFSCatInfoFinderInfo );

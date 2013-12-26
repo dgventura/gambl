@@ -9,7 +9,7 @@
 #include "common.h"
 #include "runtime_array.h"
 #include "abstract_file.h"
-#include "file_util.h"
+#include "FileUtilities.h"
 #include "zlib.h"
 
 // Inflate gzip file that's been read into memory (if uncompressed, just copy to out).
@@ -20,7 +20,7 @@ void write_gzip_file( const void*, long size, Data_Writer& out );
 
 class Gzip_Reader : public Data_Reader {
 public:
-	explicit Gzip_Reader( const FSRef& );
+	explicit Gzip_Reader( const GaMBLFileHandle& );
 	~Gzip_Reader();
 	
 	bool is_deflated() const;
@@ -32,7 +32,7 @@ public:
 private:
 	runtime_array<unsigned char> buf;
 	Mac_File_Reader file;
-	FSRef path;
+	GaMBLFileHandle path;
 	z_stream zbuf;
 	long raw_remain;
 	long remain_;

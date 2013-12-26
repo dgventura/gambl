@@ -6,7 +6,7 @@
 #include <cctype>
 #include <sys/fcntl.h>
 //#include <Aliases.h>
-#include "file_util.h"
+#include "FileUtilities.h"
 #include "Gzip_Reader.h"
 #include "unpack_spc.h"
 #include "Music_Album.h"
@@ -79,7 +79,7 @@ OSType is_music_or_archive( OSType type )
 	return result;
 }
 
-OSType identify_music_file_( const FSRef* path, OSType type, const HFSUniStr255* filename )
+OSType identify_music_file_( const GaMBLFileHandle* path, OSType type, const HFSUniStr255* filename )
 {
 	OSType result = is_music_or_archive( type );
 	if ( result || !is_unset_file_type( type ) )
@@ -88,7 +88,7 @@ OSType identify_music_file_( const FSRef* path, OSType type, const HFSUniStr255*
 	HFSUniStr255 filename_;
 	if ( !filename ) {
 		assert( path );
-		FSGetCatalogInfoChk( FSResolveAliasFileChk( *path ), 0, NULL, &filename_ ) ;
+		FSGetCatalogInfoChk( DeprecatedFSResolveAliasFileChk( *path ), 0, NULL, &filename_ ) ;
 		filename = &filename_;
 	}
 	char name [256];
@@ -96,7 +96,7 @@ OSType identify_music_file_( const FSRef* path, OSType type, const HFSUniStr255*
 	return identify_music_filename( name );
 }
 
-OSType identify_music_file( const FSRef& path )
+OSType identify_music_file( const GaMBLFileHandle& path )
 {
 	Cat_Info info;
 	info.read( path, kFSCatInfoFinderInfo );
@@ -178,7 +178,7 @@ OSType identify_music_file_data( const void* header, int size )
 	return 0;
 }
 
-OSType identify_music_file_data( const FSRef& path )
+OSType identify_music_file_data( const GaMBLFileHandle& path )
 {
 	Gzip_Reader in( path );
 	long size = in.remain();
@@ -190,17 +190,17 @@ OSType identify_music_file_data( const FSRef& path )
 	return identify_music_file_data( buf, size );
 }
 
-bool unpack_spc( const FSRef& path, runtime_array<char>& out )
+bool unpack_spc( const GaMBLFileHandle& path, runtime_array<char>& out )
 {
 	const char* shared_filename = spc_shared_filename( out.begin(), out.size() );
 	if ( !shared_filename )
 		return false;
 	
 	// find shared data file
-	FSRef dir = get_parent( path );
+	GaMBLFileHandle dir = get_parent( path );
 	HFSUniStr255 filename;
 	str_to_filename( shared_filename, filename );
-	FSRef shared_path;
+	GaMBLFileHandle shared_path;
 	if ( !FSMakeFSRefExists( dir, filename, &shared_path ) )
 		throw_file_error( "The shared data file is missing", path );
 	
@@ -220,7 +220,7 @@ bool unpack_spc( const FSRef& path, runtime_array<char>& out )
 	return true;
 }
 	
-bool read_packed_spc( const FSRef& path, runtime_array<char>& out )
+bool read_packed_spc( const GaMBLFileHandle& path, runtime_array<char>& out )
 {
 	Gzip_Reader in( path );
 	out.resize( in.remain() );
@@ -267,7 +267,7 @@ static void append_playlist_( const Cat_Info& info, HFSUniStr255& name,
 		if ( type )
 		{
 			track_ref_t tr;
-			static_cast<FSRef&> (tr) = info.ref();
+			static_cast<GaMBLFileHandle&> (tr) = info.ref();
 			
 			int single = (info.is_alias() ? extract_track_num( name ) : 0);
 			if ( single ) {
@@ -276,7 +276,7 @@ static void append_playlist_( const Cat_Info& info, HFSUniStr255& name,
 			}
 			else {
 				int track_count = album_track_count(
-						(info.is_alias() ? FSResolveAliasFileChk( info.ref() ) : info.ref()),
+						(info.is_alias() ? DeprecatedFSResolveAliasFileChk( info.ref() ) : info.ref()),
 						type, name );
 				for ( int i = 0; i < track_count; i++ ) {
 					tr.track = i;
@@ -288,14 +288,14 @@ static void append_playlist_( const Cat_Info& info, HFSUniStr255& name,
 		}
 	}
 	
-	FSRef dir = info.ref();
+	GaMBLFileHandle dir = info.ref();
 	if ( !info.is_dir() )
 	{
 		if ( !info.is_alias() )
 			return;
 		
 		Boolean is_dir = false, is_alias;
-		if ( FSResolveAliasFile( &dir, true, &is_dir, &is_alias ) || !is_dir )
+		if ( DeprecatedFSResolveAliasFile( &dir, true, &is_dir, &is_alias ) || !is_dir )
 			return; // ignore error if alias couldn't be resolved
 	}
 	
@@ -316,7 +316,7 @@ static void append_playlist_( const Cat_Info& info, HFSUniStr255& name,
 	}
 }
 
-void append_playlist( const FSRef& path, Music_Queue& queue )
+void append_playlist( const GaMBLFileHandle& path, Music_Queue& queue )
 {
 	Cat_Info info;
 	HFSUniStr255 name;
@@ -326,7 +326,7 @@ void append_playlist( const FSRef& path, Music_Queue& queue )
 
 // Scan all files in archive and return common music type if there is one, -1 if
 // there are multiple types, or 0 if there are no music files.
-static OSType get_archive_type( const FSRef& path, OSType type )
+static OSType get_archive_type( const GaMBLFileHandle& path, OSType type )
 {
 	unique_ptr<File_Archive> archive( type == zip_type ?
 			open_zip_archive( path ) : open_rar_archive( path ) );

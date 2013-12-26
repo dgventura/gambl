@@ -201,6 +201,14 @@
 		63A29CD7170D5B5B00284B6B /* zutil.c in Sources */ = {isa = PBXBuildFile; fileRef = 63A29C80170D5B5B00284B6B /* zutil.c */; };
 		63CFF9CE172D0AFE00AFFE60 /* PlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CFF9CD172D0AFE00AFFE60 /* PlayerViewController.m */; };
 		63CFF9D1172D0B4F00AFFE60 /* PlayerWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CFF9D0172D0B4F00AFFE60 /* PlayerWindow.m */; };
+		63DBBB591868FA1200992027 /* NSString+wstring_additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 63DBBB581868FA1200992027 /* NSString+wstring_additions.m */; };
+		63DBBB5A1868FA1200992027 /* NSString+wstring_additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 63DBBB581868FA1200992027 /* NSString+wstring_additions.m */; };
+		63DBBB5B1868FB4300992027 /* NSString+wstring_additions.h in Sources */ = {isa = PBXBuildFile; fileRef = 63DBBB571868FA1200992027 /* NSString+wstring_additions.h */; };
+		63DBBB5C1868FB4500992027 /* NSString+wstring_additions.h in Sources */ = {isa = PBXBuildFile; fileRef = 63DBBB571868FA1200992027 /* NSString+wstring_additions.h */; };
+		63DBBB5D1868FB4600992027 /* NSString+wstring_additions.h in Sources */ = {isa = PBXBuildFile; fileRef = 63DBBB571868FA1200992027 /* NSString+wstring_additions.h */; };
+		63DBBB60186B2A5F00992027 /* FileUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63DBBB5F186B2A5F00992027 /* FileUtilities.cpp */; };
+		63DBBB61186B2A5F00992027 /* FileUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63DBBB5F186B2A5F00992027 /* FileUtilities.cpp */; };
+		63DBBB62186B2A5F00992027 /* FileUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63DBBB5F186B2A5F00992027 /* FileUtilities.cpp */; };
 		63E58EF1171944A900C31D10 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E58EF0171944A900C31D10 /* CoreAudio.framework */; };
 		63E8F3ED1716CA8900FF269A /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E8F3EC1716CA8900FF269A /* AudioToolbox.framework */; };
 		63E8F3F31716CACC00FF269A /* CAStreamBasicDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63E8F3F11716CACC00FF269A /* CAStreamBasicDescription.cpp */; };
@@ -454,6 +462,10 @@
 		63CFF9CD172D0AFE00AFFE60 /* PlayerViewController.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = PlayerViewController.m; sourceTree = "<group>"; };
 		63CFF9CF172D0B4F00AFFE60 /* PlayerWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerWindow.h; sourceTree = "<group>"; };
 		63CFF9D0172D0B4F00AFFE60 /* PlayerWindow.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = PlayerWindow.m; sourceTree = "<group>"; };
+		63DBBB571868FA1200992027 /* NSString+wstring_additions.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = "NSString+wstring_additions.h"; sourceTree = "<group>"; };
+		63DBBB581868FA1200992027 /* NSString+wstring_additions.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = "NSString+wstring_additions.m"; sourceTree = "<group>"; };
+		63DBBB5E186B2A4300992027 /* FileUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUtilities.h; sourceTree = "<group>"; };
+		63DBBB5F186B2A5F00992027 /* FileUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileUtilities.cpp; sourceTree = "<group>"; };
 		63E58EF0171944A900C31D10 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		63E8F3EC1716CA8900FF269A /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		63E8F3F01716CAB700FF269A /* CADebugMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CADebugMacros.h; path = ../../../../../../Library/Developer/CoreAudio/PublicUtility/CADebugMacros.h; sourceTree = "<group>"; };
@@ -612,6 +624,8 @@
 				63CFF9D0172D0B4F00AFFE60 /* PlayerWindow.m */,
 				631B1CBE173638750046D285 /* ChannelViewController.h */,
 				631B1CBF173638750046D285 /* ChannelViewController.m */,
+				63DBBB571868FA1200992027 /* NSString+wstring_additions.h */,
+				63DBBB581868FA1200992027 /* NSString+wstring_additions.m */,
 			);
 			path = GaMBL;
 			sourceTree = "<group>";
@@ -785,6 +799,8 @@
 				63A29C30170D5B5A00284B6B /* runtime_array.h */,
 				63A29C33170D5B5A00284B6B /* util.cpp */,
 				63A29C34170D5B5A00284B6B /* util.h */,
+				63DBBB5E186B2A4300992027 /* FileUtilities.h */,
+				63DBBB5F186B2A5F00992027 /* FileUtilities.cpp */,
 			);
 			path = lib;
 			sourceTree = "<group>";
@@ -1125,6 +1141,9 @@
 				636C9A3D18510E5900E72AEE /* unpack.cpp in Sources */,
 				636C9A3E18510E5900E72AEE /* unpack15.cpp in Sources */,
 				636C9A3F18510E5900E72AEE /* unpack20.cpp in Sources */,
+				63DBBB5A1868FA1200992027 /* NSString+wstring_additions.m in Sources */,
+				63DBBB5C1868FB4500992027 /* NSString+wstring_additions.h in Sources */,
+				63DBBB62186B2A5F00992027 /* FileUtilities.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1220,6 +1239,9 @@
 				632F1654184BBB6B00912D95 /* GameMusicPlayer.cpp in Sources */,
 				632F1657184BBD0400912D95 /* EmuInterface.cpp in Sources */,
 				63829FAB184E917A0021CEE0 /* GameMusicPlayer.h in Sources */,
+				63DBBB591868FA1200992027 /* NSString+wstring_additions.m in Sources */,
+				63DBBB5B1868FB4300992027 /* NSString+wstring_additions.h in Sources */,
+				63DBBB60186B2A5F00992027 /* FileUtilities.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1232,6 +1254,8 @@
 				63E8F4041716DC9600FF269A /* AudioInterface.cpp in Sources */,
 				631B56AE1717DABB0038982C /* CADebugPrintf.cpp in Sources */,
 				63829FAD184E917C0021CEE0 /* GameMusicPlayer.h in Sources */,
+				63DBBB5D1868FB4600992027 /* NSString+wstring_additions.h in Sources */,
+				63DBBB61186B2A5F00992027 /* FileUtilities.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,12 +12,12 @@ class Multi_Buffer;
 
 class Music_Album;
 
-int album_track_count( const FSRef&, OSType music_type, const HFSUniStr255& );
+int album_track_count( const GaMBLFileHandle&, OSType music_type, const HFSUniStr255& );
 
-Music_Album* load_music_album( const FSRef& );
+Music_Album* load_music_album( const GaMBLFileHandle& );
 
 // more optimal
-Music_Album* load_music_album( const FSRef&, OSType music_type, const HFSUniStr255& );
+Music_Album* load_music_album( const GaMBLFileHandle&, OSType music_type, const HFSUniStr255& );
 
 class Music_Album {
 public:
@@ -80,7 +80,7 @@ protected:
 	
 private:
 	unique_ptr<File_Archive> archive_;
-	FSRef archive_path;
+	GaMBLFileHandle archive_path;
 	bool use_parent;
 	long music_type_;
 	int current_track;
@@ -89,7 +89,7 @@ private:
 	int file_count;
 	
 	void seek_archive( int track );
-	friend Music_Album* load_music_album( const FSRef&, OSType, const HFSUniStr255& );
+	friend Music_Album* load_music_album( const GaMBLFileHandle&, OSType, const HFSUniStr255& );
 };
 
 // End of public interface
@@ -103,7 +103,7 @@ Music_Album* new_gbs_album();
 Music_Album* new_vgm_album();
 Music_Album* new_gym_album();
 Music_Album* new_spc_album();
-Music_Album* new_spcp_album( const FSRef& );
+Music_Album* new_spcp_album( const GaMBLFileHandle& );
 
 inline const Music_Album::info_t& Music_Album::info() const {
 	return info_;

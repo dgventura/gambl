@@ -8,7 +8,7 @@
 
 #include <string>
 #include "GameMusicPlayer.h"
-#include "file_util.h"
+#include "FileUtilities.h"
 #include "music_util.h"
 #include "prefs.h"
 #include "wave_export.h"
@@ -31,10 +31,11 @@ bool GameMusicPlayer::LoadFile( NSFileHandle* const pFile )
     char szBuf[PATH_MAX];
     int ret = fcntl( pFile.fileDescriptor, F_GETPATH, szBuf );
     assert( ret >= 0 );
-
-    FSRef MyFileRef;
-    OSStatus err = FSPathMakeRef( (UInt8*)szBuf, &MyFileRef, NULL );
-    assert( err == noErr );
+    std::wstring strPath(PATH_MAX);
+    mbstowcs( strPath.begin(), szBuf, strlen(szBuf) );
+    
+    GaMBLFileHandle MyFileRef( strPath, "r" );
+    assert( MyFileRef.IsOk() );
     
     // taken from begin_drop(), select_music_items()...
     reset_container( new_queue_ );
@@ -127,7 +128,7 @@ void GameMusicPlayer::RecordCurrentTrack( bool bSeparateAllChannels )
 void GameMusicPlayer::record_track( const track_ref_t& track, int mute_mask, bool bSeparateAllChannels )
 {
 	// to do: make copy of track if use persists after nav dialog
-	unique_ptr<Music_Album> album( load_music_album( FSResolveAliasFileChk( track ) ) );
+	unique_ptr<Music_Album> album( load_music_album( DeprecatedFSResolveAliasFileChk( track ) ) );
 	if ( !album )
     {
 		check( false );
@@ -154,7 +155,7 @@ void GameMusicPlayer::record_track( const track_ref_t& track, int mute_mask, boo
 	}
 	
 	// get save location
-	FSRef dir;
+	GaMBLFileHandle dir;
 	HFSUniStr255 filename;
     
 	if ( ask_save_file( &dir, &filename, name ) )
@@ -231,18 +232,15 @@ bool GameMusicPlayer::play_current()
     
     //TODO: figure out how behavior should work when playing to end
     track_ref_t& track_ref = GetCurrentTrack();
-    FSRef path = FSResolveAliasFileChk( track_ref );
+    GaMBLFileHandle path = DeprecatedFSResolveAliasFileChk( track_ref );
     
 	OSType file_type = 0;
 	
 	Cat_Info info;
 	
 	// see if new track is in a different file than current one
-	if ( !m_pMusicAlbum || (0 != std::memcmp( &path, &album_path, sizeof album_path ) && 0 != FSCompareFSRefs( &path, &album_path )) )
-	{
-		// current album might be bloated RAR archive
-		//uncache();
-		
+	if ( !m_pMusicAlbum || (0 != std::memcmp( &path, &album_path, sizeof album_path ) && 0 != DeprecatedFSCompareFSRefs( &path, &album_path )) )
+	{		
         HFSUniStr255 strUniFn;
         info.read( track_ref, kFSCatInfoFinderInfo, &strUniFn );
         
@@ -410,7 +408,7 @@ bool GameMusicPlayer::has_future()
 {
 	while ( history_pos < history.size() )
 	{
-		if ( FSResolveAliasFileExists( history [history_pos] ) )
+		if ( DeprecatedFSResolveAliasFileExists( history [history_pos] ) )
 			return true;
 		history.erase( history.begin() + history_pos );
 	}
@@ -420,7 +418,7 @@ bool GameMusicPlayer::has_future()
 		int index = (prefs.shuffle ? random( queue.size() ) : 0);
 		track_ref_t track = queue [index];
 		queue.erase( queue.begin() + index );
-		if ( FSResolveAliasFileExists( track ) )
+		if ( DeprecatedFSResolveAliasFileExists( track ) )
 		{
 			history.push_back( track );
 			if ( history.size() > history_max ) {

@@ -5,9 +5,10 @@
 
 #include "Wave_Writer.h"
 #include "music_util.h"
-#include "file_util.h"
+#include "FileUtilities.h"
 #include "File_Emu.h"
 #include "prefs.h"
+#import "NSString+wstring_additions.h"
 
 /* Copyright (C) 2005 Shay Green. This module is free software; you
 can redistribute it and/or modify it under the terms of the GNU Lesser
@@ -39,7 +40,7 @@ static void cfstr_to_unistr( CFStringRef in, HFSUniStr255* out ) {
 	CFStringGetCharacters( in, range, out->unicode );
 }
 
-bool ask_save_file( FSRef* dir, HFSUniStr255* name, const char* const initial_name )
+bool ask_save_file( GaMBLFileHandle& dir, HFSUniStr255* name, const char* const initial_name )
 {
     NSSavePanel* saveDialog = [NSSavePanel savePanel];
     [saveDialog setCanCreateDirectories:YES];
@@ -54,16 +55,17 @@ bool ask_save_file( FSRef* dir, HFSUniStr255* name, const char* const initial_na
     {
         Boolean bIsDirectory = FALSE;
         NSString *fullPath = [[saveDialog URL] path];
-        OSStatus err = FSPathMakeRef( (UInt8*)[[fullPath stringByDeletingLastPathComponent] UTF8String], dir, &bIsDirectory );
+        std::wstring strPath = [[fullPath stringByDeletingLastPathComponent] getwstring];
+        dir = OpenFileFromPath( strPath, "w" );
         str_to_filename( [[fullPath lastPathComponent] UTF8String], *name );
-        assert( err == noErr );
+        assert( &dir );
         return true;
     }
 
     return false;
 }
 
-bool choose_folder( FSRef* dir )
+bool choose_folder( GaMBLFileHandle* dir )
 {
 #if 0
 	// run dialog
@@ -87,10 +89,10 @@ bool choose_folder( FSRef* dir )
 	return true;
 }
 
-void write_wave( File_Emu& emu, const FSRef& dir, const HFSUniStr255& name,
+void write_wave( File_Emu& emu, const GaMBLFileHandle& dir, const HFSUniStr255& name,
 		long min_length, Progress_Hook* hook, bool bKeepStartingSilence )
 {
-	FSRef out_path = create_file( dir, name, 'WAVE', 'TVOD' );
+	GaMBLFileHandle out_path = create_file( dir, name, 'WAVE', 'TVOD' );
 	File_Deleter deleter( out_path );
 	
 	Mac_File file( out_path );

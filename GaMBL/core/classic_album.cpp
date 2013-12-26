@@ -8,7 +8,7 @@
 
 #include "music_util.h"
 #include "Gzip_Reader.h"
-#include "file_util.h"
+#include "FileUtilities.h"
 #include "Nsf_Emu.h"
 #include "Gbs_Emu.h"
 #include "Vgm_Emu.h"

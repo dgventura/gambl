@@ -188,7 +188,7 @@ void Gzip_Reader::throw_zlib_error( int err )
 		throw_file_error( zError( err ), path );
 }
 
-Gzip_Reader::Gzip_Reader( const FSRef& path_ ) :
+Gzip_Reader::Gzip_Reader( const GaMBLFileHandle& path_ ) :
 	path( path_ ),
 	file( path_ ),
 	buf( 32 * 1024L )

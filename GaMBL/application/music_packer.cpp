@@ -5,7 +5,7 @@
 
 #include "music_actions.h"
 
-#include "file_util.h"
+#include "FileUtilities.h"
 #include "Spc_Packer.h"
 #include "Gzip_Reader.h"
 #include "unpack_spc.h"
@@ -40,14 +40,14 @@ static OSType is_packable( const Cat_Info& info )
 class Gzip_Writer : public Spc_Writer {
 	Mac_File file;
 public:
-	Gzip_Writer( const FSRef& );
+	Gzip_Writer( const GaMBLFileHandle& );
 	~Gzip_Writer();
 	
 	// Can only accept one write
 	const char* write( const void*, long );
 };
 
-Gzip_Writer::Gzip_Writer( const FSRef& path ) : file( path ) {
+Gzip_Writer::Gzip_Writer( const GaMBLFileHandle& path ) : file( path ) {
 }
 
 Gzip_Writer::~Gzip_Writer() {
@@ -60,10 +60,10 @@ const char* Gzip_Writer::write( const void* p, long s )
 	return NULL;
 }
 
-static int FSOpenForkExists( const FSRef& path, int perm, const HFSUniStr255* fork_name )
+static int DeprecatedFSOpenForkExists( const GaMBLFileHandle& path, int perm, const HFSUniStr255* fork_name )
 {
 	FSIORefNum ref = 0;
-	OSErr err = FSOpenFork( &path, fork_name ? fork_name->length : 0,
+	OSErr err = DeprecatedFSOpenFork( &path, fork_name ? fork_name->length : 0,
 			fork_name ? fork_name->unicode : NULL, perm, &ref );
 	if ( err == eofErr )
 		return 0;
@@ -72,13 +72,13 @@ static int FSOpenForkExists( const FSRef& path, int perm, const HFSUniStr255* fo
 	return ref;
 }
 
-static void copy_res_fork( const FSRef& in_path, const FSRef& out_path )
+static void copy_res_fork( const GaMBLFileHandle& in_path, const GaMBLFileHandle& out_path )
 {
 	static HFSUniStr255 res_fork_name;
 	if ( !res_fork_name.length )
-		debug_if_error( FSGetResourceForkName( &res_fork_name ) );
+		debug_if_error( DeprecatedFSGetResourceForkName( &res_fork_name ) );
 	
-	SInt16 in_ref = FSOpenForkExists( in_path, fsRdPerm, &res_fork_name );
+	SInt16 in_ref = DeprecatedFSOpenForkExists( in_path, fsRdPerm, &res_fork_name );
 	if ( !in_ref )
 		return;
 	
@@ -87,9 +87,9 @@ static void copy_res_fork( const FSRef& in_path, const FSRef& out_path )
 	if ( remain == 0 )
 		return;
 	
-	throw_file_error( FSCreateFork( &out_path, res_fork_name.length, res_fork_name.unicode ),
+	throw_file_error( DeprecatedFSCreateFork( &out_path, res_fork_name.length, res_fork_name.unicode ),
 			out_path );
-	Mac_File out( FSOpenForkExists( out_path, fsRdWrPerm, &res_fork_name ) );
+	Mac_File out( DeprecatedFSOpenForkExists( out_path, fsRdWrPerm, &res_fork_name ) );
 	
 	runtime_array<char> buf( 16 * 1024L );
 	
@@ -107,7 +107,7 @@ static void copy_res_fork( const FSRef& in_path, const FSRef& out_path )
 
 const int restore_file_info_flags =
 		kFSCatInfoFinderInfo | kFSCatInfoCreateDate | kFSCatInfoContentMod;
-static void restore_file_info( const FSRef& path, const Cat_Info& new_info )
+static void restore_file_info( const GaMBLFileHandle& path, const Cat_Info& new_info )
 {
 	// copy file info from original
 	Cat_Info info;
@@ -125,7 +125,7 @@ static void restore_file_info( const FSRef& path, const Cat_Info& new_info )
 	info.write( path, restore_file_info_flags );
 }
 
-static void pack_spc_set( const FSRef& dir, Action_Hooks* hook = NULL )
+static void pack_spc_set( const GaMBLFileHandle& dir, Action_Hooks* hook = NULL )
 {
 	unique_ptr<Spc_Packer> packer( new Spc_Packer );
 	
@@ -188,15 +188,15 @@ static void pack_spc_set( const FSRef& dir, Action_Hooks* hook = NULL )
 	}
 	
 	// Write shared file
-	FSRef path;
-	if ( FSMakeFSRefExists( dir, shared_filename, &path ) )
+	GaMBLFileHandle path;
+	if ( DeprecatedFSMakeFSRefExists( dir, shared_filename, &path ) )
 		FSDeleteObject( &path );
 	Gzip_Writer writer( create_file( dir, shared_filename,
 			shared_type, gmb_creator ) );
 	throw_error( packer->write_shared( writer ) );
 }
 
-static void write_file( const FSRef& path, const void* begin, long size, OSType new_type = 0 )
+static void write_file( const GaMBLFileHandle& path, const void* begin, long size, OSType new_type = 0 )
 {
 	Cat_Info info;
 	info.read( path, restore_file_info_flags );
@@ -215,7 +215,7 @@ static void write_file( const FSRef& path, const void* begin, long size, OSType 
 	restore_file_info( path, info );
 }
 
-static void unpack_spc( const FSRef& path )
+static void unpack_spc( const GaMBLFileHandle& path )
 {
 	runtime_array<char> data;
 	if ( !read_packed_spc( path, data ) )
@@ -224,7 +224,7 @@ static void unpack_spc( const FSRef& path )
 	write_file( path, data.begin(), data.size(), spc_type );
 }
 
-static void gzip_file( const FSRef& path )
+static void gzip_file( const GaMBLFileHandle& path )
 {
 	runtime_array<char> data;
 	{
@@ -257,7 +257,7 @@ static void gzip_file( const FSRef& path )
 	restore_file_info( path, info );
 }
 
-static void ungzip_file( const FSRef& path )
+static void ungzip_file( const GaMBLFileHandle& path )
 {
 	runtime_array<char> data;
 	{
@@ -328,7 +328,7 @@ static void compress_item( const Cat_Info& info, Action_Hooks& hooks, bool pack_
 	}
 }
 
-void compress_music( const FSRef& path, Action_Hooks& hooks, bool pack_spcs )
+void compress_music( const GaMBLFileHandle& path, Action_Hooks& hooks, bool pack_spcs )
 {
 	Cat_Info info;
 	info.read( path, kFSCatInfoNodeFlags | kFSCatInfoFinderInfo );
@@ -341,7 +341,7 @@ static void expand_item( const Cat_Info& info, Action_Hooks& hooks )
 {
 	if ( info.is_dir() )
 	{
-		FSRef shared_path;
+		GaMBLFileHandle shared_path;
 		bool shared_found = false;
 		
 		for ( Dir_Iterator iter( info.ref() ); iter.next(); )
@@ -385,7 +385,7 @@ static void expand_item( const Cat_Info& info, Action_Hooks& hooks )
 	}
 }
 
-void expand_music( const FSRef& path, Action_Hooks& hooks )
+void expand_music( const GaMBLFileHandle& path, Action_Hooks& hooks )
 {
 	Cat_Info info;
 	info.read( path, kFSCatInfoNodeFlags | kFSCatInfoFinderInfo );

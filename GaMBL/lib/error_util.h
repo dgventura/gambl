@@ -24,14 +24,14 @@ struct Error_Message : Error_Code {
 };
 
 struct File_Error : Error_Message {
-	FSRef fsref;
-	File_Error( long n, const FSRef& r, const char* str = NULL ) :
+	GaMBLFileHandle fsref;
+	File_Error( long n, const GaMBLFileHandle& r, const char* str = NULL ) :
 			Error_Message( str, n ), fsref( r ) { }
 };
 
 const int exception_str_max = 1024;
 const char* error_to_str( long code );
-bool exception_to_str( char* out );
+bool exception_to_str( std::wstring& out );
 long exception_to_code();
 
 // to do:
@@ -50,9 +50,9 @@ void throw_error( const char* str );
 bool throw_unless( long code, long non_error );
 bool throw_unless( const char* str, const char* non_error );
 
-void throw_file_error( const char*, const FSRef& );
-void throw_file_error( long code, const FSRef& );
-void throw_file_error( long code, const FSRef&, const HFSUniStr255& );
+void throw_file_error( const char*, const GaMBLFileHandle& );
+void throw_file_error( long code, const GaMBLFileHandle& );
+void throw_file_error( long code, const GaMBLFileHandle&, const HFSUniStr255& );
 
 template<class T>
 inline void throw_if_error( T err )

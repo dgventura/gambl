@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "NSString+wstring_additions.h"
 #import "GameMusicPlayer.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate, NSOpenSavePanelDelegate>

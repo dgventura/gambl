@@ -65,7 +65,7 @@ private:
     // player
     shared_ptr< Music_Album > m_pMusicAlbum;
     EmuInterface m_EmuInterface;
-	FSRef album_path;
+	GaMBLFileHandle album_path;
 	int mute_mask;
 	bool playing;
 	bool start_track();

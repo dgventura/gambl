@@ -16,7 +16,7 @@ void play_classic_favorites( Player_Window& );
 void play_favorites( Player_Window&, const char* name );
 void open_favorites();
 void add_favorite( const track_ref_t&, shared_ptr< Music_Album > pAlbum );
-const FSRef& favorites_dir();
+const GaMBLFileHandle& favorites_dir();
 
 #endif
 

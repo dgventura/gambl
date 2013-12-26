@@ -20,20 +20,20 @@ struct Action_Hooks
 	virtual bool is_scanning() const = 0;
 	
 	// True if action should be taken on item
-	virtual bool advance( const FSRef&, int count = 1 ) = 0;
-	virtual void log_error( const FSRef&, const char* ) = 0;
-	virtual void log_exception( const FSRef& ) = 0;
+	virtual bool advance( const GaMBLFileHandle&, int count = 1 ) = 0;
+	virtual void log_error( const GaMBLFileHandle&, const char* ) = 0;
+	virtual void log_exception( const GaMBLFileHandle& ) = 0;
 };
 
-void associate_music( const FSRef&, Action_Hooks&, bool hide_ext );
+void associate_music( const GaMBLFileHandle&, Action_Hooks&, bool hide_ext );
 
-void retitle_music( const FSRef&, Action_Hooks& );
+void retitle_music( const GaMBLFileHandle&, Action_Hooks& );
 
-void compress_music( const FSRef&, Action_Hooks&, bool pack_spcs );
+void compress_music( const GaMBLFileHandle&, Action_Hooks&, bool pack_spcs );
 
-void expand_music( const FSRef&, Action_Hooks& );
+void expand_music( const GaMBLFileHandle&, Action_Hooks& );
 
-void check_music_files( const FSRef&, Action_Hooks& );
+void check_music_files( const GaMBLFileHandle&, Action_Hooks& );
 
 #endif
 
