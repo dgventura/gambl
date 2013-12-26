@@ -50,7 +50,13 @@ public:
     }
 	bool is_alias() const
     {
+        assert( m_FileInfo.st_mode );
         return m_FileInfo.st_mode & S_IFLNK;
+    }
+    long size() const
+    {
+        assert( m_FileInfo.st_size );
+        return m_FileInfo.st_size;
     }
 };
 

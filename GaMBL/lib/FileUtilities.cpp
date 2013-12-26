@@ -35,14 +35,13 @@ Mac_File_Reader::~Mac_File_Reader()
 
 long Mac_File_Reader::size()
 {
-	SInt64 size;
-	throw_error( DeprecatedFSGetForkSize( ref, &size ) );
-	return size;
+	return fsref.size();
 }
 
 void Mac_File::set_size( long s )
 {
-	throw_error( DeprecatedFSSetForkSize( ref, fsFromStart, s ) );
+	int result = ftruncate( fsref.FileDescriptor(), s );
+    assert( result );
 }
 
 long Mac_File_Reader::tell()
