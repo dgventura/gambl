@@ -128,7 +128,7 @@ void GameMusicPlayer::RecordCurrentTrack( bool bSeparateAllChannels )
 void GameMusicPlayer::record_track( const track_ref_t& track, int mute_mask, bool bSeparateAllChannels )
 {
 	// to do: make copy of track if use persists after nav dialog
-	unique_ptr<Music_Album> album( load_music_album( DeprecatedFSResolveAliasFileChk( track ) ) );
+	unique_ptr<Music_Album> album( load_music_album( track ) );
 	if ( !album )
     {
 		check( false );
@@ -232,17 +232,17 @@ bool GameMusicPlayer::play_current()
     
     //TODO: figure out how behavior should work when playing to end
     track_ref_t& track_ref = GetCurrentTrack();
-    GaMBLFileHandle path = DeprecatedFSResolveAliasFileChk( track_ref );
+    std::wstring path;
+    track_ref.GetFilePath(path);
     
 	OSType file_type = 0;
 	
 	Cat_Info info;
 	
 	// see if new track is in a different file than current one
-	if ( !m_pMusicAlbum || (0 != std::memcmp( &path, &album_path, sizeof album_path ) && 0 != DeprecatedFSCompareFSRefs( &path, &album_path )) )
+	if ( !m_pMusicAlbum || AreFilesEqual( album_path, path ) )
 	{		
-        HFSUniStr255 strUniFn;
-        info.read( track_ref, kFSCatInfoFinderInfo, &strUniFn );
+        info.read( track_ref );
         
         file_type = identify_music_file( strUniFn, info.finfo().fileType );
         if ( !file_type )

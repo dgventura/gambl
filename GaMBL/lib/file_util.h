@@ -133,7 +133,7 @@ public:
 };
 
 // Create file of given type and creator. Throw exception if file already exists.
-GaMBLFileHandle create_file( const GaMBLFileHandle& dir, const HFSUniStr255& name,
+GaMBLFileHandle create_file( const std:& dir, const HFSUniStr255& name,
 		OSType type = 0, OSType creator = 0, int flags = 0 );
 
 // True if given dir:name exists. Optionally create GaMBLFileHandle to item.

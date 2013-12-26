@@ -10,17 +10,13 @@
 
 // Mac_File
 
-Mac_File_Reader::Mac_File_Reader( const GaMBLFileHandle& file, short perm ) :
+Mac_File_Reader::Mac_File_Reader( const std::wstring& file, short perm ) :
 fsref( file ),
 fsref_valid( true )
 {
 	unclosed = true;
 	mode = 0;
-    OSStatus status = DeprecatedFSOpenFork( &file, 0, NULL, perm, &ref );
-    bool bValidFSRef = true;
-    if ( status != noErr )
-        bValidFSRef = DeprecatedFSIsFSRefValid( &file );
-    assert ( bValidFSRef );
+    assert ( fsref.IsOk() );
 	//throw_error( status );
 }
 
@@ -80,7 +76,7 @@ void Mac_File_Reader::close()
 {
 	if ( unclosed ) {
 		unclosed = false;
-		debug_if_error( DeprecatedFSCloseFork( ref ) );
+//RAD		debug_if_error( DeprecatedFSCloseFork( ref ) );
 	}
 	ref = -1;
 }
@@ -89,10 +85,11 @@ void Mac_File_Reader::throw_error( long err )
 {
 	if ( !err )
 		return;
-	if ( !fsref_valid && !FSGetForkCBInfo( ref, 0, NULL, NULL, NULL, &fsref, NULL ) )
+/*	if ( !fsref_valid && !FSGetForkCBInfo( ref, 0, NULL, NULL, NULL, &fsref, NULL ) )
 		fsref_valid = true;
 	if ( fsref_valid )
 		throw_file_error( err, fsref );
+ */
 	else
 		throw_error( err );
 }
@@ -109,7 +106,7 @@ Data_Writer::error_t Mac_File::write( const void* p, long s )
 void Mac_File_Reader::set_cached( bool b ) {
 	mode = (b ? 0 : noCacheMask);
 }
-Mac_File::Mac_File( const GaMBLFileHandle& r ) : Mac_File_Reader( r, fsRdWrPerm ) {
+Mac_File::Mac_File( const std::wstring& r ) : Mac_File_Reader( r, fsRdWrPerm ) {
 }
 Mac_File::Mac_File( short r ) : Mac_File_Reader( r ) {
 }
@@ -117,7 +114,9 @@ Mac_File::Mac_File( short r ) : Mac_File_Reader( r ) {
 
 bool AreFilesEqual( const std::wstring& strPath1, const std::wstring& strPath2 ) const
 {
+    assert( 0 );
     
+    //todo resolve paths to final files and see if they're the same
 }
 
 bool has_extension( const char* str, const char* suffix )

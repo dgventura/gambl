@@ -56,7 +56,7 @@ bool ask_save_file( GaMBLFileHandle& dir, HFSUniStr255* name, const char* const 
         Boolean bIsDirectory = FALSE;
         NSString *fullPath = [[saveDialog URL] path];
         std::wstring strPath = [[fullPath stringByDeletingLastPathComponent] getwstring];
-        dir = OpenFileFromPath( strPath, "w" );
+        dir.OpenFileFromPath( strPath, "w" );
         str_to_filename( [[fullPath lastPathComponent] UTF8String], *name );
         assert( &dir );
         return true;
@@ -89,13 +89,15 @@ bool choose_folder( GaMBLFileHandle* dir )
 	return true;
 }
 
-void write_wave( File_Emu& emu, const GaMBLFileHandle& dir, const HFSUniStr255& name,
+void write_wave( File_Emu& emu, const std::wstring& dir, const std::wstring& name,
 		long min_length, Progress_Hook* hook, bool bKeepStartingSilence )
 {
 	GaMBLFileHandle out_path = create_file( dir, name, 'WAVE', 'TVOD' );
-	File_Deleter deleter( out_path );
+//RAD	File_Deleter deleter( out_path );
 	
-	Mac_File file( out_path );
+    std::wstring strPath;
+    out_path.GetFilePath(strPath);
+	Mac_File file( strPath );
 	Wave_Writer wave( &file );
 	
 	runtime_array<blip_sample_t> buf( 8 * 1024L );
@@ -147,8 +149,8 @@ void write_wave( File_Emu& emu, const GaMBLFileHandle& dir, const HFSUniStr255& 
 	min_length *= 2;
 	if ( min_length < 0 )
 		min_length = 1;
-	if ( wave.sample_count() >= min_length * stereo * wave_sample_rate )
-		deleter.clear();
+//RAD	if ( wave.sample_count() >= min_length * stereo * wave_sample_rate )
+//RAD		deleter.clear();
 }
 
 // If current exception is disk full, re-throw more descriptive message, otherwise

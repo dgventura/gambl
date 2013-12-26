@@ -58,7 +58,7 @@ void ConvertCStringToUnicode( const char* inCString, HFSUniStr255* outUniName )
     }
 }
 
-GaMBLFileHandle make_debug_wave()
+std::wstring make_debug_wave()
 {
 #if 0 //RAD
 	HFSUniStr255 name;
@@ -76,7 +76,7 @@ GaMBLFileHandle make_debug_wave()
     
     return newFile;
 #else
-    return DummyHandle;
+    return std::wstring( L"" );
 #endif
 }
 

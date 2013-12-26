@@ -18,6 +18,10 @@
 #include <cstddef>
 #include <string>
 
+/*inline std::string& operator=(std::string & lhs, const std::string & rhs) {
+    return lhs.assign(rhs);
+}*/
+
 //RAD
 class GaMBLFileHandle
 {
@@ -28,25 +32,34 @@ public:
     
     GaMBLFileHandle( std::wstring& strPath, const char* pszMode )
     {
+        OpenFileFromPath( strPath, pszMode );
+    }
+    
+    bool OpenFileFromPath( std::wstring& strPath, const char* pszMode )
+    {
+        CloseFile();
+        
         char szPath[PATH_MAX * sizeof(strPath[0])];
         const wchar_t* wcs = strPath.c_str();
         wcsrtombs( szPath, &wcs, sizeof(szPath), NULL );
         m_pHandle = fopen( szPath, pszMode );
         assert( m_pHandle );
+        
+        return m_pHandle != NULL;
     }
     
     virtual ~GaMBLFileHandle()
     {
-        fclose( m_pHandle );
+        CloseFile();
     }
     
-    int GetDescriptor()
+    int GetDescriptor() const
     {
         assert( m_pHandle );
         return fileno( m_pHandle );
     }
     
-    int GetFilePath( std::wstring& strPath )
+    int GetFilePath( std::wstring& strPath ) const
     {
         assert( m_pHandle );
         int fd = GetDescriptor();
@@ -61,6 +74,10 @@ public:
     }
     
 private:
+    void CloseFile()
+    {
+        fclose( m_pHandle );
+    }
     FILE* m_pHandle;
 };
 

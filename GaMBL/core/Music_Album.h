@@ -12,12 +12,12 @@ class Multi_Buffer;
 
 class Music_Album;
 
-int album_track_count( const GaMBLFileHandle&, OSType music_type, const HFSUniStr255& );
+int album_track_count( const std::wstring&, OSType music_type );
 
-Music_Album* load_music_album( const GaMBLFileHandle& );
+Music_Album* load_music_album( GaMBLFileHandle& fileHandle );
 
 // more optimal
-Music_Album* load_music_album( const GaMBLFileHandle&, OSType music_type, const HFSUniStr255& );
+Music_Album* load_music_album( const std::wstring& strPath, OSType music_type );
 
 class Music_Album {
 public:
@@ -78,9 +78,9 @@ protected:
 	
 	void set_track_count( int );
 	
-private:
+public:
 	unique_ptr<File_Archive> archive_;
-	GaMBLFileHandle archive_path;
+    std::wstring archive_path;
 	bool use_parent;
 	long music_type_;
 	int current_track;

@@ -65,7 +65,7 @@ private:
     // player
     shared_ptr< Music_Album > m_pMusicAlbum;
     EmuInterface m_EmuInterface;
-	GaMBLFileHandle album_path;
+    std::wstring album_path;
 	int mute_mask;
 	bool playing;
 	bool start_track();

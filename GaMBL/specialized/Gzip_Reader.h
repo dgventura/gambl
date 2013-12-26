@@ -20,7 +20,7 @@ void write_gzip_file( const void*, long size, Data_Writer& out );
 
 class Gzip_Reader : public Data_Reader {
 public:
-	explicit Gzip_Reader( const GaMBLFileHandle& );
+	explicit Gzip_Reader( const std::wstring& );
 	~Gzip_Reader();
 	
 	bool is_deflated() const;
@@ -32,7 +32,7 @@ public:
 private:
 	runtime_array<unsigned char> buf;
 	Mac_File_Reader file;
-	GaMBLFileHandle path;
+    std::wstring path;
 	z_stream zbuf;
 	long raw_remain;
 	long remain_;

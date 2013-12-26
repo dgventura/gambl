@@ -50,9 +50,9 @@ void throw_error( const char* str );
 bool throw_unless( long code, long non_error );
 bool throw_unless( const char* str, const char* non_error );
 
-void throw_file_error( const char*, const GaMBLFileHandle& );
-void throw_file_error( long code, const GaMBLFileHandle& );
-void throw_file_error( long code, const GaMBLFileHandle&, const HFSUniStr255& );
+void throw_file_error( const char*, const std::wstring& );
+void throw_file_error( long code, const std::wstring& );
+void throw_file_error( long code, const std::wstring&, const HFSUniStr255& );
 
 template<class T>
 inline void throw_if_error( T err )

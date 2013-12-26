@@ -58,14 +58,15 @@ void File_Archive::uncache()
 struct Single_File_Archive : File_Archive
 {
 	unique_ptr<Gzip_Reader> file;
-	GaMBLFileHandle path;
+    std::wstring path;
 	char filename [256 + 8];
 	
-	Single_File_Archive( const GaMBLFileHandle& path_, const char* fn ) : path( path_ )
+	Single_File_Archive( const std::wstring& path_ ) : path( path_ )
 	{
 		info_.is_file = true;
 		info_.name = filename;
-		std::strcpy( filename, fn );
+
+        wcstombs( filename, path.c_str(), sizeof(filename) );
 	}
 	
 	bool seek( int i, bool might_extract )
@@ -89,8 +90,8 @@ struct Single_File_Archive : File_Archive
 	}
 };
 
-File_Archive* open_file_archive( const GaMBLFileHandle& path, const char* filename ) {
-	return new Single_File_Archive( path, filename );
+File_Archive* open_file_archive( const std::wstring& path ) {
+	return new Single_File_Archive( path );
 }
 
 // ZIP
@@ -101,7 +102,7 @@ struct Zip_Archive : File_Archive
 	Zip_Extractor arc;
 	int index;
 	
-	Zip_Archive( const GaMBLFileHandle& path ) : reader( path )
+	Zip_Archive( const std::wstring& path ) : reader( path )
 	{
 		index = -1;
 		if ( !arc.open( &reader ) )
@@ -148,7 +149,7 @@ struct Zip_Archive : File_Archive
 	}
 };
 
-File_Archive* open_zip_archive( const GaMBLFileHandle& path ) {
+File_Archive* open_zip_archive( const std::wstring& path ) {
 	return new Zip_Archive( path );
 }
 
@@ -173,7 +174,7 @@ struct Rar_Archive : File_Archive
 	
 	void rewind();
 	
-	Rar_Archive( const GaMBLFileHandle& path_ ) : reader( path_ )
+	Rar_Archive( const std::wstring& path_ ) : reader( path_ )
 	{
 		is_open = false;
 		rewind();
@@ -233,7 +234,7 @@ void Rar_Archive::rewind()
 	scan_only = false;
 }
 	
-File_Archive* open_rar_archive( const GaMBLFileHandle& path ) {
+File_Archive* open_rar_archive( const std::wstring& path ) {
 	return new Rar_Archive( path );
 }
 

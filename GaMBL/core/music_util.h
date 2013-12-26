@@ -17,10 +17,6 @@ struct track_ref_t : GaMBLFileHandle {
 
 typedef pod_vector<track_ref_t> Music_Queue;
 
-// Check type and creator of file. If change_type is true, correct them if necessary.
-// Returns pointer to error string, or NULL if no problems.
-const char* fix_music_file_type( const Cat_Info&, bool change_type );
-
 // Get track number from filename (#n in filename), or 0 if one isn't present.
 int extract_track_num( NSString& filename );
 
@@ -68,7 +64,7 @@ OSType identify_music_file( const GaMBLFileHandle&, OSType );
 OSType identify_music_file( const HFSUniStr255&, OSType );
 
 // Determine type of music file based on file's header. Result is 0 if unrecognized.
-OSType identify_music_file_data( const GaMBLFileHandle& );
+OSType identify_music_file_data( const std::wstring& strPath );
 OSType identify_music_file_data( const void* first_four_bytes, int file_size );
 
 // Read possibly gzipped and/or packed SPC file data into 'out'. False if

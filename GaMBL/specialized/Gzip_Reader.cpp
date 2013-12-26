@@ -184,11 +184,12 @@ void inflate_mem_gzip( const void* in_, long in_size, runtime_array<char>& out )
 
 void Gzip_Reader::throw_zlib_error( int err )
 {
-	if ( err )
-		throw_file_error( zError( err ), path );
+//TODO RAD
+//	if ( err )
+//		throw_file_error( zError( err ), path );
 }
 
-Gzip_Reader::Gzip_Reader( const GaMBLFileHandle& path_ ) :
+Gzip_Reader::Gzip_Reader( const std::wstring& path_ ) :
 	path( path_ ),
 	file( path_ ),
 	buf( 32 * 1024L )

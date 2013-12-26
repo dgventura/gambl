@@ -99,7 +99,7 @@ OSType identify_music_file_( const GaMBLFileHandle* path, OSType type, const HFS
 OSType identify_music_file( const GaMBLFileHandle& path )
 {
 	Cat_Info info;
-	info.read( path, kFSCatInfoFinderInfo );
+	info.read( path );
 	return identify_music_file( path, info.finfo().fileType );
 }
 
@@ -178,7 +178,7 @@ OSType identify_music_file_data( const void* header, int size )
 	return 0;
 }
 
-OSType identify_music_file_data( const GaMBLFileHandle& path )
+OSType identify_music_file_data( const std:wstring& path )
 {
 	Gzip_Reader in( path );
 	long size = in.remain();
@@ -320,13 +320,13 @@ void append_playlist( const GaMBLFileHandle& path, Music_Queue& queue )
 {
 	Cat_Info info;
 	HFSUniStr255 name;
-	info.read( path, kFSCatInfoNodeFlags | kFSCatInfoFinderInfo, &name );
+	info.read( path );
 	append_playlist_( info, name, queue, 0 );
 }
 
 // Scan all files in archive and return common music type if there is one, -1 if
 // there are multiple types, or 0 if there are no music files.
-static OSType get_archive_type( const GaMBLFileHandle& path, OSType type )
+static OSType get_archive_type( const std::wstring& path, OSType type )
 {
 	unique_ptr<File_Archive> archive( type == zip_type ?
 			open_zip_archive( path ) : open_rar_archive( path ) );
@@ -347,74 +347,5 @@ static OSType get_archive_type( const GaMBLFileHandle& path, OSType type )
 	}
 	
 	return type;
-}
-
-const char* fix_music_file_type( const Cat_Info& info, bool change_type )
-{
-	OSType file_type = identify_music_file( info.ref(), info.finfo().fileType );
-	OSType data_type = file_type ? identify_music_file_data( info.ref() ) : 0;
-	
-	// Packed SPC has regular SPC header
-	if ( data_type == spc_type && file_type == spcp_type )
-		data_type = spcp_type;
-	
-	// Some GYM files have no header
-	if ( file_type == gym_type && !data_type )
-		data_type = gym_type;
-	
-	// Must be known data type
-	if ( !data_type )
-		return "This is not a game music file or is for an unsupported system.";
-	
-	// Use data type if gzip
-	if ( file_type == gzip_type )
-		file_type = data_type;
-	
-	// File and data types must match
-	if ( file_type != data_type )
-		return "This might be a game music file with the wrong icon or file extension.";
-	
-	// Check that archive has music of one type
-	if ( is_archive_type( file_type ) )
-	{
-		OSType type = get_archive_type( info.ref(), file_type );
-		
-		if ( type == -1 )
-			return "This archive contains music for multiple systems. "
-					"It must be expanded before use.";
-		
-		if ( !type )
-			return "This archive doesn't contain any game music.";
-	}
-	
-	if ( change_type &&
-			(info.finfo().fileType != file_type || info.finfo().fileCreator != gmb_creator) )
-	{
-		try {
-			Cat_Info new_info;
-			
-			// to do: find out how to cause Finder update when type/creator is changed
-			
-			//new_info.read( info.ref(), kFSCatInfoFinderInfo | kFSCatInfoAttrMod );
-			//new_info.attributeModDate.lowSeconds ^= 1;
-			
-			//new_info.read( info.ref(), kFSCatInfoFinderInfo | kFSCatInfoContentMod );
-			//new_info.contentModDate.lowSeconds ^= 1;
-			
-			//new_info.finfo().finderFlags &= ~kHasBeenInited;
-			
-			new_info.read( info.ref(), kFSCatInfoFinderInfo );
-			new_info.finfo().fileType = file_type;
-			new_info.finfo().fileCreator = gmb_creator;
-			new_info.write( info.ref(), kFSCatInfoFinderInfo );
-		}
-		catch ( ... ) {
-			// to do: log error when used from utility?
-			// ignore errors (might be write-protected, etc.)
-			check( false );
-		}
-	}
-	
-	return NULL;
 }
 

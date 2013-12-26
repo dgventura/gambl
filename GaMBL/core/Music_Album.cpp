@@ -200,23 +200,25 @@ void Music_Album::set_track_count( int n ) {
 
 Music_Album* load_music_album( const GaMBLFileHandle& path )
 {
-	HFSUniStr255 name;
 	Cat_Info info;
-	info.read( path, kFSCatInfoFinderInfo, &name );
+	info.read( path );
 	
 	OSType type = identify_music_file( path, info.finfo().fileType );
 	if ( !type )
 		return NULL;
 	
-	return load_music_album( path, type, name );
+	return load_music_album( path, type );
 }
 
-Music_Album* load_music_album( const GaMBLFileHandle& path, OSType type, const HFSUniStr255& name )
+Music_Album* load_music_album( const GaMBLFileHandle& fileHandle, OSType type )
 {
 	bool use_parent = false;
 	
 	int file_count = 0;
 	int first_file = 0;
+    
+    std::wstring path;
+    fileHandle.GetFilePath( path );
 	
 	unique_ptr<File_Archive> archive;
 	if ( type == rar_type || type == zip_type )
@@ -248,9 +250,7 @@ Music_Album* load_music_album( const GaMBLFileHandle& path, OSType type, const H
 		if ( type ) {
 			use_parent = true;
 			char str [256 + 8];
-			filename_to_str( name, str );
-			//mouse std::strcat( str, music_type_to_extension( type ) );
-			archive.reset( open_file_archive( path, str ) );
+			archive.reset( open_file_archive( path, "" ) );
 			file_count = 1;
 		}
 	}
@@ -280,7 +280,7 @@ Music_Album* load_music_album( const GaMBLFileHandle& path, OSType type, const H
 		album->track_count_ = file_count;
 	album->current_track = file_count; // not valid
 	album->music_type_ = type;
-	album->archive_path = path;
+	fileHandle.GetFilePath( album->archive_path );
 	album->use_parent = use_parent;
 	album->next_index = first_file;
 	album->archive_.reset( archive.release() );
@@ -323,7 +323,7 @@ int Music_Album::track_count()
 	return track_count_;
 }
 
-int album_track_count( const GaMBLFileHandle& path, OSType type, const HFSUniStr255& name )
+int album_track_count( const std::wstring& path, OSType type )
 {
 	int file_count = 0;
 	int first_file = 0;

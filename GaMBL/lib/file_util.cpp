@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA */
 
 bool Cat_Info::read( DeprecatedFSIterator iter, DeprecatedFSCatalogInfoBitmap flags, HFSUniStr255* name )
 {
-	return DeprecatedFSGetCatalogInfoBulkChk( iter, 1, NULL, flags, this, &ref_, NULL, name );
+	return FSGetCatalogInfoBulk( iter, 1, NULL, flags, this, &ref_, NULL, name );
 }
 
 void Cat_Info::read( const GaMBLFileHandle& ref, DeprecatedFSCatalogInfoBitmap flags, HFSUniStr255* name,
