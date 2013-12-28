@@ -241,16 +241,16 @@ bool GameMusicPlayer::play_current()
 	Cat_Info info;
 	
 	// see if new track is in a different file than current one
-	if ( !m_pMusicAlbum || AreFilesEqual( album_path, path ) )
+	if ( !m_pMusicAlbum || !AreFilesEqual( album_path, path ) )
 	{		
         info.read( track_ref );
         
-        file_type = identify_music_file( strUniFn, info.finfo().fileType );
+        file_type = identify_music_file( track_ref, info.finfo().fileType );
         if ( !file_type )
             return false;
 		
 		// won't load album if non-music file or archive with no music
-		shared_ptr<Music_Album> pNewAlbum( load_music_album( info.ref(), file_type, strUniFn ) );
+		shared_ptr<Music_Album> pNewAlbum( load_music_album( track_ref, file_type ) );
 		if ( !pNewAlbum )
 			return false;
 		
@@ -262,7 +262,7 @@ bool GameMusicPlayer::play_current()
 		
         m_EmuInterface.play( pNewAlbum.get() ); //TODO: no naked pointers!
         m_pMusicAlbum = pNewAlbum;
-        album_path = track_ref;
+        track_ref.GetFilePath( album_path, true );
 	}
 	
     if ( !start_track() )
@@ -298,10 +298,13 @@ bool GameMusicPlayer::PlayPreviousTrack()
 			return true;
 	}
 	
+    std::wstring strNextFilename;
 	while ( history_pos > 0 )
 	{
 		history_pos--;
-		if ( !FSResolveAliasFileExists( GetCurrentTrack() ) ) {
+        GetCurrentTrack().GetFilePath( strNextFilename, true );
+		if ( FileExists( strNextFilename ) )
+        {
 			history.erase( history.begin() + history_pos );
 		}
 		else if ( play_current() )
@@ -407,9 +410,12 @@ void GameMusicPlayer::stopped()
 
 bool GameMusicPlayer::has_future()
 {
+    std::wstring strNextFilename;
+
 	while ( history_pos < history.size() )
 	{
-		if ( DeprecatedFSResolveAliasFileExists( history [history_pos] ) )
+        history[history_pos].GetFilePath( strNextFilename, true );
+		if ( FileExists( strNextFilename ) )
 			return true;
 		history.erase( history.begin() + history_pos );
 	}
@@ -419,7 +425,9 @@ bool GameMusicPlayer::has_future()
 		int index = (prefs.shuffle ? random( queue.size() ) : 0);
 		track_ref_t track = queue [index];
 		queue.erase( queue.begin() + index );
-		if ( DeprecatedFSResolveAliasFileExists( track ) )
+
+        track.GetFilePath( strNextFilename, true );
+		if ( FileExists( strNextFilename ) )
 		{
 			history.push_back( track );
 			if ( history.size() > history_max ) {

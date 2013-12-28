@@ -14,10 +14,10 @@ class Music_Album;
 
 int album_track_count( const std::wstring&, OSType music_type );
 
-Music_Album* load_music_album( GaMBLFileHandle& fileHandle );
+Music_Album* load_music_album( const GaMBLFileHandle& fileHandle );
 
 // more optimal
-Music_Album* load_music_album( GaMBLFileHandle& fileHandle, OSType music_type );
+Music_Album* load_music_album( const GaMBLFileHandle& fileHandle, OSType music_type );
 
 class Music_Album {
 public:

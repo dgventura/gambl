@@ -30,7 +30,7 @@ public:
     {
     }
     
-    GaMBLFileHandle( std::wstring& strPath, const char* pszMode )
+    GaMBLFileHandle( const std::wstring& strPath, const char* pszMode )
     {
         OpenFileFromPath( strPath, pszMode );
     }
@@ -40,13 +40,13 @@ public:
         OpenFileFromPath( pszPath, pszMode );
     }
     
-    bool OpenFileFromPath( std::wstring& strPath, const char* pszMode )
+    bool OpenFileFromPath( const std::wstring& strPath, const char* pszMode )
     {
         char szPath[PATH_MAX * sizeof(strPath[0])];
         const wchar_t* wcs = strPath.c_str();
         wcsrtombs( szPath, &wcs, sizeof(szPath), NULL );
      
-        OpenFileFromPath( szPath, pszMode );
+        return OpenFileFromPath( szPath, pszMode );
     }
     
     bool OpenFileFromPath( const char* const pszPath, const char* pszMode )
@@ -92,6 +92,43 @@ public:
     bool IsOk() const
     {
         return m_pHandle != NULL;
+    }
+    
+    long GetSize() const
+    {
+        assert( m_pHandle );
+        
+        fpos_t savePosition;
+        fgetpos( m_pHandle, &savePosition );
+        
+        fseek( m_pHandle, 0L, SEEK_END );
+        long nSize = ftell( m_pHandle );
+        
+        fsetpos( m_pHandle, &savePosition );
+        
+        return nSize;
+    }
+    
+    bool Tell( SInt64* pnPos )
+    {
+        assert( m_pHandle );
+        
+        *pnPos = ftell( m_pHandle );
+        return true;
+    }
+    
+    bool Seek( SInt64 nPos )
+    {
+        assert( m_pHandle );
+        
+        fseek( m_pHandle, nPos, SEEK_SET );
+        return true;
+    }
+    
+    long ReadBytes( void* p, long nTarget )
+    {
+        assert( m_pHandle );
+        return fread( p, 1, nTarget, m_pHandle );
     }
     
 private:

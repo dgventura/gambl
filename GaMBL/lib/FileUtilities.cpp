@@ -11,8 +11,7 @@
 // Mac_File
 
 Mac_File_Reader::Mac_File_Reader( const std::wstring& file, short perm ) :
-fsref( file ),
-fsref_valid( true )
+fsref_valid( true ), fsref( file, "r" )
 {
 	unclosed = true;
 	mode = 0;
@@ -35,25 +34,25 @@ Mac_File_Reader::~Mac_File_Reader()
 
 long Mac_File_Reader::size()
 {
-	return fsref.size();
+	return fsref.GetSize();
 }
 
 void Mac_File::set_size( long s )
 {
-	int result = ftruncate( fsref.FileDescriptor(), s );
+	int result = ftruncate( fsref.GetDescriptor(), s );
     assert( result );
 }
 
 long Mac_File_Reader::tell()
 {
 	SInt64 pos;
-	throw_error( DeprecatedFSGetForkPosition( ref, &pos ) );
+	throw_error( fsref.Tell( &pos ) );
 	return pos;
 }
 
 Mac_File_Reader::error_t Mac_File_Reader::seek( long n )
 {
-	throw_error( DeprecatedFSSetForkPosition( ref, fsFromStart, n ) );
+	throw_error( fsref.Seek( n ) );
 	return NULL;
 }
 
@@ -66,8 +65,9 @@ Mac_File_Reader::error_t Mac_File_Reader::read( void* p, long s )
 
 long Mac_File_Reader::read_avail( void* p, long s )
 {
-	ByteCount count = 0;
-	throw_unless( DeprecatedFSReadFork( ref, fsAtMark + mode, 0, s, p, &count ), eofErr );
+	ByteCount count = fsref.ReadBytes( p, s );
+	//RADthrow_unless( FSReadFork( ref, fsAtMark + mode, 0, s, p, &count ), eofErr );
+        
 	return count;
 }
 
@@ -114,12 +114,54 @@ Mac_File::Mac_File( const std::wstring& r ) : Mac_File_Reader( r, fsRdWrPerm ) {
 Mac_File::Mac_File( short r ) : Mac_File_Reader( r ) {
 }
 
+bool FileExists( const std::wstring& strPath )
+{
+    assert( strPath.length() );
+    
+    char szMbPath[PATH_MAX];
+    wcstombs( szMbPath, strPath.data(), strPath.length() );
+    return ( access( szMbPath, F_OK ) != -1 );
+}
 
 bool AreFilesEqual( const std::wstring& strPath1, const std::wstring& strPath2 )
 {
     assert( 0 );
     
-    //todo resolve paths to final files and see if they're the same
+    char szTemp[PATH_MAX], szTemp2[PATH_MAX], szTemp3[PATH_MAX];
+    wcstombs( szTemp, strPath1.data(), strPath1.length() );
+    char* pszError = realpath( szTemp2, szTemp );
+    assert( pszError );
+    wcstombs( szTemp, strPath2.data(), strPath2.length() );
+    pszError = realpath( szTemp3, szTemp );
+    assert( pszError );
+    
+    return (strcmp( szTemp2, szTemp3 ) == 0);
+}
+
+void CreateAlias( const GaMBLFileHandle& original, std::wstring& strLinkName )
+{
+    assert(0);
+}
+
+GaMBLFileHandle create_file( const GaMBLFileHandle& dir, const std::wstring& name )
+{
+    std::wstring strNewFilename;
+    dir.GetFilePath( strNewFilename, true );
+    strNewFilename += name;
+    
+	return GaMBLFileHandle( strNewFilename, "W+" );;
+}
+
+void sanitize_filename( std::wstring& str )
+{
+	for ( int i = str.length(); i--; )
+	{
+		wchar_t& c = str[i];
+		if ( c == L':' )
+			c = L'-';
+		else if ( 128 <= c && c <= 255 )
+			c = L' ';
+	}
 }
 
 bool has_extension( const char* str, const char* suffix )
