@@ -117,8 +117,14 @@ bool remove_filename_extension( char* );
 void filename_without_extension( const std::wstring&, char* out );
 // Get parent directory
 std::wstring get_parent( const std::wstring& );
-void str_to_filename( const char*, HFSUniStr255& );
-void filename_to_str( const HFSUniStr255&, char* );
+void str_to_filename( const char*, std::wstring& );
+void filename_to_str( const std::wstring&, char* );
+
+// Replace/remove illegal characters (i.e. ':')
+void sanitize_filename( std::wstring& strFilename );
+
+void CreateAlias( const GaMBLFileHandle& original, std::wstring& strLinkName );
+bool FileExists( const std::wstring& strFilename );
 
 // Create file of given type and creator. Throw exception if file already exists.
 GaMBLFileHandle create_file( const std::wstring& dir, const std::wstring& name,

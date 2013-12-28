@@ -79,17 +79,17 @@ OSType is_music_or_archive( OSType type )
 	return result;
 }
 
-OSType identify_music_file_( const GaMBLFileHandle* path, OSType type, const HFSUniStr255* filename )
+OSType identify_music_file_( const GaMBLFileHandle* path, OSType type, const std::wstring& filename )
 {
 	OSType result = is_music_or_archive( type );
 	if ( result || !is_unset_file_type( type ) )
 		return result;
 	
-	HFSUniStr255 filename_;
+    std::wstring filename_;
 	if ( !filename ) {
 		assert( path );
 		FSGetCatalogInfoChk( DeprecatedFSResolveAliasFileChk( *path ), 0, NULL, &filename_ ) ;
-		filename = &filename_;
+		filename = filename_;
 	}
 	char name [256];
 	filename_to_str( *filename, name );
@@ -178,7 +178,7 @@ OSType identify_music_file_data( const void* header, int size )
 	return 0;
 }
 
-OSType identify_music_file_data( const std:wstring& path )
+OSType identify_music_file_data( const std::wstring& path )
 {
 	Gzip_Reader in( path );
 	long size = in.remain();
@@ -190,22 +190,23 @@ OSType identify_music_file_data( const std:wstring& path )
 	return identify_music_file_data( buf, size );
 }
 
-bool unpack_spc( const GaMBLFileHandle& path, runtime_array<char>& out )
+bool unpack_spc( const std::wstring& path, runtime_array<char>& out )
 {
 	const char* shared_filename = spc_shared_filename( out.begin(), out.size() );
 	if ( !shared_filename )
 		return false;
 	
 	// find shared data file
-	GaMBLFileHandle dir = get_parent( path );
-	HFSUniStr255 filename;
+    std::wstring dirPath = get_parent( path );
+    std::wstring filename;
 	str_to_filename( shared_filename, filename );
-	GaMBLFileHandle shared_path;
-	if ( !FSMakeFSRefExists( dir, filename, &shared_path ) )
+	GaMBLFileHandle shared_path = create_file( dirPath, filename );
+	if ( !shared_path.IsOk() )
 		throw_file_error( "The shared data file is missing", path );
 	
 	// read shared data
-	Gzip_Reader shared_in( shared_path );
+    shared_path.GetFilePath( filename );
+	Gzip_Reader shared_in( filename );
 	runtime_array<char> shared( shared_in.remain() );
 	shared_in.read( shared.begin(), shared.size() );
 	
@@ -220,7 +221,7 @@ bool unpack_spc( const GaMBLFileHandle& path, runtime_array<char>& out )
 	return true;
 }
 	
-bool read_packed_spc( const GaMBLFileHandle& path, runtime_array<char>& out )
+bool read_packed_spc( const std::wstring& path, runtime_array<char>& out )
 {
 	Gzip_Reader in( path );
 	out.resize( in.remain() );
@@ -295,7 +296,7 @@ static void append_playlist_( const Cat_Info& info, HFSUniStr255& name,
 			return;
 		
 		Boolean is_dir = false, is_alias;
-		if ( DeprecatedFSResolveAliasFile( &dir, true, &is_dir, &is_alias ) || !is_dir )
+		if ( FSResolveAliasFile( &dir, true, &is_dir, &is_alias ) || !is_dir )
 			return; // ignore error if alias couldn't be resolved
 	}
 	

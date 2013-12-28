@@ -17,7 +17,7 @@ int album_track_count( const std::wstring&, OSType music_type );
 Music_Album* load_music_album( GaMBLFileHandle& fileHandle );
 
 // more optimal
-Music_Album* load_music_album( const std::wstring& strPath, OSType music_type );
+Music_Album* load_music_album( GaMBLFileHandle& fileHandle, OSType music_type );
 
 class Music_Album {
 public:
@@ -103,7 +103,7 @@ Music_Album* new_gbs_album();
 Music_Album* new_vgm_album();
 Music_Album* new_gym_album();
 Music_Album* new_spc_album();
-Music_Album* new_spcp_album( const GaMBLFileHandle& );
+Music_Album* new_spcp_album( const std::wstring& );
 
 inline const Music_Album::info_t& Music_Album::info() const {
 	return info_;

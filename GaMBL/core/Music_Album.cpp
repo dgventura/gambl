@@ -198,7 +198,7 @@ void Music_Album::set_track_count( int n ) {
 
 // load_music_album
 
-Music_Album* load_music_album( const GaMBLFileHandle& path )
+Music_Album* load_music_album( GaMBLFileHandle& path )
 {
 	Cat_Info info;
 	info.read( path );
@@ -210,7 +210,7 @@ Music_Album* load_music_album( const GaMBLFileHandle& path )
 	return load_music_album( path, type );
 }
 
-Music_Album* load_music_album( const GaMBLFileHandle& fileHandle, OSType type )
+Music_Album* load_music_album( GaMBLFileHandle& fileHandle, OSType type )
 {
 	bool use_parent = false;
 	
@@ -249,7 +249,6 @@ Music_Album* load_music_album( const GaMBLFileHandle& fileHandle, OSType type )
 		
 		if ( type ) {
 			use_parent = true;
-			char str [256 + 8];
 			archive.reset( open_file_archive( path, "" ) );
 			file_count = 1;
 		}

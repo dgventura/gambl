@@ -156,9 +156,9 @@ void GameMusicPlayer::record_track( const track_ref_t& track, int mute_mask, boo
 	
 	// get save location
 	GaMBLFileHandle dir;
-	HFSUniStr255 filename;
+    std::wstring filename;
     
-	if ( ask_save_file( &dir, &filename, name ) )
+	if ( ask_save_file( &dir, filename, name ) )
 	{
         char baseFileName[PATH_MAX];
         filename_to_str( filename, baseFileName );

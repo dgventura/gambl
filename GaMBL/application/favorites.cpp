@@ -27,7 +27,7 @@ const char* system_names [5] = {
 
 static GaMBLFileHandle create_dir( const GaMBLFileHandle& parent, const char* name )
 {
-    assert(0)
+    assert(0);
 #if 0 //RAD
 	HFSUniStr255 filename;
 	str_to_filename( name, filename );
@@ -46,8 +46,8 @@ static GaMBLFileHandle create_dir( const GaMBLFileHandle& parent, const char* na
 const GaMBLFileHandle& favorites_dir()
 {
 	static GaMBLFileHandle dir;
-	static bool found;
 #if 0 //RAD
+	static bool found;
 	if ( !found )
 	{
 		if ( debug_if_error( DeprecatedFSFindFolder( kOnSystemDisk,
@@ -99,7 +99,7 @@ void add_favorite( const track_ref_t& track, shared_ptr< Music_Album > album )
 	
 	dir = create_dir( dir, album->info().system );
 	
-	char name [max_filename + 1];
+	char name [PATH_MAX];
 	strcpy_trunc( name, album->info().game, sizeof name );
 	dir = create_dir( dir, name );
 	
@@ -107,14 +107,14 @@ void add_favorite( const track_ref_t& track, shared_ptr< Music_Album > album )
 	if ( !*name )
 		strcpy_trunc( name, album->info().game, sizeof name );
 	
-	char alias_name [max_filename];
+	char alias_name [PATH_MAX];
 	alias_name [0] = 0;
 	
 	if ( album->track_count() > 1 )
 	{
 		int track_len = (album->track_count() < 100 ? 2 : 3);
 		
-		name [max_filename - track_len - 2] = 0;
+		name [PATH_MAX - track_len - 2] = 0;
 		
 		alias_name [0] = '#';
 		num_to_str( track.track + 1, alias_name + 1, -track_len );
@@ -123,12 +123,12 @@ void add_favorite( const track_ref_t& track, shared_ptr< Music_Album > album )
 	
 	std::strcat( alias_name, name );
 	
-	HFSUniStr255 filename;
+    std::wstring filename;
 	str_to_filename( alias_name, filename );
 	sanitize_filename( filename );
 	
 	// don't create if alias already exists
-	if ( !FSMakeFSRefExists( dir, filename ) )
-		make_alias_file( DeprecatedFSResolveAliasFileChk( track ), dir, filename );
+	if ( !FileExists( filename ) )
+		CreateAlias( track, filename );
 }
 

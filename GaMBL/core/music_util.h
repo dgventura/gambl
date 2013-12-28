@@ -69,7 +69,7 @@ OSType identify_music_file_data( const void* first_four_bytes, int file_size );
 
 // Read possibly gzipped and/or packed SPC file data into 'out'. False if
 // SPC had no compression.
-bool read_packed_spc( const GaMBLFileHandle&, runtime_array<char>& out );
+bool read_packed_spc( const std::wstring& strPath, runtime_array<char>& out );
 bool unpack_spc( const GaMBLFileHandle& dir, runtime_array<char>& data );
 
 // End of public interface
