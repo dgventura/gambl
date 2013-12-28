@@ -31,8 +31,9 @@ bool GameMusicPlayer::LoadFile( NSFileHandle* const pFile )
     char szBuf[PATH_MAX];
     int ret = fcntl( pFile.fileDescriptor, F_GETPATH, szBuf );
     assert( ret >= 0 );
-    std::wstring strPath(PATH_MAX);
-    mbstowcs( strPath.begin(), szBuf, strlen(szBuf) );
+    std::wstring strPath;
+    strPath.resize(PATH_MAX);
+    mbstowcs( &strPath[0], szBuf, strlen(szBuf) );
     
     GaMBLFileHandle MyFileRef( strPath, "r" );
     assert( MyFileRef.IsOk() );
@@ -233,7 +234,7 @@ bool GameMusicPlayer::play_current()
     //TODO: figure out how behavior should work when playing to end
     track_ref_t& track_ref = GetCurrentTrack();
     std::wstring path;
-    track_ref.GetFilePath(path);
+    track_ref.GetFilePath( path, true );
     
 	OSType file_type = 0;
 	

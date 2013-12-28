@@ -96,7 +96,7 @@ void write_wave( File_Emu& emu, const std::wstring& dir, const std::wstring& nam
 //RAD	File_Deleter deleter( out_path );
 	
     std::wstring strPath;
-    out_path.GetFilePath(strPath);
+    out_path.GetFilePath( strPath, true );
 	Mac_File file( strPath );
 	Wave_Writer wave( &file );
 	

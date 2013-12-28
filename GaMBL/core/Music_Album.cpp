@@ -218,7 +218,7 @@ Music_Album* load_music_album( GaMBLFileHandle& fileHandle, OSType type )
 	int first_file = 0;
     
     std::wstring path;
-    fileHandle.GetFilePath( path );
+    fileHandle.GetFilePath( path, true );
 	
 	unique_ptr<File_Archive> archive;
 	if ( type == rar_type || type == zip_type )
@@ -279,7 +279,7 @@ Music_Album* load_music_album( GaMBLFileHandle& fileHandle, OSType type )
 		album->track_count_ = file_count;
 	album->current_track = file_count; // not valid
 	album->music_type_ = type;
-	fileHandle.GetFilePath( album->archive_path );
+	fileHandle.GetFilePath( album->archive_path, true );
 	album->use_parent = use_parent;
 	album->next_index = first_file;
 	album->archive_.reset( archive.release() );

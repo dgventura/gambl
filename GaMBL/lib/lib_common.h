@@ -35,14 +35,25 @@ public:
         OpenFileFromPath( strPath, pszMode );
     }
     
+    GaMBLFileHandle( const char* const pszPath, const char* pszMode )
+    {
+        OpenFileFromPath( pszPath, pszMode );
+    }
+    
     bool OpenFileFromPath( std::wstring& strPath, const char* pszMode )
     {
-        CloseFile();
-        
         char szPath[PATH_MAX * sizeof(strPath[0])];
         const wchar_t* wcs = strPath.c_str();
         wcsrtombs( szPath, &wcs, sizeof(szPath), NULL );
-        m_pHandle = fopen( szPath, pszMode );
+     
+        OpenFileFromPath( szPath, pszMode );
+    }
+    
+    bool OpenFileFromPath( const char* const pszPath, const char* pszMode )
+    {
+        CloseFile();
+        
+        m_pHandle = fopen( pszPath, pszMode );
         assert( m_pHandle );
         
         return m_pHandle != NULL;
@@ -59,12 +70,22 @@ public:
         return fileno( m_pHandle );
     }
     
-    int GetFilePath( std::wstring& strPath ) const
+    int GetFilePath( std::wstring& strPath, bool bResolveSymlinks ) const
     {
         assert( m_pHandle );
         int fd = GetDescriptor();
         strPath.resize( PATH_MAX );
-        int ret = fcntl( fd, F_GETPATH, strPath.begin() );
+        char szMbPath[PATH_MAX];
+        int ret = fcntl( fd, F_GETPATH, szMbPath );
+        if ( bResolveSymlinks )
+        {
+            char szTemp[PATH_MAX];
+            strncpy( szTemp, szMbPath, strlen(szMbPath) );
+            char* pszError = realpath( szTemp, szMbPath );
+            assert( pszError );
+        }
+        mbstowcs( &strPath[0], szMbPath, strlen(szMbPath) );
+        assert( strPath.length() == strlen(szMbPath) );
         return ret;
     }
     

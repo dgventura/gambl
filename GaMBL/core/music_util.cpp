@@ -79,12 +79,12 @@ OSType is_music_or_archive( OSType type )
 	return result;
 }
 
-OSType identify_music_file_( const GaMBLFileHandle* path, OSType type, const std::wstring& filename )
+OSType identify_music_file_( const GaMBLFileHandle& fileHandle, OSType type, const std::wstring& filename )
 {
 	OSType result = is_music_or_archive( type );
 	if ( result || !is_unset_file_type( type ) )
 		return result;
-	
+/*
     std::wstring filename_;
 	if ( !filename ) {
 		assert( path );
@@ -93,7 +93,13 @@ OSType identify_music_file_( const GaMBLFileHandle* path, OSType type, const std
 	}
 	char name [256];
 	filename_to_str( *filename, name );
-	return identify_music_filename( name );
+ */
+    
+    std::wstring path;
+    fileHandle.GetFilePath( path, true );
+    char szMbFilename[PATH_MAX];
+    wcstombs( szMbFilename, path.c_str(), path.length() );
+	return identify_music_filename( szMbFilename );
 }
 
 OSType identify_music_file( const GaMBLFileHandle& path )
@@ -205,7 +211,7 @@ bool unpack_spc( const std::wstring& path, runtime_array<char>& out )
 		throw_file_error( "The shared data file is missing", path );
 	
 	// read shared data
-    shared_path.GetFilePath( filename );
+    shared_path.GetFilePath( filename, true );
 	Gzip_Reader shared_in( filename );
 	runtime_array<char> shared( shared_in.remain() );
 	shared_in.read( shared.begin(), shared.size() );
@@ -230,39 +236,46 @@ bool read_packed_spc( const std::wstring& path, runtime_array<char>& out )
 	return unpack_spc( path, out ) || in.is_deflated();
 }
 
-int extract_track_num( HFSUniStr255& name )
+int extract_track_num( std::wstring& name )
 {
+    assert(0); // TEST
+    
 	// to do: proper unicode access
 	
 	// first check at beginning of name, then scan backwards from end
-	int len = name.length;
+	int len = name.length();
 	int i = 0;
 	do
 	{
-		if ( name.unicode [i] == '#' )
+		if ( name[i] == L'#' )
 		{
-			char num [3];
-			num [0] = name.unicode [i + 1];
-			num [1] = (i + 2 < len ? name.unicode [i + 2] : 0);
+			wchar_t num [3];
+			num [0] = name[i + 1];
+			num [1] = (i + 2 < len ? name[i + 2] : 0);
 			num [2] = 0;
-			if ( i > 0 && name.unicode [i - 1] == ' ' )
+			if ( i > 0 && name[i - 1] == L' ' )
 				i--;
-			name.length = i;
-			return std::atoi( num );
+			return num[0] - L'0';
 		}
 		
 		if ( i == 0 )
 			i = len - 1;
+        
+        name.pop_back();
 	}
 	while ( --i );
 	
 	return 0;
 }
 
-static void append_playlist_( const Cat_Info& info, HFSUniStr255& name,
-		Music_Queue& queue, int depth )
+static void append_playlist_( const Cat_Info& info, Music_Queue& queue, int depth )
 {
-	if ( !info.is_dir() && !is_dir_type( info.finfo().fileType ) )
+    assert( 0 ); // test this thoroughly!
+    
+    std::wstring strAlbumPath;
+    info.ref().GetFilePath( strAlbumPath, true );
+    
+	if ( !info.is_dir() /*&& !is_dir_type( info.finfo().fileType )*/ )
 	{
 		OSType type = identify_music_file( info.ref(), info.finfo().fileType );
 		if ( type )
@@ -270,16 +283,16 @@ static void append_playlist_( const Cat_Info& info, HFSUniStr255& name,
 			track_ref_t tr;
 			static_cast<GaMBLFileHandle&> (tr) = info.ref();
 			
-			int single = (info.is_alias() ? extract_track_num( name ) : 0);
+			int single = (info.is_alias() ? extract_track_num( strAlbumPath ) : 0);
 			if ( single ) {
 				tr.track = single - 1;
 				queue.push_back( tr );
 			}
-			else {
-				int track_count = album_track_count(
-						(info.is_alias() ? DeprecatedFSResolveAliasFileChk( info.ref() ) : info.ref()),
-						type, name );
-				for ( int i = 0; i < track_count; i++ ) {
+			else
+            {
+				int track_count = album_track_count( strAlbumPath, type );
+				for ( int i = 0; i < track_count; i++ )
+                {
 					tr.track = i;
 					queue.push_back( tr );
 				}
@@ -289,22 +302,42 @@ static void append_playlist_( const Cat_Info& info, HFSUniStr255& name,
 		}
 	}
 	
-	GaMBLFileHandle dir = info.ref();
+	/*RAD do we need this anymore?
+    GaMBLFileHandle dir = info.ref();
 	if ( !info.is_dir() )
 	{
 		if ( !info.is_alias() )
 			return;
-		
+        
 		Boolean is_dir = false, is_alias;
 		if ( FSResolveAliasFile( &dir, true, &is_dir, &is_alias ) || !is_dir )
 			return; // ignore error if alias couldn't be resolved
 	}
+     */
 	
 	// directory
 	if ( depth > 20 )
 		throw_error( "Folders nested too deeply" );
 	
-	HFSUniStr255 iter_name;
+    struct dirent *entry;
+    DIR *dp;
+    
+    char szMbPath[PATH_MAX];
+    wcstombs( szMbPath, strAlbumPath.c_str(), strAlbumPath.length() );
+    dp = opendir( szMbPath );
+    if (dp == NULL) {
+        assert(0);//("opendir: Path does not exist or could not be read.");
+    }
+    
+    while ((entry = readdir(dp)))
+    {
+        GaMBLFileHandle newFile( entry->d_name, "r" );
+        append_playlist( newFile, queue );
+    }
+
+    closedir( dp );
+    
+	/*HFSUniStr255 iter_name;
 	for ( Dir_Iterator iter( dir ); iter.next( 0, &iter_name ); )
 	{
 		try {
@@ -314,15 +347,14 @@ static void append_playlist_( const Cat_Info& info, HFSUniStr255& name,
 			// ignore errors
 			check( false );
 		}
-	}
+	}*/
 }
 
 void append_playlist( const GaMBLFileHandle& path, Music_Queue& queue )
 {
 	Cat_Info info;
-	HFSUniStr255 name;
 	info.read( path );
-	append_playlist_( info, name, queue, 0 );
+	append_playlist_( info, queue, 0 );
 }
 
 // Scan all files in archive and return common music type if there is one, -1 if

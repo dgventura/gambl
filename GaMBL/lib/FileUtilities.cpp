@@ -95,10 +95,14 @@ void Mac_File_Reader::throw_error( long err )
 
 Data_Writer::error_t Mac_File::write( const void* p, long s )
 {
-	ByteCount count;
-	throw_error( DeprecatedFSWriteFork( ref, fsAtMark + mode, 0, s, p, &count ) );
+    assert(0);
+    
+    //TODO RAD use POSIX write
+/*	ByteCount count;
+	throw_error( FSWriteFork( ref, fsAtMark + mode, 0, s, p, &count ) );
 	if ( count != s )
 		throw_error( ioErr );
+ */
 	return NULL;
 }
 
@@ -111,7 +115,7 @@ Mac_File::Mac_File( short r ) : Mac_File_Reader( r ) {
 }
 
 
-bool AreFilesEqual( const std::wstring& strPath1, const std::wstring& strPath2 ) const
+bool AreFilesEqual( const std::wstring& strPath1, const std::wstring& strPath2 )
 {
     assert( 0 );
     

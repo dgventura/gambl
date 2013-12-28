@@ -18,7 +18,7 @@ struct track_ref_t : GaMBLFileHandle {
 typedef pod_vector<track_ref_t> Music_Queue;
 
 // Get track number from filename (#n in filename), or 0 if one isn't present.
-int extract_track_num( NSString& filename );
+int extract_track_num( std::wstring& filename );
 
 // Append file or folder to playlist
 void append_playlist( const GaMBLFileHandle&, Music_Queue& );
@@ -73,12 +73,12 @@ bool read_packed_spc( const std::wstring& strPath, runtime_array<char>& out );
 bool unpack_spc( const GaMBLFileHandle& dir, runtime_array<char>& data );
 
 // End of public interface
-OSType identify_music_file_( const GaMBLFileHandle*, OSType, const HFSUniStr255* );
+OSType identify_music_file_( const GaMBLFileHandle&, OSType );
 inline OSType identify_music_file( const GaMBLFileHandle& path, OSType type ) {
-	return identify_music_file_( &path, type, NULL );
+	return identify_music_file_( path, type );
 }
-inline OSType identify_music_file( const HFSUniStr255& name, OSType type ) {
-	return identify_music_file_( NULL, type, &name );
-}
+//inline OSType identify_music_file( const std::wstring& name, OSType type ) {
+//	return identify_music_file_( NULL, type, &name );
+//}
 #endif
 

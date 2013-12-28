@@ -219,7 +219,7 @@ const int GCTRL_RESETFAVORITES  = 403;
     
     std::wstring strPath;
     GaMBLFileHandle dir = favorites_dir();
-    OSStatus err = dir.GetFilePath( strPath );
+    OSStatus err = dir.GetFilePath( strPath, true );
     assert( !err );
     
     NSURL *directoryURL = [NSURL fileURLWithPath:[NSString stringWithwstring:strPath] isDirectory:YES];
@@ -251,8 +251,7 @@ const int GCTRL_RESETFAVORITES  = 403;
             Boolean wasAliased, isFolder;
             std::wstring strPath =  [[url path] getwstring];
             GaMBLFileHandle targetReference( strPath, "r" );
-            //TODO: RAD err = DeprecatedFSResolveAliasFile( &targetReference, TRUE, &isFolder, &wasAliased );
-            OSStatus err = targetReference.GetFilePath( strPath );
+            OSStatus err = targetReference.GetFilePath( strPath, true );
             assert( !err );
  
             [favorites addObject:[NSString stringWithwstring:strPath]];
@@ -281,7 +280,7 @@ const int GCTRL_RESETFAVORITES  = 403;
 {
     GaMBLFileHandle dir = favorites_dir();
     std::wstring strPath;
-    OSStatus err = dir.GetFilePath( strPath );
+    OSStatus err = dir.GetFilePath( strPath, true );
     assert( !err );
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
