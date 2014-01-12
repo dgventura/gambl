@@ -128,13 +128,14 @@
 #if BLARGG_COMPILER_HAS_NAMESPACE
 	#include <cstddef>
 	#include <cassert>
+//	#include <MeAssert.h>
 #else
 	#include <stddef.h>
 	#include <assert.h>
 #endif
 
 //TODO: make assert spew messages, not sure why this compiled before
-#define GMB_ASSERT( x, y ) assert( y )
+#define GMB_ASSERT( x, y )      assert( y )
 
 // blargg_err_t (NULL on success, otherwise error string)
 typedef const char* blargg_err_t;

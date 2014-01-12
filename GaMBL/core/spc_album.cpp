@@ -104,7 +104,9 @@ struct Spcp_Album : Spc_Album
 			runtime_array<char> data;
 			data.resize( archive->info().size );
 			archive->extract( data.begin(), data.size() );
-			unpack_spc( path, data );
+            std::wstring strPath;
+            path.GetFilePath( strPath, true );
+			unpack_spc( strPath, data );
 			
 			Emu_Mem_Reader in( data.begin(), data.size() );
 			in.read( &header, sizeof header );

@@ -24,8 +24,8 @@ struct Error_Message : Error_Code {
 };
 
 struct File_Error : Error_Message {
-	GaMBLFileHandle fsref;
-	File_Error( long n, const GaMBLFileHandle& r, const char* str = NULL ) :
+    std::wstring fsref;
+	File_Error( long n, const std::wstring& r, const char* str = NULL ) :
 			Error_Message( str, n ), fsref( r ) { }
 };
 

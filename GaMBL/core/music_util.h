@@ -15,7 +15,7 @@ struct track_ref_t : GaMBLFileHandle {
 	short track;
 };
 
-typedef pod_vector<track_ref_t> Music_Queue;
+typedef std::vector<track_ref_t> Music_Queue;
 
 // Get track number from filename (#n in filename), or 0 if one isn't present.
 int extract_track_num( std::wstring& filename );
@@ -70,7 +70,7 @@ OSType identify_music_file_data( const void* first_four_bytes, int file_size );
 // Read possibly gzipped and/or packed SPC file data into 'out'. False if
 // SPC had no compression.
 bool read_packed_spc( const std::wstring& strPath, runtime_array<char>& out );
-bool unpack_spc( const GaMBLFileHandle& dir, runtime_array<char>& data );
+bool unpack_spc( const std::wstring& dir, runtime_array<char>& data );
 
 // End of public interface
 OSType identify_music_file_( const GaMBLFileHandle&, OSType );

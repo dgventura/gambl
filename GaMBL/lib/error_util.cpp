@@ -55,19 +55,19 @@ void throw_null() {
 	throw_error( "null" );
 }
 
-void throw_file_error( const char* str, const GaMBLFileHandle& fsref )
+void throw_file_error( const char* str, const std::wstring& fsref )
 {
 	if ( str )
 		throw File_Error( -1, fsref, str );
 }
 
-void throw_file_error( long code, const GaMBLFileHandle& fsref )
+void throw_file_error( long code, const std::wstring& fsref )
 {
 	if ( code )
 		throw File_Error( code, fsref );
 }
 
-void throw_file_error( long code, const GaMBLFileHandle& dir, const HFSUniStr255& name )
+void throw_file_error( long code, const std::wstring& dir, const HFSUniStr255& name )
 {
     //RAD
 #if 0

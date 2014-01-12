@@ -8,6 +8,8 @@
 
 #include "FileUtilities.h"
 
+std::vector< GaMBLFileHandle::FilePointer > GaMBLFileHandle::m_vecpFiles;
+
 // Mac_File
 
 Mac_File_Reader::Mac_File_Reader( const std::wstring& file, short perm ) :
@@ -119,7 +121,7 @@ bool FileExists( const std::wstring& strPath )
     assert( strPath.length() );
     
     char szMbPath[PATH_MAX];
-    wcstombs( szMbPath, strPath.data(), strPath.length() );
+    wcstombs( szMbPath, strPath.data(), sizeof(szMbPath) );
     return ( access( szMbPath, F_OK ) != -1 );
 }
 
@@ -128,10 +130,10 @@ bool AreFilesEqual( const std::wstring& strPath1, const std::wstring& strPath2 )
     assert( 0 );
     
     char szTemp[PATH_MAX], szTemp2[PATH_MAX], szTemp3[PATH_MAX];
-    wcstombs( szTemp, strPath1.data(), strPath1.length() );
+    wcstombs( szTemp, strPath1.data(), sizeof(szTemp) );
     char* pszError = realpath( szTemp2, szTemp );
     assert( pszError );
-    wcstombs( szTemp, strPath2.data(), strPath2.length() );
+    wcstombs( szTemp, strPath2.data(), sizeof(szTemp) );
     pszError = realpath( szTemp3, szTemp );
     assert( pszError );
     
@@ -143,10 +145,9 @@ void CreateAlias( const GaMBLFileHandle& original, std::wstring& strLinkName )
     assert(0);
 }
 
-GaMBLFileHandle create_file( const GaMBLFileHandle& dir, const std::wstring& name )
+GaMBLFileHandle create_file( const std::wstring& dir, const std::wstring& name )
 {
-    std::wstring strNewFilename;
-    dir.GetFilePath( strNewFilename, true );
+    std::wstring strNewFilename = dir;
     strNewFilename += name;
     
 	return GaMBLFileHandle( strNewFilename, "W+" );;
@@ -162,6 +163,51 @@ void sanitize_filename( std::wstring& str )
 		else if ( 128 <= c && c <= 255 )
 			c = L' ';
 	}
+}
+
+bool remove_filename_extension( char* pszSource )
+{
+    char *pszTail = pszSource + strlen( pszSource );
+    while ( *pszTail != '.' && pszTail != pszSource )
+        --pszTail;
+    if ( pszTail != pszSource )
+        *pszTail = '\0';
+}
+
+void str_to_filename( const char* pszFilename, std::wstring& strFilename )
+{
+    strFilename.resize( strlen(pszFilename ) );
+    assert( strFilename.length() );
+    mbstowcs( &strFilename[0], pszFilename, strlen(pszFilename) );
+}
+
+void filename_to_str( const std::wstring& strFilename, char* pszFilename )
+{
+    wcstombs( pszFilename, strFilename.data(), strFilename.length() );
+}
+
+void filename_without_extension( const std::wstring& strFilename, char* out )
+{
+    std::wstring strTemp = strFilename.substr( strFilename.find_last_of( L"\\/", strFilename.length() ) );
+    wcstombs(out, strTemp.data(), strTemp.length() );
+    
+    assert( strTemp.length() );
+}
+
+std::wstring get_parent( const std::wstring& strFullPath )
+{
+    std::wstring strNewPath = strFullPath;
+    strNewPath.pop_back();
+
+    assert( strNewPath.length() );
+
+    const wchar_t* const strDelimiter = L"/";
+    while ( wcscmp( &strNewPath.back(), strDelimiter ) )
+           strNewPath.pop_back();
+    
+    assert( strNewPath.length() );
+    
+    return strNewPath;
 }
 
 bool has_extension( const char* str, const char* suffix )

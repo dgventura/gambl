@@ -5,7 +5,8 @@
 
 #include <cctype>
 #include <sys/fcntl.h>
-//#include <Aliases.h>
+#include <iostream>
+#include <string.h>
 #include "FileUtilities.h"
 #include "Gzip_Reader.h"
 #include "unpack_spc.h"
@@ -79,9 +80,9 @@ OSType is_music_or_archive( OSType type )
 	return result;
 }
 
-OSType identify_music_file_( const GaMBLFileHandle& fileHandle, OSType type, const std::wstring& filename )
+OSType identify_music_file_( const GaMBLFileHandle& fileHandle, OSType type )
 {
-	OSType result = is_music_or_archive( type );
+/*	OSType result = is_music_or_archive( type );
 	if ( result || !is_unset_file_type( type ) )
 		return result;
 /*
@@ -98,7 +99,7 @@ OSType identify_music_file_( const GaMBLFileHandle& fileHandle, OSType type, con
     std::wstring path;
     fileHandle.GetFilePath( path, true );
     char szMbFilename[PATH_MAX];
-    wcstombs( szMbFilename, path.c_str(), path.length() );
+    wcstombs( szMbFilename, path.c_str(), sizeof(szMbFilename) );
 	return identify_music_filename( szMbFilename );
 }
 
@@ -238,7 +239,8 @@ bool read_packed_spc( const std::wstring& path, runtime_array<char>& out )
 
 int extract_track_num( std::wstring& name )
 {
-    assert(0); // TEST
+    //assert(0); // TEST
+    std::wcout << name << std::endl;
     
 	// to do: proper unicode access
 	
@@ -264,14 +266,14 @@ int extract_track_num( std::wstring& name )
         name.pop_back();
 	}
 	while ( --i );
+    
+    std::wcout << name << std::endl;
 	
 	return 0;
 }
 
 static void append_playlist_( const Cat_Info& info, Music_Queue& queue, int depth )
 {
-    assert( 0 ); // test this thoroughly!
-    
     std::wstring strAlbumPath;
     info.ref().GetFilePath( strAlbumPath, true );
     
@@ -323,7 +325,7 @@ static void append_playlist_( const Cat_Info& info, Music_Queue& queue, int dept
     DIR *dp;
     
     char szMbPath[PATH_MAX];
-    wcstombs( szMbPath, strAlbumPath.c_str(), strAlbumPath.length() );
+    wcstombs( szMbPath, strAlbumPath.c_str(), sizeof(szMbPath) );
     dp = opendir( szMbPath );
     if (dp == NULL) {
         assert(0);//("opendir: Path does not exist or could not be read.");

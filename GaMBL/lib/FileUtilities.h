@@ -33,25 +33,45 @@ public:
 	const GaMBLFileHandle& ref() const { return ref_; }
 	
 	//bool read( FSIterator, FSCatalogInfoBitmap, HFSUniStr255* name = NULL );
-	void read( const GaMBLFileHandle& FileHandle );
+	void read( const GaMBLFileHandle& FileHandle )
+    {
+        assert( FileHandle.IsOk() );
+        
+        ref_ = FileHandle;
+        int nFail = fstat( ref_.GetDescriptor(), &m_FileInfo );
+        if ( nFail )
+        {
+            printf( "File info error: %s\n", strerror(errno) );
+            assert( 0 );
+        }
+        memset( &m_LegacyInfo, 2, sizeof(m_LegacyInfo) );
+        
+        std::wstring strTemp;
+        FileHandle.GetFilePath( strTemp, true );
+        std::wcout << "Reading Cat Info for " << strTemp << std::endl;
+    }
 	//void write( const GaMBLFileHandle&, FSCatalogInfoBitmap );
 	
 	bool is_dir() const
     {
-        return m_FileInfo.st_mode & S_IFDIR;
+        return S_ISDIR(m_FileInfo.st_mode);// & S_IFDIR;
     }
-	GMBFileInfo& finfo()       { return m_LegacyInfo; }
-	const GMBFileInfo& finfo() const { return m_LegacyInfo; }
+	GMBFileInfo& finfo()       {
+        return m_LegacyInfo;
+    }
+	const GMBFileInfo& finfo() const
+    {
+        return m_LegacyInfo;
+    }
 	bool is_hidden() const
     {
         //TODO RAD
         return false;
-//        return m_FileInfo.st_mode & S_IF
     }
 	bool is_alias() const
     {
         assert( m_FileInfo.st_mode );
-        return m_FileInfo.st_mode & S_IFLNK;
+        return S_ISLNK(m_FileInfo.st_mode);// & S_IFLNK;
     }
     long size() const
     {
@@ -111,7 +131,7 @@ public:
 bool AreFilesEqual( const std::wstring& strPath1, const std::wstring& strPath2 );
 bool has_extension( const char* str, const char* suffix );
 // Remove extension from filename. True if string was modified.
-bool remove_filename_extension( HFSUniStr255& );
+//bool remove_filename_extension( HFSUniStr255& );
 bool remove_filename_extension( char* );
 // Copy file's name without extension to 'out' (if directory, just copy name unchanged).
 void filename_without_extension( const std::wstring&, char* out );
@@ -127,7 +147,6 @@ void CreateAlias( const GaMBLFileHandle& original, std::wstring& strLinkName );
 bool FileExists( const std::wstring& strFilename );
 
 // Create file of given type and creator. Throw exception if file already exists.
-GaMBLFileHandle create_file( const std::wstring& dir, const std::wstring& name,
-                            OSType type = 0, OSType creator = 0, int flags = 0 );
+GaMBLFileHandle create_file( const std::wstring& dir, const std::wstring& name );
 
 #endif

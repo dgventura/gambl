@@ -20,8 +20,8 @@ void handle_disk_full();
 
 bool choose_folder( GaMBLFileHandle* );
 
-bool ask_save_file( GaMBLFileHandle* dir, std::wstring& name, const char* const initial_name = NULL );
-void write_wave( File_Emu& emu, const GaMBLFileHandle& dir, const std::wstring& name,
+bool ask_save_file( std::wstring& dir, std::wstring& name, const char* const initial_name = NULL );
+void write_wave( File_Emu& emu, const std::wstring& dir, const std::wstring& name,
                 long min_length = -1, Progress_Hook* hook = NULL, bool bKeepStartingSilence = true );
 bool select_music_items( Music_Queue*, const char* title, const char* message,
 		const char* button );

@@ -90,7 +90,7 @@ struct Single_File_Archive : File_Archive
 	}
 };
 
-File_Archive* open_file_archive( const std::wstring& path ) {
+File_Archive* open_file_archive( const std::wstring& path, const char* filename ) {
 	return new Single_File_Archive( path );
 }
 

@@ -103,7 +103,7 @@ Music_Album* new_gbs_album();
 Music_Album* new_vgm_album();
 Music_Album* new_gym_album();
 Music_Album* new_spc_album();
-Music_Album* new_spcp_album( const std::wstring& );
+Music_Album* new_spcp_album( const GaMBLFileHandle& );
 
 inline const Music_Album::info_t& Music_Album::info() const {
 	return info_;

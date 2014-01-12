@@ -263,6 +263,7 @@
 		632F1653184BBB6B00912D95 /* GameMusicPlayer.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = GameMusicPlayer.cpp; path = specialized/GameMusicPlayer.cpp; sourceTree = SOURCE_ROOT; };
 		632F1655184BBCE300912D95 /* EmuInterface.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = EmuInterface.h; sourceTree = "<group>"; };
 		632F1656184BBD0400912D95 /* EmuInterface.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = EmuInterface.cpp; sourceTree = "<group>"; };
+		63583BCE18819A7100731E55 /* MeAssert.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = MeAssert.h; sourceTree = "<group>"; };
 		63A29B8A170C34D700284B6B /* GaMBL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GaMBL.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63A29B8E170C34D700284B6B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		63A29B91170C34D700284B6B /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -681,6 +682,7 @@
 		63A29BD4170D5B5A00284B6B /* core */ = {
 			isa = PBXGroup;
 			children = (
+				63583BCE18819A7100731E55 /* MeAssert.h */,
 				63A29BD5170D5B5A00284B6B /* classic_album.cpp */,
 				63A29BD6170D5B5A00284B6B /* File_Emu.cpp */,
 				63A29BD7170D5B5A00284B6B /* File_Emu.h */,

@@ -40,7 +40,7 @@ static void cfstr_to_unistr( CFStringRef in, HFSUniStr255* out ) {
 	CFStringGetCharacters( in, range, out->unicode );
 }
 
-bool ask_save_file( GaMBLFileHandle& dir, std::wstring& name, const char* const initial_name )
+bool ask_save_file( std::wstring& dir, std::wstring& name, const char* const initial_name )
 {
     NSSavePanel* saveDialog = [NSSavePanel savePanel];
     [saveDialog setCanCreateDirectories:YES];
@@ -56,9 +56,9 @@ bool ask_save_file( GaMBLFileHandle& dir, std::wstring& name, const char* const 
         Boolean bIsDirectory = FALSE;
         NSString *fullPath = [[saveDialog URL] path];
         std::wstring strPath = [[fullPath stringByDeletingLastPathComponent] getwstring];
-        dir.OpenFileFromPath( strPath, "w" );
+        //RAD dir.OpenFileFromPath( strPath, "w" );
         str_to_filename( [[fullPath lastPathComponent] UTF8String], name );
-        assert( &dir );
+        //RADassert( &dir );
         return true;
     }
 
@@ -92,7 +92,7 @@ bool choose_folder( GaMBLFileHandle* dir )
 void write_wave( File_Emu& emu, const std::wstring& dir, const std::wstring& name,
 		long min_length, Progress_Hook* hook, bool bKeepStartingSilence )
 {
-	GaMBLFileHandle out_path = create_file( dir, name, 'WAVE', 'TVOD' );
+	GaMBLFileHandle out_path = create_file( dir, name );//RAD, 'WAVE', 'TVOD' );
 //RAD	File_Deleter deleter( out_path );
 	
     std::wstring strPath;

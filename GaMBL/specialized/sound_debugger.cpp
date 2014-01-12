@@ -69,7 +69,7 @@ std::wstring make_debug_wave()
     GaMBLFileHandle file =
 	if ( DeprecatedFSMakeFSRefExists( dir, name, &file ) )
 		FSDeleteObject( &file );
-	create_file( dir, name, 'WAVE', 'Nqst' );
+	create_file( dir, name );//RAD, 'WAVE', 'Nqst' );
     GaMBLFileHandle newFile = DeprecatedFSMakeFSRefChk( dir, name );
     bool bFileOk = DeprecatedFSIsFSRefValid( &newFile );
     assert( bFileOk );

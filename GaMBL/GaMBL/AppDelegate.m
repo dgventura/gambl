@@ -11,7 +11,7 @@
 #import <AppKit/NSWorkspace.h>
 #include "favorites.h"
 
-#define GAMBL_AUTOLOADTEST 0
+#define GAMBL_AUTOLOADTEST 1
 
 //TODO: is there a way to share tags with interface builder to prevent these getting out of sync???
 const int GCTRL_EXPORT          = 104;
@@ -215,6 +215,9 @@ const int GCTRL_RESETFAVORITES  = 403;
 
 - (NSMutableArray *)getFavoritePaths
 {
+    // TODO: purple
+    return nil;
+    
     NSMutableArray *favorites = [[NSMutableArray alloc] init];
     
     std::wstring strPath;
