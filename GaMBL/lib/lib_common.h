@@ -105,6 +105,8 @@ public:
         m_pHandle = OpenFile( pszPath, pszMode );//fopen( pszPath, pszMode );
         assert( m_pHandle );
         
+        m_nSeekPos = 0;
+        
         return m_pHandle != NULL;
     }
     
@@ -179,7 +181,8 @@ public:
     {
         assert( m_pHandle );
         
-        *pnPos = ftell( m_pHandle->m_pHandle );
+        //*pnPos = ftell( m_pHandle->m_pHandle );
+        *pnPos = m_nSeekPos;
         return true;
     }
     
@@ -187,6 +190,7 @@ public:
     {
         assert( m_pHandle );
         
+        m_nSeekPos = nPos;
         fseek( m_pHandle->m_pHandle, nPos, SEEK_SET );
         return true;
     }
@@ -194,13 +198,20 @@ public:
     long ReadBytes( void* p, long nTarget )
     {
         assert( m_pHandle );
-        return fread( p, 1, nTarget, m_pHandle->m_pHandle );
+        
+        Seek( m_nSeekPos );
+        long nBytesRead = fread( p, 1, nTarget, m_pHandle->m_pHandle );
+        
+        m_nSeekPos += nBytesRead;
+        
+        return nBytesRead;
     }
     
     GaMBLFileHandle& operator=( const GaMBLFileHandle& rhs )
     {
         m_pHandle = NULL;
         m_pHandle = rhs.m_pHandle;//fdopen( rhs.GetDescriptor(), "r" );
+        m_nSeekPos = rhs.m_nSeekPos;
         
         assert( IsOk());
         
@@ -218,6 +229,7 @@ private:
     }
 //    FILE* m_pHandle;
  
+    SInt64 m_nSeekPos;
     FilePointer m_pHandle;
     static std::vector< FilePointer > m_vecpFiles;
     
