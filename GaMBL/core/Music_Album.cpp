@@ -249,7 +249,10 @@ Music_Album* load_music_album( const GaMBLFileHandle& fileHandle, OSType type )
 		
 		if ( type ) {
 			use_parent = true;
-			archive.reset( open_file_archive( path, "" ) );
+            char str [256 + 8];
+            std::wstring strFilename = StripPath( path );
+			filename_to_str( strFilename, str );
+			archive.reset( open_file_archive( path, str ) );
 			file_count = 1;
 		}
 	}

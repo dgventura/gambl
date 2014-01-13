@@ -61,12 +61,14 @@ struct Single_File_Archive : File_Archive
     std::wstring path;
 	char filename [256 + 8];
 	
-	Single_File_Archive( const std::wstring& path_ ) : path( path_ )
+	Single_File_Archive( const std::wstring& path_, const char* fn ) : path( path_ )
 	{
 		info_.is_file = true;
 		info_.name = filename;
+        
+        std::strcpy( filename, fn );
 
-        wcstombs( filename, path.c_str(), sizeof(filename) );
+//        wcstombs( filename, path.c_str(), sizeof(filename) );
 	}
 	
 	bool seek( int i, bool might_extract )
@@ -91,7 +93,7 @@ struct Single_File_Archive : File_Archive
 };
 
 File_Archive* open_file_archive( const std::wstring& path, const char* filename ) {
-	return new Single_File_Archive( path );
+	return new Single_File_Archive( path, filename );
 }
 
 // ZIP

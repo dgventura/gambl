@@ -194,6 +194,8 @@ Gzip_Reader::Gzip_Reader( const std::wstring& path_ ) :
 	file( path_ ),
 	buf( 32 * 1024L )
 {
+    std::wcout << "Opening Gzip_Reader " << path << std::endl;
+    
 	// clear zbuf fields
 	zbuf = empty_zbuf;
 	

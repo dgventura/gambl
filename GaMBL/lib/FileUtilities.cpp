@@ -68,6 +68,8 @@ Mac_File_Reader::error_t Mac_File_Reader::read( void* p, long s )
 long Mac_File_Reader::read_avail( void* p, long s )
 {
 	ByteCount count = fsref.ReadBytes( p, s );
+    
+    assert( count == s );
 	//RADthrow_unless( FSReadFork( ref, fsAtMark + mode, 0, s, p, &count ), eofErr );
         
 	return count;
@@ -172,6 +174,15 @@ bool remove_filename_extension( char* pszSource )
         --pszTail;
     if ( pszTail != pszSource )
         *pszTail = '\0';
+}
+
+std::wstring StripPath( const std::wstring& strFullPath )
+{
+    size_t sep = strFullPath.find_last_of(L"\\/");
+    if (sep != std::string::npos)
+        return strFullPath.substr(sep + 1, strFullPath.size() - sep - 1);
+    else
+        return strFullPath;
 }
 
 void str_to_filename( const char* pszFilename, std::wstring& strFilename )
