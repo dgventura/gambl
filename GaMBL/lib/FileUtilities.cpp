@@ -70,7 +70,7 @@ long Mac_File_Reader::read_avail( void* p, long s )
 	ByteCount count = fsref.ReadBytes( p, s );
     
     assert( count == s );
-	//RADthrow_unless( FSReadFork( ref, fsAtMark + mode, 0, s, p, &count ), eofErr );
+	//TODO: consider throw versus assert throw_unless( FSReadFork( ref, fsAtMark + mode, 0, s, p, &count ), eofErr );
         
 	return count;
 }
@@ -79,7 +79,7 @@ void Mac_File_Reader::close()
 {
 	if ( unclosed ) {
 		unclosed = false;
-//RAD		debug_if_error( DeprecatedFSCloseFork( ref ) );
+//TODO do we need this since GaMBLFileHandle's reference counting closes files for us when dereferenced?		debug_if_error( DeprecatedFSCloseFork( ref ) );
 	}
 	ref = -1;
 }
@@ -88,11 +88,6 @@ void Mac_File_Reader::throw_error( long err )
 {
 	if ( !err )
 		return;
-/*	if ( !fsref_valid && !FSGetForkCBInfo( ref, 0, NULL, NULL, NULL, &fsref, NULL ) )
-		fsref_valid = true;
-	if ( fsref_valid )
-		throw_file_error( err, fsref );
- */
 	else
 		throw_error( err );
 }
@@ -129,14 +124,12 @@ bool FileExists( const std::wstring& strPath )
 
 bool AreFilesEqual( const std::wstring& strPath1, const std::wstring& strPath2 )
 {
-    assert( 0 );
-    
     char szTemp[PATH_MAX], szTemp2[PATH_MAX], szTemp3[PATH_MAX];
     wcstombs( szTemp, strPath1.data(), sizeof(szTemp) );
-    char* pszError = realpath( szTemp2, szTemp );
+    char* pszError = realpath( szTemp, szTemp2 );
     assert( pszError );
     wcstombs( szTemp, strPath2.data(), sizeof(szTemp) );
-    pszError = realpath( szTemp3, szTemp );
+    pszError = realpath( szTemp, szTemp3 );
     assert( pszError );
     
     return (strcmp( szTemp2, szTemp3 ) == 0);

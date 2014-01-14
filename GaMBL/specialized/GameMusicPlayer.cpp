@@ -303,7 +303,7 @@ bool GameMusicPlayer::PlayPreviousTrack()
 	{
 		history_pos--;
         GetCurrentTrack().GetFilePath( strNextFilename, true );
-		if ( FileExists( strNextFilename ) )
+		if ( !FileExists( strNextFilename ) )
         {
 			history.erase( history.begin() + history_pos );
 		}

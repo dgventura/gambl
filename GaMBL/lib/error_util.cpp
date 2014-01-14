@@ -67,21 +67,6 @@ void throw_file_error( long code, const std::wstring& fsref )
 		throw File_Error( code, fsref );
 }
 
-void throw_file_error( long code, const std::wstring& dir, const HFSUniStr255& name )
-{
-    //RAD
-#if 0
-	if ( code )
-	{
-		GaMBLFileHandle fsref;
-		if ( !FSMakeFSRefUnicode( &dir, name.length, name.unicode, 0, &fsref ) )
-			throw_file_error( code, fsref );
-		else
-			throw_file_error( code, dir ); // to do: preserve name for display later
-	}
-#endif
-}
-
 const char* error_to_str( long code )
 {
 	switch ( code )

@@ -91,14 +91,16 @@ const int GCTRL_RESETFAVORITES  = 403;
     // Create the File Open Dialog class.
     NSOpenPanel* openDlg = [NSOpenPanel openPanel];
     
+    //TODO: retain last navigated to folder if possible
     [openDlg setCanChooseFiles:YES];
     [openDlg setAllowsMultipleSelection:YES];
-    [openDlg setDirectoryURL:[NSURL URLWithString:NSHomeDirectory()]];
+    [openDlg setDirectoryURL:[NSURL fileURLWithPath:NSHomeDirectory()]];
     [openDlg setDelegate:self];
     
     // Display the dialog.  If the OK button was pressed,
     // process the files.
     //TODO: default beahvior is enqueue now but with no feedback?!?!
+    //TODO: default behavior is no longer enqueue, just replace :(
     if ( [openDlg runModal] == NSFileHandlingPanelOKButton )
     {
         // Get an array containing the full filenames of all
@@ -215,17 +217,12 @@ const int GCTRL_RESETFAVORITES  = 403;
 
 - (NSMutableArray *)getFavoritePaths
 {
-    // TODO: purple
-    return nil;
-    
     NSMutableArray *favorites = [[NSMutableArray alloc] init];
     
-    std::wstring strPath;
-    GaMBLFileHandle dir = favorites_dir();
-    OSStatus err = dir.GetFilePath( strPath, true );
-    assert( !err );
+    std::wstring strPath = favorites_dir();
     
-    NSURL *directoryURL = [NSURL fileURLWithPath:[NSString stringWithwstring:strPath] isDirectory:YES];
+    NSString *favoritesString = [NSString stringWithwstring:strPath];
+    NSURL *directoryURL = [NSURL fileURLWithPath:favoritesString isDirectory:YES];
     assert(directoryURL);
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -281,10 +278,7 @@ const int GCTRL_RESETFAVORITES  = 403;
 
 - (void)resetFavorites
 {
-    GaMBLFileHandle dir = favorites_dir();
-    std::wstring strPath;
-    OSStatus err = dir.GetFilePath( strPath, true );
-    assert( !err );
+    std::wstring strPath = favorites_dir();
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSDirectoryEnumerator *en = [fileManager enumeratorAtPath:[NSString stringWithwstring:strPath]];

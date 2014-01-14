@@ -32,7 +32,6 @@ class Cat_Info
 public:
 	const GaMBLFileHandle& ref() const { return ref_; }
 	
-	//bool read( FSIterator, FSCatalogInfoBitmap, HFSUniStr255* name = NULL );
 	void read( const GaMBLFileHandle& FileHandle )
     {
         assert( FileHandle.IsOk() );
@@ -54,7 +53,7 @@ public:
 	
 	bool is_dir() const
     {
-        return S_ISDIR(m_FileInfo.st_mode);// & S_IFDIR;
+        return S_ISDIR(m_FileInfo.st_mode);
     }
 	GMBFileInfo& finfo()       {
         return m_LegacyInfo;
@@ -63,15 +62,10 @@ public:
     {
         return m_LegacyInfo;
     }
-	bool is_hidden() const
-    {
-        //TODO RAD
-        return false;
-    }
 	bool is_alias() const
     {
         assert( m_FileInfo.st_mode );
-        return S_ISLNK(m_FileInfo.st_mode);// & S_IFLNK;
+        return S_ISLNK(m_FileInfo.st_mode);
     }
     long size() const
     {

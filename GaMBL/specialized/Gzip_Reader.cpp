@@ -184,9 +184,8 @@ void inflate_mem_gzip( const void* in_, long in_size, runtime_array<char>& out )
 
 void Gzip_Reader::throw_zlib_error( int err )
 {
-//TODO RAD
-//	if ( err )
-//		throw_file_error( zError( err ), path );
+	if ( err )
+		throw_file_error( zError( err ), path );
 }
 
 Gzip_Reader::Gzip_Reader( const std::wstring& path_ ) :

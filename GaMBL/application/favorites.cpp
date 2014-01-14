@@ -25,40 +25,52 @@ const char* system_names [5] = {
 	"Sega Genesis"
 };
 
-static GaMBLFileHandle create_dir( const GaMBLFileHandle& parent, const char* name )
+bool create_dir( const std::wstring& parent, const char* name )
 {
-    assert(0);
-#if 0 //RAD
-	HFSUniStr255 filename;
+    char szFullPath[PATH_MAX];
+    wcstombs( szFullPath, parent.c_str(), sizeof(szFullPath) );
+    const int nRemainingChars = sizeof(szFullPath) - strlen(szFullPath);
+    strncat( szFullPath, name, nRemainingChars );
+    bool bSuccess = mkdir( szFullPath, 0777) != -1;
+    
+    if ( !bSuccess )
+        printf( "Could not create favorites folder (%s): %s\n", szFullPath, strerror(errno) );
+    
+/*	HFSUniStr255 filename;
 	str_to_filename( name, filename );
 	sanitize_filename( filename );
 	GaMBLFileHandle dir;
 	if ( !FSMakeFSRefExists( parent, filename, &dir ) )
 		FSCreateDirectoryUnicodeChk( parent, filename, 0, NULL, &dir );
 	else
-		dir = DeprecatedFSResolveAliasFileChk( dir );
-	return dir;
-#else
-    return DummyHandle;
-#endif
+		dir = DeprecatedFSResolveAliasFileChk( dir );*/
+
+    return true;
 }
 
-const GaMBLFileHandle& favorites_dir()
+const std::wstring& favorites_dir()
 {
-	static GaMBLFileHandle dir;
-#if 0 //RAD
+	static std::wstring dir;
 	static bool found;
 	if ( !found )
 	{
-		if ( debug_if_error( DeprecatedFSFindFolder( kOnSystemDisk,
+        //TODO: can't use tilde, so grab NSHomeDirectory on iOS! (maybe we should pull that in)
+        dir = L"/Users/david/Library/Preferences/";
+        //TODO: gambi
+#if IPHONE
+        assert(0);
+#endif
+/*		if ( debug_if_error( FSFindFolder( kOnSystemDisk,
 				kPreferencesFolderType, true, &dir ) ) )
 		{
 			dir = get_parent( get_bundle_fsref() );
 		}
-		dir = create_dir( dir, "Game Music Favorites" );
+ */
+        bool bSuccess = create_dir( dir, "Game\ Music\ Favorites" );
+        dir += L"Game\ Music\ Favorites";
 		found = true;
 	}
-#endif
+
 	return dir;
 }
 
@@ -95,13 +107,13 @@ void add_favorite( const track_ref_t& track, shared_ptr< Music_Album > album )
 {
 	// to do: currently just a quick hack
 	
-	GaMBLFileHandle dir = favorites_dir();
+    const std::wstring& dir = favorites_dir();
 	
-	dir = create_dir( dir, album->info().system );
+	bool bSuccess = create_dir( dir, album->info().system );
 	
 	char name [PATH_MAX];
 	strcpy_trunc( name, album->info().game, sizeof name );
-	dir = create_dir( dir, name );
+	bSuccess = create_dir( dir, name );
 	
 	strcpy_trunc( name, album->info().song, sizeof name );
 	if ( !*name )

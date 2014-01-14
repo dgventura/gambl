@@ -277,6 +277,7 @@ static void append_playlist_( const Cat_Info& info, Music_Queue& queue, int dept
     std::wstring strAlbumPath;
     info.ref().GetFilePath( strAlbumPath, true );
     
+#error aliases aren't being handled properly, shouldn't get down beyond this block
 	if ( !info.is_dir() /*&& !is_dir_type( info.finfo().fileType )*/ )
 	{
 		OSType type = identify_music_file( info.ref(), info.finfo().fileType );
@@ -304,18 +305,17 @@ static void append_playlist_( const Cat_Info& info, Music_Queue& queue, int dept
 		}
 	}
 	
-	/*RAD do we need this anymore?
     GaMBLFileHandle dir = info.ref();
 	if ( !info.is_dir() )
 	{
 		if ( !info.is_alias() )
 			return;
-        
-		Boolean is_dir = false, is_alias;
-		if ( FSResolveAliasFile( &dir, true, &is_dir, &is_alias ) || !is_dir )
-			return; // ignore error if alias couldn't be resolved
+  
+        //TODO: do we need this?  I guess a directory alias?
+//		Boolean is_dir = false, is_alias;
+//		if ( FSResolveAliasFile( &dir, true, &is_dir, &is_alias ) || !is_dir )
+//			return; // ignore error if alias couldn't be resolved
 	}
-     */
 	
 	// directory
 	if ( depth > 20 )
