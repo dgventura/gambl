@@ -178,6 +178,15 @@ std::wstring StripPath( const std::wstring& strFullPath )
         return strFullPath;
 }
 
+std::wstring StripExtension( const std::wstring& strFullPath )
+{
+    size_t sep = strFullPath.find_last_of(L".");
+    if (sep != std::string::npos)
+        return strFullPath.substr(sep + 1, strFullPath.size() - sep - 1);
+    else
+        return strFullPath;
+}
+
 void str_to_filename( const char* pszFilename, std::wstring& strFilename )
 {
     strFilename.resize( strlen(pszFilename ) );
@@ -192,8 +201,11 @@ void filename_to_str( const std::wstring& strFilename, char* pszFilename )
 
 void filename_without_extension( const std::wstring& strFilename, char* out )
 {
-    std::wstring strTemp = strFilename.substr( strFilename.find_last_of( L"\\/", strFilename.length() ) );
-    wcstombs(out, strTemp.data(), strTemp.length() );
+    std::wstring strTemp = StripPath(strFilename );
+    //strFilename.substr( strFilename.find_last_of( L"\\/" ), strFilename.length() );
+    wcout << L"Strip extentions from: " << strFilename << L" " << strTemp << endl;
+    
+    wcstombs(out, StripExtension( strTemp ).c_str(), strTemp.size() );
     
     assert( strTemp.length() );
 }
@@ -226,4 +238,12 @@ bool has_extension( const char* str, const char* suffix )
 			return false;
 	
 	return true;
+}
+
+std::wstring GetBundlePath()
+{
+    CFBundleRef mainBundle = CFBundleGetMainBundle();
+    
+    CFStringRef stringRef = CFBundleGet.
+    
 }

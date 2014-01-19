@@ -145,4 +145,6 @@ bool FileExists( const std::wstring& strFilename );
 // Create file of given type and creator. Throw exception if file already exists.
 GaMBLFileHandle create_file( const std::wstring& dir, const std::wstring& name );
 
+std::wstring GetBundlePath();
+
 #endif

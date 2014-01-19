@@ -123,33 +123,57 @@ public:
     
     int GetFilePath( std::wstring& strPath, bool bResolveSymlinks ) const
     {
-        /*assert( IsOk() );
-        
-        int fd = GetDescriptor();
-        char szMbPath[PATH_MAX];
-        int ret = fcntl( fd, F_GETPATH, szMbPath );
-        if ( ret == -1 )
-        {
-            printf( "GetFilePath: %s\n", strerror(errno) );
-            assert( 0 );
-        }
-        if ( bResolveSymlinks )
-        {
-            char szTemp[PATH_MAX];
-            strncpy( szTemp, szMbPath, sizeof(szTemp) );
-            char* pszError = realpath( szTemp, szMbPath );
-            assert( pszError );
-        }
-        strPath.resize( strlen(szMbPath) );
-        mbstowcs( &strPath[0], szMbPath, strlen(szMbPath) );
-
-        assert( strPath.length() == strlen(szMbPath) );
-        
-        
-        return ret; */
+        assert( IsOk() );
         
         strPath = m_pHandle->m_strPath;
         
+        if ( bResolveSymlinks )
+        {
+            char szTemp[PATH_MAX], szMbPath[PATH_MAX];
+            wcstombs( szMbPath, strPath.c_str(), sizeof(szMbPath) );
+            char* pszError = realpath( szMbPath, szTemp );
+            assert( pszError );
+            
+            CFStringRef inPath = CFStringCreateWithCString( kCFAllocatorDefault, szMbPath, kCFStringEncodingUTF8 );
+            CFStringRef resolvedPath = nil;
+            CFURLRef	url = CFURLCreateWithFileSystemPath(NULL /*allocator*/, (CFStringRef)inPath, kCFURLPOSIXPathStyle, NO /*isDirectory*/);
+            if (url != NULL) {
+                FSRef fsRef;
+                if (CFURLGetFSRef(url, &fsRef)) {
+                    Boolean targetIsFolder, wasAliased;
+                    if (FSResolveAliasFile (&fsRef, true /*resolveAliasChains*/, &targetIsFolder, &wasAliased) == noErr && wasAliased) {
+                        CFURLRef resolvedurl = CFURLCreateFromFSRef(NULL /*allocator*/, &fsRef);
+                        if (resolvedurl != NULL) {
+                            resolvedPath = CFURLCopyFileSystemPath(resolvedurl, kCFURLPOSIXPathStyle);
+                            CFRelease(resolvedurl);
+                            
+                            CFStringGetCString( resolvedPath, szMbPath, sizeof(szMbPath), kCFStringEncodingUTF8 );
+                            
+                            const int nPathLength = strlen( szMbPath );
+                            assert( nPathLength );
+                            strPath.resize( nPathLength + 1 );
+                            mbstowcs( &strPath[0], szMbPath, strPath.length() );
+                        }
+                    }
+                }
+                CFRelease(url);
+
+            }
+            
+            /*CFStringRef pathStr = CFStringCreateWithCString( kCFAllocatorDefault, szMbPath, kCFStringEncodingUTF8 );
+            CFURLRef pathURL = CFURLCreateWithFileSystemPath( kCFAllocatorDefault, pathStr, kCFURLPOSIXPathStyle, false );
+            CFErrorRef errRef;
+            CFDataRef dataRef = CFURLCreateBookmarkDataFromFile( kCFAllocatorDefault, pathURL, &errRef );
+            pathStr = CFErrorCopyDescription( errRef );
+            assert( dataRef );
+            CFURLBookmarkResolutionOptions resOptions = 0;
+            pathURL = CFURLCreateByResolvingBookmarkData( kCFAllocatorDefault, dataRef, resOptions, 0, NULL, NULL, NULL );
+            assert( pathURL );
+            pathStr = CFURLGetString( pathURL );*/
+            
+            
+                    }
+
         return 0;
     }
     

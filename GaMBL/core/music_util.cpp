@@ -277,7 +277,6 @@ static void append_playlist_( const Cat_Info& info, Music_Queue& queue, int dept
     std::wstring strAlbumPath;
     info.ref().GetFilePath( strAlbumPath, true );
     
-#error aliases aren't being handled properly, shouldn't get down beyond this block
 	if ( !info.is_dir() /*&& !is_dir_type( info.finfo().fileType )*/ )
 	{
 		OSType type = identify_music_file( info.ref(), info.finfo().fileType );

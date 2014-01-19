@@ -134,8 +134,9 @@ int Music_Album::load_track( Music_Emu& emu, int track, bool already_loaded )
 					use_parent = false;
 				}
 				
-				char parent_name [256];
-				filename_without_extension( archive_path, parent_name );
+				char parent_name [PATH_MAX];
+				//TODO: RAD filename_without_extension( archive_path, parent_name );
+                wcstombs(parent_name, archive_path.c_str(), sizeof(parent_name) );
 				
 				std::strncpy( info_.game, parent_name, sizeof info_.game );
 				info_.game [sizeof info_.game - 1] = 0;

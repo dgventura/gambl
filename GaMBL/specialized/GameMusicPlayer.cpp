@@ -414,7 +414,7 @@ bool GameMusicPlayer::has_future()
 
 	while ( history_pos < history.size() )
 	{
-        history[history_pos].GetFilePath( strNextFilename, true );
+        history[history_pos].GetFilePath( strNextFilename, false );
 		if ( FileExists( strNextFilename ) )
 			return true;
 		history.erase( history.begin() + history_pos );
